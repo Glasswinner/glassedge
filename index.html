@@ -1,65 +1,86 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GlassEDGE</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: radial-gradient(circle at 20% 20%, #0f172a 0%, #020617 100%), url('https://raw.githubusercontent.com/ajayns/webdev-assets/main/star-bg.png') repeat;
+      background-size: cover;
+    }
+  </style>
 </head>
-<body class="bg-gray-950 text-white font-sans">
+<body class="text-white font-sans">
+  <!-- Navigation Bar -->
+  <header class="bg-gray-900 bg-opacity-80 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-400 tracking-wide">GlassEDGE</h1>
+      <nav class="space-x-6 text-sm">
+        <a href="#features" class="text-gray-300 hover:text-white">Features</a>
+        <a href="#why" class="text-gray-300 hover:text-white">Why Us</a>
+        <a href="#start" class="text-gray-300 hover:text-white">Start</a>
+      </nav>
+    </div>
+  </header>
+
   <!-- Hero Section -->
-  <section class="text-center py-24 px-4 bg-gray-900">
-    <h1 class="text-5xl font-bold text-blue-500">GlassEDGE</h1>
-    <p class="mt-4 text-xl text-gray-300">Sharpen your skills. Own the stage. Take the glass.</p>
-    <div class="mt-8 space-x-4">
-      <a href="#" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Get Started</a>
-      <a href="#" class="bg-white text-blue-500 px-6 py-3 rounded-lg hover:bg-gray-200">Try a Roleplay</a>
+  <section class="text-center py-32 px-4">
+    <h2 class="text-6xl font-extrabold text-blue-400 drop-shadow-xl">GlassEDGE</h2>
+    <p class="mt-6 text-xl text-gray-300 max-w-2xl mx-auto">Sharpen your skills. Own the stage. Take the glass.</p>
+    <div class="mt-10 space-x-4">
+      <a href="#start" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-700 transition">Get Started</a>
+      <a href="#features" class="bg-white text-blue-600 px-8 py-3 rounded-lg text-lg hover:bg-gray-200 transition">Explore</a>
     </div>
   </section>
 
   <!-- Features Section -->
-  <section class="py-16 px-6 max-w-5xl mx-auto">
-    <h2 class="text-3xl font-semibold text-center mb-10">What We Offer</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div>
-        <h3 class="text-xl font-bold text-blue-400">🎭 Roleplay Generator</h3>
-        <p class="text-gray-300 mt-2">Practice AI-generated roleplays tailored to your competitive event.</p>
+  <section id="features" class="py-24 px-6 max-w-6xl mx-auto">
+    <h2 class="text-4xl font-semibold text-center mb-14 text-white">What We Offer</h2>
+    <div class="grid md:grid-cols-2 gap-12">
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+        <h3 class="text-2xl font-bold text-blue-300">🎭 Roleplay Generator</h3>
+        <p class="text-gray-300 mt-3">Practice AI-generated roleplays tailored to your competitive event.</p>
       </div>
-      <div>
-        <h3 class="text-xl font-bold text-blue-400">🎥 Walkthrough Videos</h3>
-        <p class="text-gray-300 mt-2">Learn from top competitors with step-by-step breakdowns.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+        <h3 class="text-2xl font-bold text-blue-300">🎥 Walkthrough Videos</h3>
+        <p class="text-gray-300 mt-3">Learn from top competitors with step-by-step breakdowns.</p>
       </div>
-      <div>
-        <h3 class="text-xl font-bold text-blue-400">📄 Written Event Library</h3>
-        <p class="text-gray-300 mt-2">Explore high-quality written event examples and outlines.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+        <h3 class="text-2xl font-bold text-blue-300">📄 Written Event Library</h3>
+        <p class="text-gray-300 mt-3">Explore high-quality written event examples and outlines.</p>
       </div>
-      <div>
-        <h3 class="text-xl font-bold text-blue-400">🤖 AI Feedback Assistant</h3>
-        <p class="text-gray-300 mt-2">Coming soon: Get smart, structured feedback on your responses.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+        <h3 class="text-2xl font-bold text-blue-300">🤖 AI Feedback Assistant</h3>
+        <p class="text-gray-300 mt-3">Coming soon: Get smart, structured feedback on your responses.</p>
       </div>
     </div>
   </section>
 
   <!-- Why GlassEDGE -->
-  <section class="bg-gray-800 py-16 px-6 text-center">
-    <h2 class="text-3xl font-semibold text-white mb-6">Why GlassEDGE?</h2>
-    <p class="text-gray-300 max-w-2xl mx-auto">
-      Built by national finalists, GlassEDGE gives you real tools, not fluff. Train like the top 1%, for free.
+  <section id="why" class="py-24 px-6 text-center">
+    <h2 class="text-4xl font-semibold mb-8 text-white">Why GlassEDGE?</h2>
+    <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+      Built by national finalists, GlassEDGE gives you real tools — not fluff. Train like the top 1%, for free.
     </p>
   </section>
 
   <!-- Start Now -->
-  <section class="py-16 px-6 text-center">
-    <h2 class="text-3xl font-semibold mb-4">Start Now</h2>
-    <p class="text-gray-400">No logins. No paywalls. Just pure prep power.</p>
-    <div class="mt-8 space-x-4">
-      <a href="#" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Try a Roleplay</a>
-      <a href="#" class="bg-white text-blue-500 px-6 py-3 rounded-lg hover:bg-gray-200">Submit a Written</a>
+  <section id="start" class="py-24 px-6 text-center">
+    <h2 class="text-4xl font-semibold mb-6 text-white">Start Now</h2>
+    <p class="text-gray-400 text-lg">No logins. No paywalls. Just pure prep power.</p>
+    <div class="mt-10 space-x-4">
+      <a href="#" class="bg-blue-500 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-600 transition">Try a Roleplay</a>
+      <a href="#" class="bg-white text-blue-500 px-8 py-3 rounded-lg text-lg hover:bg-gray-200 transition">Submit a Written</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-center py-8 text-gray-400 text-sm">
+  <footer class="bg-gray-900 text-center py-8 text-gray-500 text-sm bg-opacity-80">
     <p>GlassEDGE is a student-run project. Not affiliated with or endorsed by DECA Inc.</p>
   </footer>
 </body>
