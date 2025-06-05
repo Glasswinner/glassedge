@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GlassEDGE</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     html {
       scroll-behavior: smooth;
     }
     body {
-      background: radial-gradient(circle at 20% 20%, #0f172a 0%, #020617 100%), url('https://raw.githubusercontent.com/ajayns/webdev-assets/main/star-bg.png') repeat;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #0f172a 0%, #020617 100%),
+        url('https://cdn.jsdelivr.net/gh/ajayns/webdev-assets@main/star-bg.png') repeat;
       background-size: cover;
+      background-attachment: fixed;
     }
   </style>
 </head>
@@ -19,8 +23,8 @@
   <!-- Navigation Bar -->
   <header class="bg-gray-900 bg-opacity-80 shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-400 tracking-wide">GlassEDGE</h1>
-      <nav class="space-x-6 text-sm">
+      <h1 class="text-2xl font-extrabold text-blue-400 tracking-wide">GlassEDGE</h1>
+      <nav class="space-x-6 text-sm font-medium">
         <a href="#features" class="text-gray-300 hover:text-white">Features</a>
         <a href="#why" class="text-gray-300 hover:text-white">Why Us</a>
         <a href="#start" class="text-gray-300 hover:text-white">Start</a>
@@ -30,11 +34,12 @@
 
   <!-- Hero Section -->
   <section class="text-center py-32 px-4">
-    <h2 class="text-6xl font-extrabold text-blue-400 drop-shadow-xl">GlassEDGE</h2>
+    <img src="https://images.unsplash.com/photo-1618331739687-0cc52b6fe3f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=80" alt="Glass Trophy" class="mx-auto w-48 h-48 object-contain rounded-full shadow-lg mb-6">
+    <h2 class="text-5xl md:text-6xl font-extrabold text-blue-400 drop-shadow-xl">GlassEDGE</h2>
     <p class="mt-6 text-xl text-gray-300 max-w-2xl mx-auto">Sharpen your skills. Own the stage. Take the glass.</p>
     <div class="mt-10 space-x-4">
-      <a href="#start" class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-700 transition">Get Started</a>
-      <a href="#features" class="bg-white text-blue-600 px-8 py-3 rounded-lg text-lg hover:bg-gray-200 transition">Explore</a>
+      <a href="#start" class="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition">Get Started</a>
+      <a href="#features" class="bg-white text-blue-600 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition">Explore</a>
     </div>
   </section>
 
@@ -42,21 +47,33 @@
   <section id="features" class="py-24 px-6 max-w-6xl mx-auto">
     <h2 class="text-4xl font-semibold text-center mb-14 text-white">What We Offer</h2>
     <div class="grid md:grid-cols-2 gap-12">
-      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
-        <h3 class="text-2xl font-bold text-blue-300">🎭 Roleplay Generator</h3>
-        <p class="text-gray-300 mt-3">Practice AI-generated roleplays tailored to your competitive event.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/3208/3208726.png" alt="Roleplay" class="w-16 h-16">
+        <div>
+          <h3 class="text-2xl font-bold text-blue-300">🎭 Roleplay Generator</h3>
+          <p class="text-gray-300 mt-2">Practice AI-generated roleplays tailored to your competitive event.</p>
+        </div>
       </div>
-      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
-        <h3 class="text-2xl font-bold text-blue-300">🎥 Walkthrough Videos</h3>
-        <p class="text-gray-300 mt-3">Learn from top competitors with step-by-step breakdowns.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/864/864685.png" alt="Video" class="w-16 h-16">
+        <div>
+          <h3 class="text-2xl font-bold text-blue-300">🎥 Walkthrough Videos</h3>
+          <p class="text-gray-300 mt-2">Learn from top competitors with step-by-step breakdowns.</p>
+        </div>
       </div>
-      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
-        <h3 class="text-2xl font-bold text-blue-300">📄 Written Event Library</h3>
-        <p class="text-gray-300 mt-3">Explore high-quality written event examples and outlines.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/3039/3039439.png" alt="Written" class="w-16 h-16">
+        <div>
+          <h3 class="text-2xl font-bold text-blue-300">📄 Written Event Library</h3>
+          <p class="text-gray-300 mt-2">Explore high-quality written event examples and outlines.</p>
+        </div>
       </div>
-      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition">
-        <h3 class="text-2xl font-bold text-blue-300">🤖 AI Feedback Assistant</h3>
-        <p class="text-gray-300 mt-3">Coming soon: Get smart, structured feedback on your responses.</p>
+      <div class="bg-gray-800 bg-opacity-80 p-6 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="AI" class="w-16 h-16">
+        <div>
+          <h3 class="text-2xl font-bold text-blue-300">🤖 AI Feedback Assistant</h3>
+          <p class="text-gray-300 mt-2">Coming soon: Get smart, structured feedback on your responses.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -65,7 +82,7 @@
   <section id="why" class="py-24 px-6 text-center">
     <h2 class="text-4xl font-semibold mb-8 text-white">Why GlassEDGE?</h2>
     <p class="text-gray-300 max-w-2xl mx-auto text-lg">
-      Built by national finalists, GlassEDGE gives you real tools — not fluff. Train like the top 1%, for free. HEHAHA
+      Built by national finalists, GlassEDGE gives you real tools — not fluff. Train like the top 1%, for free.
     </p>
   </section>
 
@@ -74,8 +91,8 @@
     <h2 class="text-4xl font-semibold mb-6 text-white">Start Now</h2>
     <p class="text-gray-400 text-lg">No logins. No paywalls. Just pure prep power.</p>
     <div class="mt-10 space-x-4">
-      <a href="#" class="bg-blue-500 text-white px-8 py-3 rounded-lg text-lg hover:bg-blue-600 transition">Try a Roleplay</a>
-      <a href="#" class="bg-white text-blue-500 px-8 py-3 rounded-lg text-lg hover:bg-gray-200 transition">Submit a Written</a>
+      <a href="#" class="bg-blue-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-600 transition">Try a Roleplay</a>
+      <a href="#" class="bg-white text-blue-500 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition">Submit a Written</a>
     </div>
   </section>
 
