@@ -9,31 +9,32 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1580428184740-1c8174fb3943?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: linear-gradient(to bottom, #0b0e1a 70%, #1e1446);
       color: white;
+    }
+    .purple-outline {
+      text-shadow: 0 0 6px #8b5cf6;
+    }
+    .purple-glow {
+      box-shadow: 0 0 15px #8b5cf6;
     }
   </style>
 </head>
-<body class="bg-black/90 min-h-screen">
+<body class="min-h-screen px-4">
   <header class="flex justify-between items-center p-6">
-    <div class="flex items-center space-x-2">
-      <span class="text-white text-2xl font-bold">🏆 GlassEDGE</span>
-    </div>
+    <div class="text-2xl font-bold text-white">🏆 GlassEDGE</div>
     <nav class="space-x-8 text-white text-sm font-medium">
       <a href="roleplay.html" class="hover:underline">Roleplay Generator</a>
-      <a href="walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+      <a href="videos.html" class="hover:underline">Walkthrough Videos</a>
       <a href="written.html" class="hover:underline">Written Event Library</a>
     </nav>
   </header>
 
-  <main class="text-center px-4 pt-20">
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">PREPARE TO WIN GLASS</h1>
-    <p class="text-lg md:text-xl mb-12">Free resources to help DECA competitors succeed at ICDC</p>
+  <main class="text-center pt-16">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-4 purple-outline">PREPARE TO WIN GLASS</h1>
+    <p class="text-lg md:text-xl mb-12 purple-outline">Free resources to help DECA competitors succeed at ICDC</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
       <div class="bg-black/60 rounded-2xl p-6 shadow-lg">
         <div class="text-4xl mb-4 text-blue-400">📝</div>
         <h3 class="font-bold text-lg mb-2">AI-Generated Roleplays</h3>
@@ -51,7 +52,7 @@
       </div>
     </div>
 
-    <a href="#start" class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold px-8 py-3 rounded-xl transition-all">GET STARTED</a>
+    <a href="#start" class="inline-block bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold px-8 py-3 rounded-xl transition-all purple-glow">GET STARTED</a>
   </main>
 </body>
 </html>
