@@ -6,10 +6,72 @@
   <title>Roleplay Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0e1a;
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-black text-white min-h-screen flex flex-col items-center justify-center">
-  <h1 class="text-4xl font-bold mb-4">Roleplay Generator Page</h1>
-  <p class="text-lg">Coming soon!</p>
-  <a href="index.html" class="mt-8 text-blue-400 hover:underline">← Back to Home</a>
+<body class="min-h-screen flex flex-col items-center justify-center px-4">
+  <h1 class="text-3xl md:text-4xl font-bold mb-8">Choose your event category:</h1>
+
+  <!-- Event Type Dropdown -->
+  <div class="w-full max-w-md mb-6">
+    <label for="event-type" class="block mb-2 text-lg font-semibold">Select event type:</label>
+    <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
+      <option disabled selected value="">-- Select Event Type --</option>
+      <option value="principles">Principles of Business Administration</option>
+      <option value="team">Team Decision Making</option>
+      <option value="individual">Individual Series</option>
+    </select>
+  </div>
+
+  <!-- Event Dropdown (initially hidden) -->
+  <div id="event-container" class="w-full max-w-md mb-6 hidden">
+    <label for="event" class="block mb-2 text-lg font-semibold">Select event:</label>
+    <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
+  </div>
+
+  <!-- Generate Button -->
+  <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg" disabled>
+    Generate Prompt
+  </button>
+
+  <script>
+    const eventTypeSelect = document.getElementById('event-type');
+    const eventContainer = document.getElementById('event-container');
+    const eventSelect = document.getElementById('event');
+    const generateBtn = document.getElementById('generate-btn');
+
+    const events = {
+      principles: ['PBM', 'PEN', 'PFN', 'PHT', 'PMK'],
+      team: ['BLTDM', 'BTDM', 'ETDM', 'FTDM', 'HTDM', 'MTDM', 'STDM', 'TTDM'],
+      individual: ['ACT', 'AAM', 'ASM', 'BFS', 'BSM', 'ENT', 'FMS', 'HLM', 'HRM', 'MCS', 'QSRM', 'RFSM', 'RMS', 'SEM']
+    };
+
+    eventTypeSelect.addEventListener('change', function () {
+      const selectedType = this.value;
+      const options = events[selectedType] || [];
+
+      // Clear and populate the second dropdown
+      eventSelect.innerHTML = '<option disabled selected value="">-- Select Event --</option>';
+      options.forEach(code => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = code;
+        eventSelect.appendChild(opt);
+      });
+
+      // Show dropdown and enable button
+      eventContainer.classList.remove('hidden');
+      generateBtn.disabled = true;
+    });
+
+    eventSelect.addEventListener('change', function () {
+      generateBtn.disabled = false;
+    });
+  </script>
 </body>
 </html>
