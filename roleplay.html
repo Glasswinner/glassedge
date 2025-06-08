@@ -14,8 +14,8 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center px-4">
-  <h1 class="text-3xl md:text-4xl font-bold mb-8">Choose your event category:</h1>
+<body class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+  <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Choose your event category:</h1>
 
   <!-- Event Type Dropdown -->
   <div class="w-full max-w-md mb-6">
@@ -28,7 +28,7 @@
     </select>
   </div>
 
-  <!-- Event Dropdown (initially hidden) -->
+  <!-- Specific Event Dropdown -->
   <div id="event-container" class="w-full max-w-md mb-6 hidden">
     <label for="event" class="block mb-2 text-lg font-semibold">Select event:</label>
     <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
@@ -39,14 +39,18 @@
     Generate Prompt
   </button>
 
+  <!-- Output Box -->
+  <div id="output" class="w-full max-w-2xl bg-gray-900 border border-gray-700 p-6 rounded-lg mt-6 whitespace-pre-wrap hidden"></div>
+
   <!-- Back to Home -->
-  <a href="index.html" class="text-blue-400 hover:underline">← Back to Home</a>
+  <a href="index.html" class="text-blue-400 hover:underline mt-10">← Back to Home</a>
 
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
     const eventSelect = document.getElementById('event');
     const generateBtn = document.getElementById('generate-btn');
+    const output = document.getElementById('output');
 
     const events = {
       principles: ['PBM', 'PEN', 'PFN', 'PHT', 'PMK'],
@@ -58,7 +62,7 @@
       const selectedType = this.value;
       const options = events[selectedType] || [];
 
-      // Clear and populate the second dropdown
+      // Populate specific event dropdown
       eventSelect.innerHTML = '<option disabled selected value="">-- Select Event --</option>';
       options.forEach(code => {
         const opt = document.createElement('option');
@@ -67,12 +71,45 @@
         eventSelect.appendChild(opt);
       });
 
-      // Show dropdown and enable button
       eventContainer.classList.remove('hidden');
       generateBtn.disabled = true;
+      output.classList.add('hidden');
     });
 
     eventSelect.addEventListener('change', function () {
+      generateBtn.disabled = false;
+    });
+
+    generateBtn.addEventListener('click', async function () {
+      const eventCode = eventSelect.value;
+
+      generateBtn.textContent = "Generating...";
+      generateBtn.disabled = true;
+      output.classList.remove('hidden');
+      output.textContent = "🧠 Generating your DECA prompt...";
+
+      try {
+        const res = await fetch('/api/generatePrompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ eventCode })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.prompt) {
+          output.textContent = data.prompt;
+          output.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          output.textContent = "❌ Failed to generate a prompt. Try again.";
+          console.error(data.error || 'Unknown error');
+        }
+      } catch (err) {
+        output.textContent = "❌ Network error. Please try again.";
+        console.error(err);
+      }
+
+      generateBtn.textContent = "Generate Prompt";
       generateBtn.disabled = false;
     });
   </script>
