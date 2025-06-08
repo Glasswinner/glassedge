@@ -39,7 +39,7 @@ Match the tone and structure of real DECA prompts.
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek-ai/deepseek-llm-r1-0528",
+        model: "deepseek/deepseek-llm-r1-0528",
         messages: [{ role: "user", content: userPrompt }],
         temperature: 0.9
       })
