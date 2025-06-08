@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     Math.floor(Math.random() * prompts[eventCode].length)
   ];
 
-  const systemPrompt = `
+  const userPrompt = `
 You are a DECA roleplay prompt writer for the event: ${eventCode}.
 
 Here is an example prompt:
@@ -28,41 +28,35 @@ Now, generate a **new and original** DECA roleplay prompt. It should:
 - Include a challenge or situation for the competitor to solve
 - Be appropriate for a 10-minute DECA roleplay
 
-Match the tone and detail of real DECA prompts.
+Match the tone and structure of real DECA prompts.
 `;
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "system", content: systemPrompt }],
+        model: "anthropic/claude-3-haiku-20240307",
+        messages: [{ role: "user", content: userPrompt }],
         temperature: 0.9
       })
     });
 
-    let result;
-    try {
-      result = await response.json();
-      console.log("OpenAI API raw result:", result);
-    } catch (e) {
-      console.error("Error parsing OpenAI response:", e);
-      return res.status(500).json({ error: 'Failed to parse OpenAI response' });
-    }
+    const result = await response.json();
+    console.log("OpenRouter result:", result);
 
     if (!result.choices || !result.choices[0]) {
-      console.error("OpenAI error details:", result);
-      return res.status(500).json({ error: 'Invalid OpenAI response format' });
+      console.error("No choices returned:", result);
+      return res.status(500).json({ error: 'Failed to generate prompt' });
     }
 
     res.status(200).json({ prompt: result.choices[0].message.content });
 
   } catch (error) {
-    console.error("Error fetching from OpenAI:", error);
+    console.error("OpenRouter fetch error:", error);
     res.status(500).json({ error: 'Server error while generating prompt' });
   }
 }
