@@ -31,24 +31,38 @@ Now, generate a **new and original** DECA roleplay prompt. It should:
 Match the tone and detail of real DECA prompts.
 `;
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: systemPrompt }],
-      temperature: 0.9
-    })
-  });
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "system", content: systemPrompt }],
+        temperature: 0.9
+      })
+    });
 
-  const result = await response.json();
+    let result;
+    try {
+      result = await response.json();
+      console.log("OpenAI API raw result:", result);
+    } catch (e) {
+      console.error("Error parsing OpenAI response:", e);
+      return res.status(500).json({ error: 'Failed to parse OpenAI response' });
+    }
 
-  if (!result.choices || !result.choices[0]) {
-    return res.status(500).json({ error: 'Failed to generate prompt' });
+    if (!result.choices || !result.choices[0]) {
+      console.error("OpenAI error details:", result);
+      return res.status(500).json({ error: 'Invalid OpenAI response format' });
+    }
+
+    res.status(200).json({ prompt: result.choices[0].message.content });
+
+  } catch (error) {
+    console.error("Error fetching from OpenAI:", error);
+    res.status(500).json({ error: 'Server error while generating prompt' });
   }
-
-  res.status(200).json({ prompt: result.choices[0].message.content });
 }
