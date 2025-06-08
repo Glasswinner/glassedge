@@ -82,6 +82,7 @@
 
     generateBtn.addEventListener('click', async function () {
       const eventCode = eventSelect.value;
+      console.log("Sending event code:", eventCode); // debug line
 
       generateBtn.textContent = "Generating...";
       generateBtn.disabled = true;
