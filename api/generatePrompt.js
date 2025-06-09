@@ -11,13 +11,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Dynamically load prompt module (must match casing exactly!)
-    const config = await import(`../data/prompts/${eventCode}.js`).then(mod => mod.default);
-    console.log("✅ Loaded config for:", eventCode);
+    // Dynamically load config for the selected event from /data/
+    const config = await import(`../data/${eventCode}.js`).then(mod => mod.default);
+    console.log("✅ Loaded config:", config);
 
     if (!config || !Array.isArray(config.indicatorSets)) {
       console.error("❌ Missing or invalid indicatorSets in config");
-      return res.status(500).json({ error: 'Prompt config is missing valid indicator sets.' });
+      return res.status(500).json({ error: `Prompt config for '${eventCode}' is missing indicator sets.` });
     }
 
     const indicators = config.indicatorSets[
@@ -57,6 +57,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error("💥 Error in generatePrompt handler:", error);
-    res.status(500).json({ error: 'Server error while generating prompt. Check event file and logs.' });
+    res.status(500).json({ error: 'Server error while generating prompt. Check event code and config file.' });
   }
 }
