@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roleplay Generator</title>
+  <title>Choose Event | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -14,7 +14,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+<body class="min-h-screen flex flex-col items-center justify-center px-4 py-12 text-white bg-[#0b0e1a]">
   <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Choose your event category:</h1>
 
   <!-- Event Type Dropdown -->
@@ -36,21 +36,17 @@
 
   <!-- Generate Button -->
   <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg mb-8" disabled>
-    Generate Prompt
+    Start Scenario
   </button>
 
-  <!-- Output Box -->
-  <div id="output" class="w-full max-w-2xl bg-gray-900 border border-gray-700 p-6 rounded-lg mt-6 whitespace-pre-wrap hidden"></div>
-
   <!-- Back to Home -->
-  <a href="index.html" class="text-blue-400 hover:underline mt-10">← Back to Home</a>
+  <a href="index.html" class="text-blue-400 hover:underline mt-10">← Return to Home</a>
 
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
     const eventSelect = document.getElementById('event');
     const generateBtn = document.getElementById('generate-btn');
-    const output = document.getElementById('output');
 
     const events = {
       principles: ['PBM', 'PEN', 'PFN', 'PHT', 'PMK'],
@@ -62,7 +58,6 @@
       const selectedType = this.value;
       const options = events[selectedType] || [];
 
-      // Populate specific event dropdown
       eventSelect.innerHTML = '<option disabled selected value="">-- Select Event --</option>';
       options.forEach(code => {
         const opt = document.createElement('option');
@@ -73,45 +68,17 @@
 
       eventContainer.classList.remove('hidden');
       generateBtn.disabled = true;
-      output.classList.add('hidden');
     });
 
     eventSelect.addEventListener('change', function () {
       generateBtn.disabled = false;
     });
 
-    generateBtn.addEventListener('click', async function () {
+    generateBtn.addEventListener('click', function () {
       const eventCode = eventSelect.value;
-      console.log("Sending event code:", eventCode); // debug line
-
-      generateBtn.textContent = "Generating...";
-      generateBtn.disabled = true;
-      output.classList.remove('hidden');
-      output.textContent = "🧠 Generating your DECA prompt...";
-
-      try {
-        const res = await fetch('/api/generatePrompt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventCode })
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.prompt) {
-          output.textContent = data.prompt;
-          output.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          output.textContent = "❌ Failed to generate a prompt. Try again.";
-          console.error(data.error || 'Unknown error');
-        }
-      } catch (err) {
-        output.textContent = "❌ Network error. Please try again.";
-        console.error(err);
+      if (eventCode) {
+        window.location.href = `roleplayscenario.html?event=${eventCode}`;
       }
-
-      generateBtn.textContent = "Generate Prompt";
-      generateBtn.disabled = false;
     });
   </script>
 </body>
