@@ -11,11 +11,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Import module and correctly extract the default export
+    // ✅ FIX: handle .default.default wrap for ESModules in Vercel/runtime
     const mod = await import(`../data/${eventCode}.js`);
-    const config = mod.default; // ✅ This is the real object
+    const config = mod.default?.default || mod.default || mod;
 
-    console.log("✅ Loaded config keys:", Object.keys(config));
+    console.log("✅ FINAL config keys:", Object.keys(config));
 
     if (!Array.isArray(config.indicatorSets)) {
       console.error("❌ Missing or invalid indicatorSets in config");
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
     const userPrompt = config.promptTemplate({ indicators, exampleRoleplays: examples });
 
-    console.log("🧠 Final prompt string:", userPrompt.slice(0, 500) + '...'); // Preview only
+    console.log("🧠 Final prompt preview:", userPrompt.slice(0, 400), '...');
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
