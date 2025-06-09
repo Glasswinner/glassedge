@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roleplay Scenario | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0e1a;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0b0e1a] text-white">
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Left (2/3) Prompt -->
+    <div class="w-2/3 p-8 overflow-y-auto">
+      <h2 class="text-2xl font-bold text-blue-400 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
+      <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[90vh] overflow-y-auto">
+        <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">
+          <!-- Prompt will be inserted here -->
+        </p>
+      </div>
+    </div>
+
+    <!-- Right (1/3) Controls -->
+    <div class="w-1/3 flex flex-col justify-between p-6 border-l border-gray-700">
+
+      <!-- Timer -->
+      <div class="mb-4 text-right">
+        <h3 class="text-xl font-semibold text-blue-300 mb-2">⏱️ Prep Timer</h3>
+        <div id="timer" class="text-3xl font-bold text-white">01:00</div>
+      </div>
+
+      <!-- Response Input -->
+      <div class="flex-grow flex flex-col">
+        <h3 class="text-xl font-semibold text-blue-300 mb-2">🗣️ Your Response</h3>
+        <textarea id="user-response" placeholder="Type your response here..." class="bg-gray-800 text-white p-4 rounded-md border border-gray-600 resize-none h-64 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <!-- Return Home -->
+      <div class="text-center mt-6">
+        <a href="index.html" class="text-blue-400 hover:underline">← Return to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventCode = urlParams.get("event") || "PFN";
+    document.getElementById("event-code").textContent = eventCode;
+
+    async function fetchPrompt() {
+      const promptElement = document.getElementById("generated-prompt");
+      promptElement.textContent = "🧠 Generating your DECA prompt...";
+
+      try {
+        const res = await fetch('/api/generatePrompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ eventCode })
+        });
+
+        const data = await res.json();
+        promptElement.textContent = res.ok && data.prompt ? data.prompt : "❌ Failed to generate a prompt.";
+      } catch (err) {
+        console.error(err);
+        promptElement.textContent = "❌ Network error.";
+      }
+    }
+
+    fetchPrompt();
+
+    let seconds = 60;
+    const timerDisplay = document.getElementById("timer");
+    function updateTimer() {
+      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${min}:${sec}`;
+      if (seconds > 0) seconds--;
+    }
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
 
