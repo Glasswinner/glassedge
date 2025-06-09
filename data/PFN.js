@@ -54,7 +54,7 @@ The scenario must:
 - Pose a realistic financial task to the student
 - Include 2 realistic judge questions
 - Avoid DECA branding, judge instructions, or rubrics
-- Make the student-facing part of the roleplay as long as the examples
+- Make the student-facing part of the roleplay as long as the examples. Furthermore, the generated response should not include an "expected response." Simply, the generated output must only be what a DECA student competitor would realisticlaly see at competition. 
 
 Use the following style: **${style}**
 
