@@ -11,14 +11,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ FIX: no .then(mod => mod.default)
+    // ✅ Import module and correctly extract the default export
     const mod = await import(`../data/${eventCode}.js`);
-    const config = mod.default || mod; // support both cases
-    console.log("✅ Loaded config:", config);
+    const config = mod.default; // ✅ This is the real object
 
-    if (!config || !Array.isArray(config.indicatorSets)) {
+    console.log("✅ Loaded config keys:", Object.keys(config));
+
+    if (!Array.isArray(config.indicatorSets)) {
       console.error("❌ Missing or invalid indicatorSets in config");
-      return res.status(500).json({ error: `Prompt config for '${eventCode}' is missing indicator sets.` });
+      return res.status(500).json({ error: `Prompt config for '${eventCode}' is missing valid indicator sets.` });
     }
 
     const indicators = config.indicatorSets[
@@ -32,6 +33,8 @@ export default async function handler(req, res) {
     }
 
     const userPrompt = config.promptTemplate({ indicators, exampleRoleplays: examples });
+
+    console.log("🧠 Final prompt string:", userPrompt.slice(0, 500) + '...'); // Preview only
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
