@@ -1,11 +1,8 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" }
   ],
-  "redirects": [],
-  "headers": [],
-  "routes": [],
-  "outputDirectory": "."
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "framework": null
 }
