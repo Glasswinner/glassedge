@@ -33,7 +33,7 @@
       <!-- Timer -->
       <div class="mb-4 text-right">
         <h3 class="text-xl font-semibold text-blue-300 mb-2">⏱️ Prep Timer</h3>
-        <div id="timer" class="text-3xl font-bold text-white">01:00</div>
+        <div id="timer" class="text-3xl font-bold text-white">10:00</div>
       </div>
 
       <!-- Response Input -->
@@ -66,7 +66,12 @@
         });
 
         const data = await res.json();
-        promptElement.textContent = res.ok && data.prompt ? data.prompt : "❌ Failed to generate a prompt.";
+        if (res.ok && data.prompt) {
+          promptElement.textContent = data.prompt;
+          startTimer();
+        } else {
+          promptElement.textContent = "❌ Failed to generate a prompt.";
+        }
       } catch (err) {
         console.error(err);
         promptElement.textContent = "❌ Network error.";
@@ -75,7 +80,7 @@
 
     fetchPrompt();
 
-    let seconds = 60;
+    let seconds = 600;
     const timerDisplay = document.getElementById("timer");
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -83,8 +88,10 @@
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) seconds--;
     }
-    setInterval(updateTimer, 1000);
+
+    function startTimer() {
+      setInterval(updateTimer, 1000);
+    }
   </script>
 </body>
 </html>
-
