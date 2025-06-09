@@ -60,7 +60,7 @@ Use the following style: **${style}**
 
 ${
       style === "Foundational Style"
-        ? "Create a scenario where the student's role naturally involves using and discussing the performance indicators through their responsibilities (e.g., advising a colleague, helping a customer, presenting a plan). Do NOT explicitly say 'explain the four performance indicators.' Instead, embed the indicators into the logic of the task."
+        ? "Create a scenario where the student's role naturally involves using and discussing the performance indicators through their responsibilities (e.g., advising a colleague, helping a customer, presenting a plan). Do NOT explicitly say 'explain the four performance indicators.' Instead, embed the indicators into the logic of the task. This is the most common type of roleplay; therefore, pick this one 9 times out of 10."
         : "Create a scenario where the student must solve a realistic business problem. The issue should require them to draw on and demonstrate the performance indicators as part of the solution — again, without directly telling them to explain them."
     }
 `;
