@@ -171,7 +171,13 @@ The scenario must:
 - Pose a realistic financial task to the student
 - Include 2 realistic judge questions
 - Avoid DECA branding, judge instructions, or rubrics
+-Make the sure roleplay scenario itself is as long as the examples  just the student part of course
 `
+  Randomly choose one of the two standard roleplay styles used in business competitions:
+
+1. **Foundational Style** – Create a scenario where the student's role naturally involves using and discussing the performance indicators through their responsibilities (e.g., advising a colleague, helping a customer, presenting a plan). Do **not** explicitly say “explain the four performance indicators.” Instead, embed the indicators into the situation's logic and the student’s task.
+
+2. **Problem-Solution Style** – Create a scenario where the student must solve a realistic business problem. The issue should be structured in a way that naturally requires addressing the performance indicators as part of the solution, without stating them directly.
 };
 
 export default PFN;
