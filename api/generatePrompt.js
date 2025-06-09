@@ -11,8 +11,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Dynamically load config for the selected event from /data/
-    const config = await import(`../data/${eventCode}.js`).then(mod => mod.default);
+    // Dynamically import the prompt module from /data
+    const mod = await import(`../data/${eventCode}.js`);
+    const config = mod.default;
     console.log("✅ Loaded config:", config);
 
     if (!config || !Array.isArray(config.indicatorSets)) {
