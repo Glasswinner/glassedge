@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roleplay Feedback | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0e1a;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0b0e1a] text-white p-6">
+  <div class="max-w-4xl mx-auto space-y-8">
+
+    <h1 class="text-3xl font-bold text-blue-400 text-center">🏆 Your Roleplay Feedback</h1>
+
+    <!-- Grade Summary -->
+    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4 text-white">📊 Score</h2>
+      <p class="text-4xl font-bold text-green-400" id="score">--</p>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4 text-white">💬 Judge Feedback</h2>
+      <p id="feedback" class="text-lg leading-relaxed whitespace-pre-wrap text-gray-300">Loading...</p>
+    </div>
+
+    <!-- Transcript Section -->
+    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4 text-white">📝 Transcript</h2>
+      <pre id="transcript" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-400 bg-black p-4 rounded-md max-h-[300px] overflow-y-auto"></pre>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-6">
+      <a href="roleplayscenario.html?event=PFN" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-white font-semibold">🎥 Try Again</a>
+      <a href="index.html" class="text-blue-400 underline text-lg font-medium">← Return to Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("score").textContent = params.get("score") || "--";
+    document.getElementById("feedback").textContent = params.get("feedback") || "No feedback provided.";
+    document.getElementById("transcript").textContent = params.get("transcript") || "Transcript not available.";
+  </script>
+</body>
+</html>
+
