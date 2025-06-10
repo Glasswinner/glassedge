@@ -39,7 +39,21 @@
       <!-- Response Input -->
       <div class="flex-grow flex flex-col">
         <h3 class="text-xl font-semibold text-blue-300 mb-2">🗣️ Your Response</h3>
-        <textarea id="user-response" placeholder="Type your response here..." class="bg-gray-800 text-white p-4 rounded-md border border-gray-600 resize-none h-64 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+        <!-- Webcam Preview -->
+        <video id="camera" autoplay playsinline class="w-full rounded-lg mb-2 border border-gray-700"></video>
+
+        <!-- Recorded Playback -->
+        <video id="playback" controls class="w-full rounded-lg mb-2 hidden border border-gray-600"></video>
+
+        <!-- Buttons -->
+        <div class="flex gap-3 mt-2">
+          <button id="start" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md">Start</button>
+          <button id="stop" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md" disabled>Stop</button>
+          <button id="upload" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md hidden">Upload</button>
+        </div>
+
+        <p id="status" class="text-sm text-green-400 mt-2 hidden">Uploading...</p>
       </div>
 
       <!-- Return Home -->
@@ -92,6 +106,61 @@
     function startTimer() {
       setInterval(updateTimer, 1000);
     }
+
+    // Recording logic
+    const camera = document.getElementById("camera");
+    const playback = document.getElementById("playback");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
+    const uploadBtn = document.getElementById("upload");
+    const status = document.getElementById("status");
+
+    let mediaRecorder;
+    let chunks = [];
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+      camera.srcObject = stream;
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/mp4' });
+        const videoURL = URL.createObjectURL(blob);
+        playback.src = videoURL;
+        playback.classList.remove("hidden");
+        uploadBtn.classList.remove("hidden");
+
+        uploadBtn.onclick = async () => {
+          status.classList.remove("hidden");
+          const formData = new FormData();
+          formData.append("video", blob, "roleplay.mp4");
+
+          const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const json = await res.json();
+          status.textContent = json.success ? "✅ Uploaded!" : "❌ Upload failed.";
+        };
+      };
+
+      startBtn.onclick = () => {
+        chunks = [];
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      };
+
+      stopBtn.onclick = () => {
+        mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      };
+    }).catch(err => {
+      alert("Camera access denied or unavailable: " + err.message);
+    });
   </script>
 </body>
 </html>
