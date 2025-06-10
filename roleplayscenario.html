@@ -36,24 +36,22 @@
         <div id="timer" class="text-3xl font-bold text-white">10:00</div>
       </div>
 
-      <!-- Response Input -->
+      <!-- Response Area -->
       <div class="flex-grow flex flex-col">
         <h3 class="text-xl font-semibold text-blue-300 mb-2">🗣️ Your Response</h3>
 
-        <!-- Webcam Preview -->
-        <video id="camera" autoplay playsinline class="w-full rounded-lg mb-2 border border-gray-700"></video>
+        <!-- Video Frame (Live & Playback) -->
+        <video id="camera" autoplay playsinline class="w-full rounded-lg mb-2 border border-gray-700" muted></video>
 
-        <!-- Recorded Playback -->
-        <video id="playback" controls class="w-full rounded-lg mb-2 hidden border border-gray-600"></video>
-
-        <!-- Buttons -->
+        <!-- Control Buttons -->
         <div class="flex gap-3 mt-2">
           <button id="start" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md">Start</button>
           <button id="stop" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md" disabled>Stop</button>
-          <button id="upload" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md hidden">Upload</button>
+          <button id="grade" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md hidden">Grade My Roleplay</button>
         </div>
 
-        <p id="status" class="text-sm text-green-400 mt-2 hidden">Uploading...</p>
+        <!-- Status Message -->
+        <p id="status" class="text-sm text-green-400 mt-2 hidden">Processing...</p>
       </div>
 
       <!-- Return Home -->
@@ -109,10 +107,9 @@
 
     // Recording logic
     const camera = document.getElementById("camera");
-    const playback = document.getElementById("playback");
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
-    const uploadBtn = document.getElementById("upload");
+    const gradeBtn = document.getElementById("grade");
     const status = document.getElementById("status");
 
     let mediaRecorder;
@@ -127,12 +124,22 @@
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'video/mp4' });
         const videoURL = URL.createObjectURL(blob);
-        playback.src = videoURL;
-        playback.classList.remove("hidden");
-        uploadBtn.classList.remove("hidden");
 
-        uploadBtn.onclick = async () => {
+        // Switch from live feed to recorded playback
+        camera.srcObject = null;
+        camera.src = videoURL;
+        camera.controls = true;
+        camera.muted = false;
+        camera.play();
+
+        // Show grade button
+        gradeBtn.classList.remove("hidden");
+
+        // Handle grade click
+        gradeBtn.onclick = async () => {
           status.classList.remove("hidden");
+          status.textContent = "Uploading...";
+
           const formData = new FormData();
           formData.append("video", blob, "roleplay.mp4");
 
@@ -142,7 +149,7 @@
           });
 
           const json = await res.json();
-          status.textContent = json.success ? "✅ Uploaded!" : "❌ Upload failed.";
+          status.textContent = json.success ? "✅ Uploaded for grading!" : "❌ Upload failed.";
         };
       };
 
