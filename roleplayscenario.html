@@ -152,7 +152,7 @@
             })
           });
           const grade = await gradeRes.json();
-          status.textContent = `✅ Grade: ${grade.score}/100 – ${grade.feedback}`;
+          window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(whisperData.text)}`;
         } catch (err) {
           console.error(err);
           status.textContent = "❌ Upload, transcription, or grading failed.";
