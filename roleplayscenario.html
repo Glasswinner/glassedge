@@ -1,5 +1,3 @@
-<!-- Your full updated roleplayscenario.html -->
-<!-- CHANGES: Uses /api/transcriptbackend and glassedge-transcript env var on backend -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,7 +113,6 @@
         const formData = new FormData();
         formData.append("file", blob);
         formData.append("upload_preset", "glassupload");
-        formData.append("resource_type", "video");
         const cloudName = "drgawnb5b";
         const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
 
@@ -125,13 +122,19 @@
         try {
           const uploadRes = await fetch(uploadUrl, { method: "POST", body: formData });
           const uploadData = await uploadRes.json();
-          const cloudinaryUrl = uploadData.secure_url;
 
-          // Transcription call to /api/transcriptbackend
-          status.textContent = "🔊 Transcribing with Deepgram...";
+          if (!uploadRes.ok) {
+            console.error("❌ Cloudinary upload failed:", uploadData);
+            status.textContent = "❌ Upload failed. Please check your Cloudinary config.";
+            return;
+          }
+
+          const cloudinaryUrl = uploadData.secure_url;
           console.log("🔥 cloudinaryUrl:", cloudinaryUrl);
           console.log("📦 Body being sent:", JSON.stringify({ url: cloudinaryUrl }));
 
+          // Transcription call to /api/transcriptbackend
+          status.textContent = "🔊 Transcribing with Deepgram...";
           const transcriptRes = await fetch("/api/transcriptbackend", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
