@@ -129,6 +129,9 @@
 
           // Transcription call to /api/transcriptbackend
           status.textContent = "🔊 Transcribing with Deepgram...";
+          console.log("🔥 cloudinaryUrl:", cloudinaryUrl);
+          console.log("📦 Body being sent:", JSON.stringify({ url: cloudinaryUrl }));
+
           const transcriptRes = await fetch("/api/transcriptbackend", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
