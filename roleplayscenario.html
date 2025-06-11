@@ -104,46 +104,35 @@
       mediaRecorder.onstop = async () => {
         const blob = new Blob(chunks, { type: 'video/mp4' });
 
-        // Convert to base64
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const base64 = reader.result;
-          status.textContent = "🔊 Transcribing with Deepgram...";
-          status.classList.remove("hidden");
+        status.textContent = "🔊 Transcribing with Deepgram...";
+        status.classList.remove("hidden");
 
-          try {
-            const transcriptRes = await fetch("/api/transcriptbackend", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                base64: base64,
-                mimetype: blob.type
-              })
-            });
+        try {
+          const transcriptRes = await fetch("/api/transcriptbackend", {
+            method: "POST",
+            headers: { "Content-Type": blob.type },
+            body: blob
+          });
 
-            const transcriptData = await transcriptRes.json();
-            const transcript = transcriptData.transcript || "No transcript available.";
+          const transcriptData = await transcriptRes.json();
+          const transcript = transcriptData.transcript || "No transcript available.";
 
-            // Grading
-            status.textContent = "🧠 Grading...";
-            const gradeRes = await fetch("/api/grade", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                transcript,
-                eventCode
-              })
-            });
+          status.textContent = "🧠 Grading...";
+          const gradeRes = await fetch("/api/grade", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              transcript,
+              eventCode
+            })
+          });
 
-            const grade = await gradeRes.json();
-            window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(transcript)}`;
-          } catch (err) {
-            console.error(err);
-            status.textContent = "❌ Transcription or grading failed.";
-          }
-        };
-
-        reader.readAsDataURL(blob);
+          const grade = await gradeRes.json();
+          window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(transcript)}`;
+        } catch (err) {
+          console.error(err);
+          status.textContent = "❌ Transcription or grading failed.";
+        }
 
         const videoURL = URL.createObjectURL(blob);
         camera.srcObject = null;
