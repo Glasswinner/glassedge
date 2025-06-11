@@ -12,7 +12,9 @@ export default async function handler(req, res) {
         "Authorization": `Token ${process.env.glassedge_transcript}`,
         "Content-Type": req.headers["content-type"] || "video/mp4"
       },
+      duplex: "half",
       body: req
+      
     });
 
     const text = await deepgramRes.text();
