@@ -3,10 +3,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { url } = req.body;
+  const buffers = [];
+  for await (const chunk of req) {
+    buffers.push(chunk);
+  }
+  const rawBody = Buffer.concat(buffers).toString();
+  const parsedBody = JSON.parse(rawBody);
+  const { url } = parsedBody;
 
-  // 🔍 DEBUG LOG HERE
-  console.log("📥 Received request body:", req.body);
+  console.log("📥 Received request body:", parsedBody);
 
   if (!url) {
     console.log("❌ No 'url' provided in request body.");
@@ -32,3 +37,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Deepgram transcription failed.' });
   }
 }
+
