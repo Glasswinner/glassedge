@@ -1,3 +1,5 @@
+<!-- Your full updated roleplayscenario.html -->
+<!-- CHANGES: Uses /api/transcriptbackend and glassedge-transcript env var on backend -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,21 +38,15 @@
       <!-- Response Area -->
       <div class="flex-grow flex flex-col">
         <h3 class="text-xl font-semibold text-blue-300 mb-2">🗣️ Your Response</h3>
-
-        <!-- Video Frame -->
         <video id="camera" autoplay playsinline muted class="w-full rounded-lg mb-2 border border-gray-700"></video>
-
-        <!-- Controls -->
         <div class="flex gap-3 mt-2">
           <button id="start" class="bg-green-600 px-4 py-2 rounded-md">Start</button>
           <button id="stop" class="bg-red-600 px-4 py-2 rounded-md" disabled>Stop</button>
           <button id="grade" class="bg-blue-600 px-4 py-2 rounded-md hidden">Grade My Roleplay</button>
         </div>
-
         <p id="status" class="text-sm text-green-400 mt-2 hidden">Processing...</p>
       </div>
 
-      <!-- Footer -->
       <div class="text-center mt-6">
         <a href="index.html" class="text-blue-400 hover:underline">← Return to Home</a>
       </div>
@@ -97,7 +93,6 @@
       setInterval(updateTimer, 1000);
     }
 
-    // === Recording + Upload ===
     const camera = document.getElementById("camera");
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
@@ -132,33 +127,35 @@
           const uploadData = await uploadRes.json();
           const cloudinaryUrl = uploadData.secure_url;
 
-          // Transcription with Whisper
-          status.textContent = "🔊 Transcribing...";
-          const whisperRes = await fetch("https://YOUR_REPLIT_BACKEND_URL/transcribe", {
+          // Transcription call to /api/transcriptbackend
+          status.textContent = "🔊 Transcribing with Deepgram...";
+          const transcriptRes = await fetch("/api/transcriptbackend", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ videoUrl: cloudinaryUrl })
+            body: JSON.stringify({ url: cloudinaryUrl })
           });
-          const whisperData = await whisperRes.json();
 
-          // Grading with DeepSeek
+          const transcriptData = await transcriptRes.json();
+          const transcript = transcriptData.transcript || "No transcript available.";
+
+          // Grading
           status.textContent = "🧠 Grading...";
           const gradeRes = await fetch("/api/grade", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              transcript: whisperData.text,
+              transcript,
               eventCode
             })
           });
           const grade = await gradeRes.json();
-          window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(whisperData.text)}`;
+
+          window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(transcript)}`;
         } catch (err) {
           console.error(err);
           status.textContent = "❌ Upload, transcription, or grading failed.";
         }
 
-        // Playback
         const videoURL = URL.createObjectURL(blob);
         camera.srcObject = null;
         camera.src = videoURL;
