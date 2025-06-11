@@ -4,12 +4,17 @@ export default async function handler(req, res) {
   }
 
   const { url } = req.body;
+
+  // 🔍 DEBUG LOG HERE
+  console.log("📥 Received request body:", req.body);
+
   if (!url) {
+    console.log("❌ No 'url' provided in request body.");
     return res.status(400).json({ error: 'Missing video URL' });
   }
 
   try {
-    const response = await fetch('https://api.deepgram.com/v1/listen?punctuate=true', {
+    const response = await fetch('https://api.deepgram.com/v1/listen?model=nova-3&punctuate=true', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.glassedge_transcript}`,
@@ -23,7 +28,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({ transcript });
   } catch (err) {
-    console.error('Deepgram error:', err);
+    console.error("❌ Deepgram transcription failed:", err);
     res.status(500).json({ error: 'Deepgram transcription failed.' });
   }
 }
