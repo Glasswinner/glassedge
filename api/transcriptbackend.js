@@ -1,40 +1,40 @@
+// ✅ transcriptbackend.js (replaces Cloudinary logic)
+// Accepts base64 audio/video from frontend and sends to Deepgram
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const buffers = [];
-  for await (const chunk of req) {
-    buffers.push(chunk);
-  }
-  const rawBody = Buffer.concat(buffers).toString();
-  const parsedBody = JSON.parse(rawBody);
-  const { url } = parsedBody;
-
-  console.log("📥 Received request body:", parsedBody);
-
-  if (!url) {
-    console.log("❌ No 'url' provided in request body.");
-    return res.status(400).json({ error: 'Missing video URL' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
-    const response = await fetch('https://api.deepgram.com/v1/listen?model=nova-3&punctuate=true', {
+    const { base64, mimetype } = req.body;
+
+    if (!base64 || !mimetype) {
+      return res.status(400).json({ error: 'Missing audio data or mimetype' });
+    }
+
+    const binary = Buffer.from(base64.split(',')[1], 'base64');
+
+    const deepgramRes = await fetch('https://api.deepgram.com/v1/listen?punctuate=true&model=nova-3', {
       method: 'POST',
       headers: {
         'Authorization': `Token ${process.env.glassedge_transcript}`,
-        'Content-Type': 'application/json'
+        'Content-Type': mimetype,
       },
-      body: JSON.stringify({ url })
+      body: binary
     });
 
-    const data = await response.json();
-    const transcript = data?.results?.channels?.[0]?.alternatives?.[0]?.transcript || '';
+    const data = await deepgramRes.json();
 
-    res.status(200).json({ transcript });
+    if (!deepgramRes.ok) {
+      console.error("❌ Deepgram failed:", data);
+      return res.status(500).json({ error: 'Deepgram transcription failed', details: data });
+    }
+
+    const transcript = data?.results?.channels?.[0]?.alternatives?.[0]?.transcript || '';
+    return res.status(200).json({ transcript });
   } catch (err) {
-    console.error("❌ Deepgram transcription failed:", err);
-    res.status(500).json({ error: 'Deepgram transcription failed.' });
+    console.error("🔥 Transcript error:", err);
+    return res.status(500).json({ error: 'Server error', message: err.message });
   }
 }
-
