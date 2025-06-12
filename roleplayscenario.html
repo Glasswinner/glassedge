@@ -35,7 +35,6 @@
         <div class="flex gap-3 mt-2">
           <button id="start" class="bg-green-600 px-4 py-2 rounded-md">Start</button>
           <button id="stop" class="bg-red-600 px-4 py-2 rounded-md" disabled>Stop</button>
-          <button id="grade" class="bg-blue-600 px-4 py-2 rounded-md hidden">Grade My Roleplay</button>
         </div>
         <p id="status" class="text-sm text-green-400 mt-2 hidden">Processing...</p>
       </div>
@@ -89,7 +88,6 @@
     const camera = document.getElementById("camera");
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
-    const gradeBtn = document.getElementById("grade");
     const status = document.getElementById("status");
 
     let mediaRecorder;
@@ -104,14 +102,34 @@
       mediaRecorder.onstop = async () => {
         const blob = new Blob(chunks, { type: 'video/mp4' });
 
-        status.textContent = "🔊 Transcribing with Deepgram...";
+        status.textContent = "☁️ Uploading to Cloudinary...";
         status.classList.remove("hidden");
+
+        const formData = new FormData();
+        formData.append("file", blob);
+        formData.append("upload_preset", "glassuploadbetter");
+
+        let cloudUrl = "";
+        try {
+          const cloudinaryRes = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
+            method: "POST",
+            body: formData
+          });
+          const cloudinaryData = await cloudinaryRes.json();
+          cloudUrl = cloudinaryData.secure_url;
+        } catch (err) {
+          console.error("Cloudinary upload failed:", err);
+          status.textContent = "❌ Cloud upload failed.";
+          return;
+        }
+
+        status.textContent = "🔊 Transcribing with Deepgram...";
 
         try {
           const transcriptRes = await fetch("/api/transcriptbackend", {
             method: "POST",
-            headers: { "Content-Type": blob.type },
-            body: blob
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: cloudUrl })
           });
 
           const transcriptData = await transcriptRes.json();
@@ -121,10 +139,7 @@
           const gradeRes = await fetch("/api/grade", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              transcript,
-              eventCode
-            })
+            body: JSON.stringify({ transcript, eventCode })
           });
 
           const grade = await gradeRes.json();
@@ -133,14 +148,6 @@
           console.error(err);
           status.textContent = "❌ Transcription or grading failed.";
         }
-
-        const videoURL = URL.createObjectURL(blob);
-        camera.srcObject = null;
-        camera.src = videoURL;
-        camera.controls = true;
-        camera.muted = false;
-        camera.play();
-        gradeBtn.classList.remove("hidden");
       };
 
       startBtn.onclick = () => {
