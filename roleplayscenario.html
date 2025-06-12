@@ -137,6 +137,7 @@
           const transcript = transcriptData.transcript || "No transcript available.";
 
           status.textContent = "🧠 Grading...";
+          const prompt = localStorage.getItem("glassedge_prompt");
           const gradeRes = await fetch("/api/grade", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
