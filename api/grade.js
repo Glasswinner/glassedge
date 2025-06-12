@@ -5,8 +5,20 @@ export default async function handler(req, res) {
 
   const { transcript, eventCode, prompt } = req.body;
 
+  console.log("📥 Incoming Grade Payload:", {
+    transcriptExists: Boolean(transcript),
+    eventCodeExists: Boolean(eventCode),
+    promptExists: Boolean(prompt),
+    eventCode,
+    prompt,
+    transcriptPreview: transcript?.slice?.(0, 100)
+  });
+
   if (!transcript || !eventCode || !prompt) {
-    return res.status(400).json({ error: "Missing transcript, event code, or prompt" });
+    return res.status(400).json({
+      error: "Missing transcript, event code, or prompt",
+      received: { transcript, eventCode, prompt }
+    });
   }
 
   try {
