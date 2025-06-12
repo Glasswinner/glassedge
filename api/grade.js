@@ -31,12 +31,30 @@ export default async function handler(req, res) {
     });
 
     const result = await deepseekRes.json();
-    const aiText = result.choices?.[0]?.message?.content || "";
+    const aiText = result?.choices?.[0]?.message?.content?.trim();
+
+    console.log("💬 AI Text Response:", aiText);
+
+    if (!aiText) {
+      console.error("❌ DeepSeek returned empty or invalid content:", result);
+      return res.status(500).json({
+        score: 0,
+        feedback: "DeepSeek did not return a valid response."
+      });
+    }
 
     const scoreMatch = aiText.match(/score[:\s]*([0-9]{1,3})/i);
-    const score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
     const feedbackMatch = aiText.match(/feedback[:\s]*(.+)/is);
-    const feedback = feedbackMatch ? feedbackMatch[1].trim() : "No feedback provided.";
+
+    const score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
+    let feedback = "No feedback provided.";
+
+    if (!feedbackMatch) {
+      const afterScore = aiText.split(/score[:\s]*[0-9]{1,3}/i)[1];
+      if (afterScore) feedback = afterScore.trim();
+    } else {
+      feedback = feedbackMatch[1].trim();
+    }
 
     return res.status(200).json({ score, feedback });
   } catch (err) {
