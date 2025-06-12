@@ -140,7 +140,7 @@
           const gradeRes = await fetch("/api/grade", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ transcript, eventCode })
+            body: JSON.stringify({ transcript, eventCode, prompt })
           });
 
           const grade = await gradeRes.json();
