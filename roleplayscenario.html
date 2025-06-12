@@ -61,6 +61,7 @@
         const data = await res.json();
         if (res.ok && data.prompt) {
           promptElement.textContent = data.prompt;
+          localStorage.setItem("glassedge_prompt", data.prompt);
           startTimer();
         } else {
           promptElement.textContent = "❌ Failed to generate a prompt.";
