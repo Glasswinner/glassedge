@@ -1,20 +1,22 @@
-// ✅ Updated transcriptbackend.js with better Deepgram error handling
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   try {
+    const { url } = req.body;
+
+    if (!url) {
+      return res.status(400).json({ error: "Missing video URL" });
+    }
+
     const deepgramRes = await fetch("https://api.deepgram.com/v1/listen?punctuate=true&model=nova-3", {
       method: "POST",
       headers: {
         "Authorization": `Token ${process.env.glassedge_transcript}`,
-        "Content-Type": req.headers["content-type"] || "video/mp4"
+        "Content-Type": "application/json"
       },
-      duplex: "half",
-      body: req
-      
+      body: JSON.stringify({ url })
     });
 
     const text = await deepgramRes.text();
