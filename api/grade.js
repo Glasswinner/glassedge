@@ -1,4 +1,4 @@
-import PFN from "./_grading/PFNgrade.js";
+import PFN from "./grading/PFNgrade.js";
 
 const gradingConfigs = {
   PFN: PFN
