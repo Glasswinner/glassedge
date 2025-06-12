@@ -1,3 +1,10 @@
+import PFN from "../../data/PFNgrade.js";
+
+const gradingConfigs = {
+  PFN: PFN
+  // Add more mappings here as needed (e.g., PMK: PMK, HTDM: HTDM)
+};
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
@@ -21,9 +28,13 @@ export default async function handler(req, res) {
     });
   }
 
-  try {
-    const config = await import(`../../data/${eventCode}grade.js`).then(mod => mod.default);
+  const config = gradingConfigs[eventCode];
 
+  if (!config) {
+    return res.status(400).json({ error: `No grading config for event code: ${eventCode}` });
+  }
+
+  try {
     const deepseekRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
