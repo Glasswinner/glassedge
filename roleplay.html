@@ -9,38 +9,84 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #0b0e1a;
+      background: linear-gradient(to bottom, #0b0e1a 75%, #1e1446);
       color: white;
+    }
+    .glow {
+      text-shadow: 0 0 12px #a855f7;
+    }
+    .scroll-box {
+      animation: scrollUp 15s linear infinite;
+    }
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center px-4 py-12 text-white bg-[#0b0e1a]">
-  <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Choose your event category:</h1>
+<body class="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0b0e1a]">
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl">
+    <!-- Left Section -->
+    <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 glow">Choose your event category:</h1>
+      <div class="w-full mb-6">
+        <label for="event-type" class="block mb-2 text-lg font-semibold">Select event type:</label>
+        <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
+          <option disabled selected value="">-- Select Event Type --</option>
+          <option value="principles">Principles of Business Administration</option>
+          <option value="team">Team Decision Making</option>
+          <option value="individual">Individual Series</option>
+        </select>
+      </div>
+      <div id="event-container" class="w-full mb-6 hidden">
+        <label for="event" class="block mb-2 text-lg font-semibold">Select event:</label>
+        <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
+      </div>
+      <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
+        Start Scenario
+      </button>
+      <a href="index.html" class="block mt-6 text-blue-400 hover:underline">&larr; Return to Home</a>
+    </div>
 
-  <!-- Event Type Dropdown -->
-  <div class="w-full max-w-md mb-6">
-    <label for="event-type" class="block mb-2 text-lg font-semibold">Select event type:</label>
-    <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
-      <option disabled selected value="">-- Select Event Type --</option>
-      <option value="principles">Principles of Business Administration</option>
-      <option value="team">Team Decision Making</option>
-      <option value="individual">Individual Series</option>
-    </select>
+    <!-- Right Scrolling Section -->
+    <div class="w-full md:w-1/2 max-h-[320px] overflow-hidden relative">
+      <div class="scroll-box space-y-4">
+        <div class="space-y-4">
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">PBM - Principles of Business Mgmt</div>
+          <div class="p-4 rounded-lg bg-gray-600 text-white font-bold shadow">PEN - Principles of Entrepreneurship</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">PFN - Principles of Finance</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">PHT - Principles of Hospitality</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">PMK - Principles of Marketing</div>
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">BLTDM - Business Law & Ethics TDM</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">BTDM - Buying & Merch TDM</div>
+          <div class="p-4 rounded-lg bg-gray-600 text-white font-bold shadow">ETDM - Entrepreneurship TDM</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">FTDM - Financial Services TDM</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">HTDM - Hospitality Services TDM</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">MTDM - Marketing Mgmt TDM</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">STDM - Sports & Ent Marketing TDM</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">TTDM - Travel & Tourism TDM</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">ACT - Accounting Apps Series</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">AAM - Apparel & Accessories</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">ASM - Auto Services Mktg</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">BFS - Business Finance Series</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">BSM - Business Services Mktg</div>
+          <div class="p-4 rounded-lg bg-gray-600 text-white font-bold shadow">ENT - Entrepreneurship Series</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">FMS - Food Marketing</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">HLM - Hotel & Lodging Mgt</div>
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">HRM - HR Management</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">MCS - Marketing Comms Series</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">QSRM - Quick Serve Resto Mgt</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">RFSM - Restaurant & Food Svc</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">RMS - Retail Merchandising</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">SEM - Sports & Ent Marketing</div>
+        </div>
+        <!-- Duplicate set for seamless loop -->
+        <div class="space-y-4">
+          <!-- Copy the same block again to simulate endless scroll -->
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- Specific Event Dropdown -->
-  <div id="event-container" class="w-full max-w-md mb-6 hidden">
-    <label for="event" class="block mb-2 text-lg font-semibold">Select event:</label>
-    <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
-  </div>
-
-  <!-- Generate Button -->
-  <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg mb-8" disabled>
-    Start Scenario
-  </button>
-
-  <!-- Back to Home -->
-  <a href="index.html" class="text-blue-400 hover:underline mt-10">← Return to Home</a>
 
   <script>
     const eventTypeSelect = document.getElementById('event-type');
@@ -57,7 +103,6 @@
     eventTypeSelect.addEventListener('change', function () {
       const selectedType = this.value;
       const options = events[selectedType] || [];
-
       eventSelect.innerHTML = '<option disabled selected value="">-- Select Event --</option>';
       options.forEach(code => {
         const opt = document.createElement('option');
@@ -65,7 +110,6 @@
         opt.textContent = code;
         eventSelect.appendChild(opt);
       });
-
       eventContainer.classList.remove('hidden');
       generateBtn.disabled = true;
     });
