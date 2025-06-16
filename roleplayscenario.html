@@ -18,8 +18,10 @@
   <div class="flex h-screen overflow-hidden">
     <div class="w-2/3 p-8 overflow-y-auto">
       <h2 class="text-2xl font-bold text-blue-400 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
-      <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[90vh] overflow-y-auto">
+      <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[70vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
+        <button id="show-questions" class="mt-4 px-4 py-2 bg-purple-600 rounded hover:bg-purple-700">Show Judge Questions</button>
+        <div id="judge-questions" class="mt-3 hidden text-blue-300 text-lg whitespace-pre-wrap"></div>
       </div>
     </div>
 
@@ -85,6 +87,18 @@
     function startTimer() {
       setInterval(updateTimer, 1000);
     }
+
+    // Judge questions logic
+    const showBtn = document.getElementById("show-questions");
+    const questionsDiv = document.getElementById("judge-questions");
+
+    showBtn.addEventListener("click", () => {
+      const prompt = localStorage.getItem("glassedge_prompt") || "";
+      const lines = prompt.split("\n");
+      const qLines = lines.filter(line => line.trim().startsWith("1.") || line.trim().startsWith("2."));
+      questionsDiv.textContent = qLines.length ? qLines.join("\n") : "No judge questions found in this prompt.";
+      questionsDiv.classList.remove("hidden");
+    });
 
     const camera = document.getElementById("camera");
     const startBtn = document.getElementById("start");
