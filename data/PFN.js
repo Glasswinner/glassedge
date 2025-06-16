@@ -21,7 +21,39 @@ const PFN = {
     ["Explain forms of financial exchange", "Describe functions of money", "Identify types of currency", "Discuss the nature of debtor-creditor relationships"],
     ["Demonstrate ethical work habits", "Protect against identity theft", "Demonstrate honesty and integrity", "Explain reasons for ethical dilemmas"],
     ["Describe the nature of income statements", "Explain the nature of balance sheets", "Describe the nature of business records", "Explain the organizational design of businesses"],
-    ["Identify tentative occupational interest", "Explain career opportunities in entrepreneurship", "Utilize job-search strategies", "Utilize career-advancement activities to enhance professional development"]
+    ["Identify tentative occupational interest", "Explain career opportunities in entrepreneurship", "Utilize job-search strategies", "Utilize career-advancement activities to enhance professional development"],
+
+    // Emotional Intelligence
+    ["Demonstrate ethical work habits", "Show empathy for others", "Demonstrate self-control", "Demonstrate responsible behavior"],
+    ["Explain the concept of self-esteem", "Demonstrate honesty and integrity", "Demonstrate interest and enthusiasm", "Use appropriate assertiveness"],
+
+    // Customer Relations
+    ["Demonstrate a customer service mindset", "Reinforce service orientation through communication", "Respond to customer inquiries", "Interpret business policies to customers/clients"],
+    ["Handle customer/client complaints", "Build and maintain relationships with customers", "Explain the nature of positive customer relations", "Adapt communication to cultural differences"],
+
+    // Communication
+    ["Explain the nature of effective verbal communications", "Provide legitimate responses to inquiries", "Demonstrate active listening skills", "Employ communication styles appropriate to target audience"],
+    ["Write professional emails", "Explain the nature of effective written communications", "Select and utilize appropriate formats for professional writing", "Participate in group discussions"],
+
+    // Economics
+    ["Explain the concept of competition", "Determine economic utilities created by business activities", "Explain the concept of private enterprise", "Identify factors affecting a business's profit"],
+    ["Explain the role of business in society", "Discuss the impact of globalization on business", "Describe types of business activities", "Explain the principles of supply and demand"],
+
+    // Human Resources Management
+    ["Explain the role of ethics in human resources management", "Orient new employees", "Explain the nature of human resources management", "Describe the use of technology in human resources management"],
+    ["Describe desirable personality traits important to business", "Demonstrate adaptability", "Explain the concept of leadership", "Explain the nature of staff communication"],
+
+    // Operations
+    ["Follow safety precautions", "Explain procedures for handling accidents", "Describe health and safety regulations in business", "Maintain a safe work environment"],
+    ["Describe the nature of business records", "Organize and prioritize work", "Coordinate work with that of team members", "Monitor and ensure completion of delegated tasks"],
+
+    // Marketing
+    ["Explain marketing and its importance in a global economy", "Describe marketing functions and related activities", "Explain factors that influence customer buying behavior", "Demonstrate connections between company actions and results"],
+    ["Explain the concept of marketing", "Describe the use of technology in marketing", "Explain types of promotion", "Identify the target market for a product"],
+
+    // Information Management
+    ["Identify ways that technology impacts business", "Evaluate quality and source of information", "Draw conclusions based on information analysis", "Explain the role of ethics in information management"],
+    ["Discuss the nature of information management", "Apply information to accomplish a task", "Store information for future use", "Access information in the database system"]
   ],
 
   exampleRoleplays: [
