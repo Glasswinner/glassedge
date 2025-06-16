@@ -92,7 +92,7 @@ Paragraph 3: Expanded Imperative
 Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.
 
 Paragraph 4: Roleplay Flow  
-Describe the logistics — setting, how the roleplay begins, two questions the judge will ask, and that the judge will thank the competitor at the end. However, the two questions must be on their own separate lines with a 1. and a 2. in front of them.
+Describe the logistics — setting, how the roleplay begins, two questions the judge will ask, and that the judge will thank the competitor at the end. 
 
 Use the following style: **${style}**
 ${
