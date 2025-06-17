@@ -46,6 +46,8 @@
   </div>
 
   <script>
+    const BASE_URL = 'https://glassedge.onrender.com';
+
     const urlParams = new URLSearchParams(window.location.search);
     const eventCode = urlParams.get("event") || "PFN";
     document.getElementById("event-code").textContent = eventCode;
@@ -53,7 +55,7 @@
     async function fetchPrompt() {
       const promptElement = document.getElementById("generated-prompt");
       try {
-        const res = await fetch('/api/generatePrompt', {
+        const res = await fetch(`${BASE_URL}/api/generatePrompt`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ eventCode })
@@ -127,7 +129,7 @@
         status.textContent = "🔊 Transcribing with Deepgram...";
 
         try {
-          const transcriptRes = await fetch("/api/transcriptbackend", {
+          const transcriptRes = await fetch(`${BASE_URL}/api/transcriptbackend`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ url: cloudUrl })
@@ -138,7 +140,7 @@
 
           status.textContent = "🧠 Grading...";
           const prompt = localStorage.getItem("glassedge_prompt");
-          const gradeRes = await fetch("/api/grade", {
+          const gradeRes = await fetch(`${BASE_URL}/api/grade`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ transcript, eventCode, prompt })
