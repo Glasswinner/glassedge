@@ -16,7 +16,6 @@
 </head>
 <body class="min-h-screen bg-[#0b0e1a] text-white p-6">
   <div class="max-w-4xl mx-auto space-y-8">
-
     <h1 class="text-3xl font-bold text-blue-400 text-center">🏆 Your Roleplay Feedback</h1>
 
     <!-- Grade Summary -->
@@ -39,18 +38,25 @@
 
     <!-- Action Buttons -->
     <div class="flex justify-center gap-6">
-      <a href="roleplayscenario.html?event=PFN" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-white font-semibold">🎥 Try Again</a>
+      <a id="retry-link" href="roleplayscenario.html?event=PFN" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-white font-semibold">🎥 Try Again</a>
       <a href="index.html" class="text-blue-400 underline text-lg font-medium">← Return to Home</a>
     </div>
-
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    document.getElementById("score").textContent = params.get("score") || "--";
-    document.getElementById("feedback").textContent = params.get("feedback") || "No feedback provided.";
-    document.getElementById("transcript").textContent = params.get("transcript") || "Transcript not available.";
+    const score = params.get("score") || "--";
+    const feedback = decodeURIComponent(params.get("feedback") || "No feedback provided.");
+    const transcript = decodeURIComponent(params.get("transcript") || "Transcript not available.");
+    const eventCode = params.get("event") || "PFN";
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("feedback").textContent = feedback;
+    document.getElementById("transcript").textContent = transcript;
+
+    // Dynamic retry button link with event code
+    const retryLink = document.getElementById("retry-link");
+    retryLink.href = `roleplayscenario.html?event=${eventCode}`;
   </script>
 </body>
 </html>
-
