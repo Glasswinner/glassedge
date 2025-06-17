@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   try {
     // ✅ FIX: handle .default.default wrap for ESModules in Vercel/runtime
-    const mod = await import(`../data/${eventCode}.js`);
+    const mod = await import(`./data/${eventCode}.js`);
     const config = mod.default?.default || mod.default || mod;
 
     console.log("✅ FINAL config keys:", Object.keys(config));
