@@ -1,3 +1,25 @@
+async function fetchPromptFromModel(userPrompt) {
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "deepseek/deepseek-r1-0528:free",
+      messages: [{ role: "user", content: userPrompt }],
+      temperature: 0.9
+    })
+  });
+
+  const result = await response.json();
+  if (!result.choices || !result.choices[0]) {
+    throw new Error("No prompt choices returned from model");
+  }
+
+  return result.choices[0].message.content;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -11,7 +33,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Handle ESModule quirks with dynamic import
     const mod = await import(`./data/${eventCode}.js`);
     const config = mod.default?.default || mod.default || mod;
 
@@ -29,8 +50,6 @@ export default async function handler(req, res) {
 
     if (!Array.isArray(examples) || examples.length < 1 || typeof config.promptTemplate !== 'function') {
       console.error("❌ Example roleplays or promptTemplate are missing or invalid");
-      console.error("exampleRoleplays:", examples);
-      console.error("promptTemplate typeof:", typeof config.promptTemplate);
       return res.status(500).json({ error: 'Prompt config is missing example roleplays or template.' });
     }
 
@@ -38,31 +57,22 @@ export default async function handler(req, res) {
 
     console.log("🧠 Final prompt preview:", userPrompt.slice(0, 400), '...');
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "deepseek/deepseek-r1-0528:free",
-        messages: [{ role: "user", content: userPrompt }],
-        temperature: 0.9
-      })
-    });
-
-    const result = await response.json();
-    console.log("🧠 OpenRouter result:", result);
-
-    if (!result.choices || !result.choices[0]) {
-      console.error("❌ No prompt choices returned from model");
-      return res.status(500).json({ error: 'Failed to generate prompt from model.' });
+    try {
+      const modelOutput = await fetchPromptFromModel(userPrompt);
+      return res.status(200).json({ prompt: modelOutput });
+    } catch (firstError) {
+      console.warn("⚠️ First model call failed. Retrying once...", firstError.message);
+      try {
+        const retryOutput = await fetchPromptFromModel(userPrompt);
+        return res.status(200).json({ prompt: retryOutput });
+      } catch (secondError) {
+        console.error("❌ Second model call failed:", secondError.message);
+        return res.status(500).json({ error: 'Failed to generate prompt after two attempts.' });
+      }
     }
-
-    res.status(200).json({ prompt: result.choices[0].message.content });
 
   } catch (error) {
     console.error("💥 Error in generatePrompt handler:", error);
-    res.status(500).json({ error: 'Server error while generating prompt. Check event code and config file.' });
+    return res.status(500).json({ error: 'Server error while generating prompt. Check event code and config file.' });
   }
 }
