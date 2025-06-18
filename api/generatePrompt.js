@@ -54,17 +54,16 @@ export default async function handler(req, res) {
     }
 
     const userPrompt = config.promptTemplate({ indicators, exampleRoleplays: examples });
-
     console.log("🧠 Final prompt preview:", userPrompt.slice(0, 400), '...');
 
     try {
       const modelOutput = await fetchPromptFromModel(userPrompt);
-      return res.status(200).json({ prompt: modelOutput });
+      return res.status(200).json({ prompt: modelOutput, indicators });
     } catch (firstError) {
       console.warn("⚠️ First model call failed. Retrying once...", firstError.message);
       try {
         const retryOutput = await fetchPromptFromModel(userPrompt);
-        return res.status(200).json({ prompt: retryOutput });
+        return res.status(200).json({ prompt: retryOutput, indicators });
       } catch (secondError) {
         console.error("❌ Second model call failed:", secondError.message);
         return res.status(500).json({ error: 'Failed to generate prompt after two attempts.' });
