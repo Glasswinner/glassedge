@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ FIX: handle .default.default wrap for ESModules in Vercel/runtime
+    // ✅ Handle ESModule quirks with dynamic import
     const mod = await import(`./data/${eventCode}.js`);
     const config = mod.default?.default || mod.default || mod;
 
@@ -27,8 +27,10 @@ export default async function handler(req, res) {
     ];
     const examples = config.exampleRoleplays;
 
-    if (!Array.isArray(examples) || examples.length < 2 || typeof config.promptTemplate !== 'function') {
+    if (!Array.isArray(examples) || examples.length < 1 || typeof config.promptTemplate !== 'function') {
       console.error("❌ Example roleplays or promptTemplate are missing or invalid");
+      console.error("exampleRoleplays:", examples);
+      console.error("promptTemplate typeof:", typeof config.promptTemplate);
       return res.status(500).json({ error: 'Prompt config is missing example roleplays or template.' });
     }
 
