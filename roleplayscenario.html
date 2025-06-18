@@ -48,15 +48,12 @@
         "- Creativity and Innovation – Show evidence of creativity."
       ];
 
-      const handlePrompt = ({ prompt, indicators }) => {
+      const handlePrompt = ({ prompt }) => {
         promptElement.textContent = prompt;
         localStorage.setItem("glassedge_prompt", prompt);
-        localStorage.setItem("glassedge_indicators", JSON.stringify(indicators));
         preludeElement.innerHTML = `
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
-          <div class="font-semibold text-blue-300 mb-1">PERFORMANCE INDICATORS</div>
-          <ul class="list-disc list-inside text-white">${indicators.map(pi => `<li>${pi}</li>`).join('')}</ul>
         `;
         startTimer();
       };
@@ -72,12 +69,9 @@
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
         promptElement.textContent = fallbackPrompt;
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
-        localStorage.removeItem("glassedge_indicators");
         preludeElement.innerHTML = `
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
-          <div class="font-semibold text-blue-300 mb-1">PERFORMANCE INDICATORS</div>
-          <p class="text-white">See event instructional materials.</p>
         `;
         startTimer();
       } else {
@@ -87,19 +81,12 @@
 
     fetchPromptWithRetry();
   </script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0b0e1a;
-      color: white;
-    }
-  </style>
 </head>
 <body class="min-h-screen bg-[#0b0e1a] text-white">
   <div class="flex h-screen overflow-hidden">
     <div class="w-2/3 p-8 overflow-y-auto">
       <h2 class="text-2xl font-bold text-blue-400 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
-      <div id="prelude-block" class="mb-4 text-base"></div>
+      <div id="prelude-block" class="mb-4"></div>
       <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[90vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
       </div>
