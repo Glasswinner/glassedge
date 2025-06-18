@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  <!-- Custom Styles -->
+  <!-- Styles -->
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -154,26 +154,55 @@
     let subEventChoices;
 
     const subEventMap = {
-      projectManagement: ['PMBS', 'PMCD', 'PMCA'],
-      entrepreneurship: ['EBG', 'EFB'],
-      operationResearch: ['BOR', 'BMOR']
+      projectManagement: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
+      entrepreneurship: ['EBG', 'EFB', 'EIB', 'EIP', 'IBP', 'ESB'],
+      operationResearch: ['BOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
     };
 
     const subEventLabels = {
+      // Project Management
       PMBS: 'Project Management: Business Solutions',
       PMCD: 'Project Management: Career Development',
       PMCA: 'Project Management: Community Awareness',
+      PMCG: 'Project Management: Community Giving',
+      PMFL: 'Project Management: Financial Literacy',
+      PMSP: 'Project Management: Sales Project',
+      // Entrepreneurship
       EBG: 'Entrepreneurship: Business Growth Plan',
       EFB: 'Entrepreneurship: Franchise Business Plan',
+      EIB: 'Entrepreneurship: Innovation Plan',
+      EIP: 'Entrepreneurship: Independent Business Plan',
+      IBP: 'International Business Plan',
+      ESB: 'Entrepreneurship: Startup Business Plan',
+      // Operations Research
       BOR: 'Business Operations Research',
-      BMOR: 'Business Management and Administration OR'
+      BMOR: 'Business Management and Administration OR',
+      FOR: 'Finance Operations Research',
+      HTOR: 'Hospitality and Tourism OR',
+      SEOR: 'Sports and Entertainment Marketing OR'
     };
 
     const fileMap = {
+      // Project Management
+      PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
+      PMCD: ['PMCD 1.pdf', 'PMCD 2.pdf', 'PMCD 3.pdf'],
       PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
-      PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf'],
-      EBG: ['EBG 1.pdf'],
-      BOR: ['BOR 1.pdf']
+      PMCG: ['PMCG 1.pdf', 'PMCG 2.pdf', 'PMCG 3.pdf'],
+      PMFL: ['PMFL 1.pdf', 'PMFL 2.pdf', 'PMFL 3.pdf'],
+      PMSP: ['PMSP 1.pdf', 'PMSP 2.pdf', 'PMSP 3.pdf'],
+      // Entrepreneurship
+      EBG: ['EBG 1.pdf', 'EBG 2.pdf', 'EBG 3.pdf'],
+      EFB: ['EFB 1.pdf', 'EFB 2.pdf', 'EFB 3.pdf'],
+      EIB: ['EIB 1.pdf', 'EIB 2.pdf', 'EIB 3.pdf'],
+      EIP: ['EIP 1.pdf', 'EIP 2.pdf', 'EIP 3.pdf'],
+      IBP: ['IBP 1.pdf', 'IBP 2.pdf', 'IBP 3.pdf'],
+      ESB: ['ESB 1.pdf', 'ESB 2.pdf', 'ESB 3.pdf'],
+      // Operations Research
+      BOR: ['BOR 1.pdf', 'BOR 2.pdf', 'BOR 3.pdf'],
+      BMOR: ['BMOR 1.pdf', 'BMOR 2.pdf', 'BMOR 3.pdf'],
+      FOR: ['FOR 1.pdf', 'FOR 2.pdf', 'FOR 3.pdf'],
+      HTOR: ['HTOR 1.pdf', 'HTOR 2.pdf', 'HTOR 3.pdf'],
+      SEOR: ['SEOR 1.pdf', 'SEOR 2.pdf', 'SEOR 3.pdf']
     };
 
     const eventTypeEl = document.getElementById('eventType');
@@ -190,7 +219,6 @@
       subDescEl.textContent = '';
       pdfViewer.style.display = 'none';
       resultsEl.innerHTML = '';
-
       subEventChoices.clearChoices();
 
       if (subEventMap[selected]) {
@@ -247,3 +275,4 @@
   </script>
 </body>
 </html>
+
