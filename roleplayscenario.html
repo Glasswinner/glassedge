@@ -50,29 +50,60 @@
     const eventCode = urlParams.get("event") || "PFN";
     document.getElementById("event-code").textContent = eventCode;
 
-    async function fetchPrompt() {
-      const promptElement = document.getElementById("generated-prompt");
+    async function fetchWithTimeout(url, options = {}, timeout = 59000) {
+      return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout))
+      ]);
+    }
+
+    async function fetchPromptAttempt() {
       try {
-        const res = await fetch('/api/generatePrompt', {
+        const res = await fetchWithTimeout('/api/generatePrompt', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ eventCode })
         });
+
         const data = await res.json();
         if (res.ok && data.prompt) {
-          promptElement.textContent = data.prompt;
-          localStorage.setItem("glassedge_prompt", data.prompt);
-          startTimer();
+          return data.prompt;
         } else {
-          promptElement.textContent = "❌ Failed to generate a prompt.";
+          console.warn("No prompt returned in response:", data);
+          return null;
         }
       } catch (err) {
-        console.error(err);
-        promptElement.textContent = "❌ Network error.";
+        console.warn("Prompt fetch attempt failed:", err.message);
+        return null;
       }
     }
 
-    fetchPrompt();
+    async function fetchPromptWithRetry() {
+      const promptElement = document.getElementById("generated-prompt");
+
+      const prompt1 = await fetchPromptAttempt();
+      if (prompt1) {
+        promptElement.textContent = prompt1;
+        localStorage.setItem("glassedge_prompt", prompt1);
+        startTimer();
+        return;
+      }
+
+      // Retry only if prompt hasn't been filled yet
+      if (promptElement.textContent.includes("Generating")) {
+        console.log("Retrying prompt fetch...");
+        const prompt2 = await fetchPromptAttempt();
+        if (prompt2) {
+          promptElement.textContent = prompt2;
+          localStorage.setItem("glassedge_prompt", prompt2);
+          startTimer();
+        } else {
+          promptElement.textContent = "❌ Failed to generate a prompt after retry.";
+        }
+      }
+    }
+
+    fetchPromptWithRetry();
 
     let seconds = 600;
     const timerDisplay = document.getElementById("timer");
