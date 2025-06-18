@@ -33,7 +33,7 @@
 
         const data = await res.json();
         if (res.ok && data.prompt) {
-          return data.prompt;
+          return data;
         } else {
           console.warn("No prompt returned in response:", data);
           return null;
@@ -46,33 +46,56 @@
 
     async function fetchPromptWithRetry() {
       const promptElement = document.getElementById("generated-prompt");
+      const preludeElement = document.getElementById("prelude-block");
 
-      const prompt1 = await fetchPromptAttempt();
-      if (prompt1) {
-        promptElement.textContent = prompt1;
-        localStorage.setItem("glassedge_prompt", prompt1);
+      const skills = [
+        "- Critical Thinking – Reason effectively and use systems thinking.",
+        "- Communication – Communicate clearly.",
+        "- Creativity and Innovation – Show evidence of creativity."
+      ];
+
+      const firstTry = await fetchPromptAttempt();
+      if (firstTry) {
+        const { prompt, indicators } = firstTry;
+        promptElement.textContent = prompt;
+        localStorage.setItem("glassedge_prompt", prompt);
+        localStorage.setItem("glassedge_indicators", JSON.stringify(indicators));
+        preludeElement.textContent =
+          `21st CENTURY SKILLS\n` +
+          skills.join("\n") +
+          `\n\nPERFORMANCE INDICATORS\n` +
+          indicators.map(i => `- ${i}`).join("\n");
         startTimer();
         return;
       }
 
-      if (promptElement.textContent.includes("Generating")) {
-        console.log("Retrying prompt fetch...");
-        const prompt2 = await fetchPromptAttempt();
-        if (prompt2) {
-          promptElement.textContent = prompt2;
-          localStorage.setItem("glassedge_prompt", prompt2);
-          startTimer();
-        } else {
-          const bank = roleplayBanks[eventCode];
-          if (bank && bank.length > 0) {
-            const fallbackPrompt = bank[Math.floor(Math.random() * bank.length)];
-            promptElement.textContent = fallbackPrompt;
-            localStorage.setItem("glassedge_prompt", fallbackPrompt);
-            startTimer();
-          } else {
-            promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
-          }
-        }
+      const secondTry = await fetchPromptAttempt();
+      if (secondTry) {
+        const { prompt, indicators } = secondTry;
+        promptElement.textContent = prompt;
+        localStorage.setItem("glassedge_prompt", prompt);
+        localStorage.setItem("glassedge_indicators", JSON.stringify(indicators));
+        preludeElement.textContent =
+          `21st CENTURY SKILLS\n` +
+          skills.join("\n") +
+          `\n\nPERFORMANCE INDICATORS\n` +
+          indicators.map(i => `- ${i}`).join("\n");
+        startTimer();
+        return;
+      }
+
+      const bank = roleplayBanks[eventCode];
+      if (bank && bank.length > 0) {
+        const fallbackPrompt = bank[Math.floor(Math.random() * bank.length)];
+        promptElement.textContent = fallbackPrompt;
+        localStorage.setItem("glassedge_prompt", fallbackPrompt);
+        preludeElement.textContent =
+          `21st CENTURY SKILLS\n` +
+          skills.join("\n") +
+          `\n\nPERFORMANCE INDICATORS\nSee event instructional materials.`;
+        startTimer();
+      } else {
+        promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
       }
     }
 
@@ -90,6 +113,7 @@
   <div class="flex h-screen overflow-hidden">
     <div class="w-2/3 p-8 overflow-y-auto">
       <h2 class="text-2xl font-bold text-blue-400 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
+      <pre id="prelude-block" class="mb-4 text-white text-base whitespace-pre-wrap"></pre>
       <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[90vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
       </div>
@@ -117,6 +141,7 @@
     </div>
   </div>
 
+  <!-- Timer and Recording Scripts remain unchanged -->
   <script>
     let seconds = 600;
     const timerDisplay = document.getElementById("timer");
