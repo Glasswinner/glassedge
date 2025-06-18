@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Choose Written Event | GlassEDGE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -29,11 +29,12 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0b0e1a]">
+<body class="min-h-screen flex items-center justify-center px-4 py-12">
   <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl scale-[1.15]">
     <!-- Left Section -->
     <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
       <h1 class="text-4xl md:text-5xl font-bold mb-6 glow">Choose your written event:</h1>
+
       <div class="w-full mb-6">
         <label for="event-type" class="block mb-2 text-lg font-semibold">Select event category:</label>
         <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
@@ -44,13 +45,16 @@
           <option value="research">Operations Research</option>
         </select>
       </div>
+
       <div id="event-container" class="w-full mb-6 hidden">
-        <label for="event" class="block mb-2 text-lg font-semibold">Select written event:</label>
+        <label for="event" class="block mb-2 text-lg font-semibold">Select sub-event:</label>
         <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
       </div>
-      <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
+
+      <button id="view-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
         View Examples
       </button>
+
       <a href="index.html" class="block mt-6 text-blue-400 hover:underline">&larr; Return to Home</a>
     </div>
 
@@ -87,7 +91,7 @@
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
     const eventSelect = document.getElementById('event');
-    const generateBtn = document.getElementById('generate-btn');
+    const viewBtn = document.getElementById('view-btn');
 
     const events = {
       project: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
@@ -96,25 +100,30 @@
       research: ['BSOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
     };
 
-    const labels = {
-      PMBS: 'Business Solutions',
-      PMCD: 'Career Development',
-      PMCA: 'Community Awareness',
-      PMCG: 'Community Giving',
-      PMFL: 'Financial Literacy',
-      PMSP: 'Sales Project',
-      EFB: 'Franchise Business Plan',
-      EBG: 'Business Growth Plan',
-      EIB: 'Innovation Plan',
-      EIP: 'Independent Business Plan',
-      IBP: 'International Business Plan',
-      ESB: 'Startup Business Plan',
-      IMCE: 'Marketing Campaign – Event',
-      IMCP: 'Marketing Campaign – Product',
-      IMCS: 'Marketing Campaign – Service',
-      BSOR: 'Business Services OR',
-      BMOR: 'Management/Admin OR',
-      FOR: 'Finance OR',
-      HTOR: 'Hospitality/Tourism OR',
-      SEOR: 'Sports/Entertainment OR'
-    };
+    eventTypeSelect.addEventListener('change', function () {
+      const selectedType = this.value;
+      const options = events[selectedType] || [];
+      eventSelect.innerHTML = '<option disabled selected value="">-- Select Sub-Event --</option>';
+      options.forEach(code => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = code;
+        eventSelect.appendChild(opt);
+      });
+      eventContainer.classList.remove('hidden');
+      viewBtn.disabled = true;
+    });
+
+    eventSelect.addEventListener('change', function () {
+      viewBtn.disabled = false;
+    });
+
+    viewBtn.addEventListener('click', function () {
+      const eventCode = eventSelect.value;
+      if (eventCode) {
+        window.location.href = `written.html?event=${eventCode}`;
+      }
+    });
+  </script>
+</body>
+</html>
