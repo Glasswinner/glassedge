@@ -169,7 +169,7 @@ IMPORTANT RULES:
 - Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
 - The response must not include rubrics, judge instructions, expected responses, or DECA branding.
 - Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- Match the length and structure of the two example roleplays. Do not shorten.
+- Match the length and structure of the two example roleplays. Do not shorten. The user must be in a career related to: careers in administrative services, business information management, general management, human resources management, and operations management.
 
 Use the following style: **${style}**
 ${
