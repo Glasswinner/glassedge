@@ -15,55 +15,56 @@
 
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #e3f2fd, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
       margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #d0e8ff, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
     }
 
     .container {
       background: white;
-      padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 700px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      padding: 40px 30px;
+      max-width: 720px;
       width: 100%;
     }
 
     h1 {
       text-align: center;
       color: #1565c0;
-      margin-bottom: 25px;
-      font-size: 28px;
+      font-size: 32px;
+      margin-bottom: 30px;
     }
 
     label {
-      font-weight: 600;
       display: block;
-      margin-top: 20px;
-      margin-bottom: 8px;
+      margin: 20px 0 8px;
+      font-weight: 600;
       color: #333;
     }
 
     select, button {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     button {
       background-color: #1565c0;
       color: white;
-      border: none;
       font-weight: 600;
-      margin-top: 20px;
+      margin-top: 25px;
+      border: none;
       cursor: pointer;
+      transition: background 0.2s ease;
     }
 
     button:hover {
@@ -72,50 +73,54 @@
 
     .desc {
       font-size: 14px;
-      color: #666;
+      color: #555;
       margin-top: 5px;
     }
 
     .results {
-      margin-top: 30px;
+      margin-top: 35px;
     }
 
     .file-entry {
+      background: #f1f9ff;
+      border-left: 6px solid #1565c0;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border-radius: 10px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      background: #e3f2fd;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin: 10px 0;
-      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .file-entry a {
       text-decoration: none;
-      color: #0d47a1;
       font-weight: 500;
+      color: #0d47a1;
+      font-size: 16px;
     }
 
     .file-entry a.download {
-      background-color: #1565c0;
+      background: #1565c0;
       color: white;
-      padding: 8px 10px;
+      padding: 8px 12px;
       border-radius: 6px;
+      font-size: 14px;
+      margin-top: 8px;
     }
 
     iframe {
-      margin-top: 20px;
+      margin-top: 30px;
       width: 100%;
       height: 500px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       display: none;
     }
 
     .choices__inner {
-      padding: 12px !important;
-      border-radius: 8px !important;
+      padding: 14px !important;
+      border-radius: 10px !important;
       font-size: 16px !important;
     }
 
@@ -128,22 +133,22 @@
   <div class="container">
     <h1>DECA Written Events</h1>
 
-    <label for="eventType">Choose an event type:</label>
+    <label for="eventType">Select an Event Category:</label>
     <select id="eventType">
-      <option value="">-- Select --</option>
+      <option value="">-- Choose Category --</option>
       <option value="projectManagement">Project Management</option>
       <option value="entrepreneurship">Entrepreneurship</option>
       <option value="operationResearch">Operations Research</option>
       <option value="marketing">Integrated Marketing</option>
     </select>
 
-    <label for="subEvent">Choose a sub-event:</label>
+    <label for="subEvent">Select a Sub-Event:</label>
     <select id="subEvent">
-      <option value="">-- Select a main event type first --</option>
+      <option value="">-- Choose an event type first --</option>
     </select>
     <div class="desc" id="subDesc"></div>
 
-    <button onclick="showExamples()">🔍 Lock In Search</button>
+    <button onclick="showExamples()">🔍 Show Event Examples</button>
 
     <div class="results" id="results"></div>
     <iframe id="pdfViewer"></iframe>
@@ -160,31 +165,28 @@
     };
 
     const subEventLabels = {
-      // Project Management
       PMBS: 'Project Management: Business Solutions',
       PMCD: 'Project Management: Career Development',
       PMCA: 'Project Management: Community Awareness',
       PMCG: 'Project Management: Community Giving',
       PMFL: 'Project Management: Financial Literacy',
       PMSP: 'Project Management: Sales Project',
-      // Entrepreneurship
       EFB: 'Franchise Business Plan (EFB)',
       EBG: 'Business Growth Plan (EBG)',
       EIB: 'Innovation Plan (EIB)',
       EIP: 'Independent Business Plan (EIP)',
       IBP: 'International Business Plan (IBP)',
       ESB: 'Start-Up Business Plan (ESB)',
-      // Integrated Marketing
       IMCE: 'Integrated Marketing Campaign – Event',
       IMCP: 'Integrated Marketing Campaign – Product',
       IMCS: 'Integrated Marketing Campaign – Service',
-      // Operations Research
       BSOR: 'Business Services Operations Research',
       BMOR: 'Business Management and Administration OR',
       FOR: 'Finance Operations Research',
       HTOR: 'Hospitality and Tourism OR',
       SEOR: 'Sports and Entertainment Marketing OR'
-    };    const fileMap = {
+    };
+    const fileMap = {
       // Project Management
       PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
       PMCD: ['PMCD 1.pdf', 'PMCD 2.pdf', 'PMCD 3.pdf'],
@@ -281,5 +283,3 @@
   </script>
 </body>
 </html>
-
-
