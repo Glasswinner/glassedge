@@ -262,7 +262,7 @@ Rephrase and expand the student’s task. Include specific actions they must tak
 
 Paragraph 4: Flow of Roleplay  
 Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes.  
-🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
+🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you. At the end, display the four performance indicators."
 
 IMPORTANT RULES:
 - Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
