@@ -9,11 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-  <!-- Choices.js (Searchable Dropdown) -->
+  <!-- Choices.js -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  <!-- Styles -->
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -114,7 +113,6 @@
       display: none;
     }
 
-    /* Fix Choices styles */
     .choices__inner {
       padding: 12px !important;
       border-radius: 8px !important;
@@ -135,7 +133,8 @@
       <option value="">-- Select --</option>
       <option value="projectManagement">Project Management</option>
       <option value="entrepreneurship">Entrepreneurship</option>
-      <option value="operationResearch">Operation Research</option>
+      <option value="operationResearch">Operations Research</option>
+      <option value="marketing">Integrated Marketing</option>
     </select>
 
     <label for="subEvent">Choose a sub-event:</label>
@@ -155,8 +154,9 @@
 
     const subEventMap = {
       projectManagement: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
-      entrepreneurship: ['EBG', 'EFB', 'EIB', 'EIP', 'IBP', 'ESB'],
-      operationResearch: ['BOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
+      entrepreneurship: ['EFB', 'EBG', 'EIB', 'EIP', 'IBP', 'ESB'],
+      operationResearch: ['BSOR', 'BMOR', 'FOR', 'HTOR', 'SEOR'],
+      marketing: ['IMCE', 'IMCP', 'IMCS']
     };
 
     const subEventLabels = {
@@ -168,21 +168,23 @@
       PMFL: 'Project Management: Financial Literacy',
       PMSP: 'Project Management: Sales Project',
       // Entrepreneurship
-      EBG: 'Entrepreneurship: Business Growth Plan',
-      EFB: 'Entrepreneurship: Franchise Business Plan',
-      EIB: 'Entrepreneurship: Innovation Plan',
-      EIP: 'Entrepreneurship: Independent Business Plan',
-      IBP: 'International Business Plan',
-      ESB: 'Entrepreneurship: Startup Business Plan',
+      EFB: 'Franchise Business Plan (EFB)',
+      EBG: 'Business Growth Plan (EBG)',
+      EIB: 'Innovation Plan (EIB)',
+      EIP: 'Independent Business Plan (EIP)',
+      IBP: 'International Business Plan (IBP)',
+      ESB: 'Start-Up Business Plan (ESB)',
+      // Integrated Marketing
+      IMCE: 'Integrated Marketing Campaign – Event',
+      IMCP: 'Integrated Marketing Campaign – Product',
+      IMCS: 'Integrated Marketing Campaign – Service',
       // Operations Research
-      BOR: 'Business Operations Research',
+      BSOR: 'Business Services Operations Research',
       BMOR: 'Business Management and Administration OR',
       FOR: 'Finance Operations Research',
       HTOR: 'Hospitality and Tourism OR',
       SEOR: 'Sports and Entertainment Marketing OR'
-    };
-
-    const fileMap = {
+    };    const fileMap = {
       // Project Management
       PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
       PMCD: ['PMCD 1.pdf', 'PMCD 2.pdf', 'PMCD 3.pdf'],
@@ -191,14 +193,18 @@
       PMFL: ['PMFL 1.pdf', 'PMFL 2.pdf', 'PMFL 3.pdf'],
       PMSP: ['PMSP 1.pdf', 'PMSP 2.pdf', 'PMSP 3.pdf'],
       // Entrepreneurship
-      EBG: ['EBG 1.pdf', 'EBG 2.pdf', 'EBG 3.pdf'],
       EFB: ['EFB 1.pdf', 'EFB 2.pdf', 'EFB 3.pdf'],
+      EBG: ['EBG 1.pdf', 'EBG 2.pdf', 'EBG 3.pdf'],
       EIB: ['EIB 1.pdf', 'EIB 2.pdf', 'EIB 3.pdf'],
       EIP: ['EIP 1.pdf', 'EIP 2.pdf', 'EIP 3.pdf'],
       IBP: ['IBP 1.pdf', 'IBP 2.pdf', 'IBP 3.pdf'],
       ESB: ['ESB 1.pdf', 'ESB 2.pdf', 'ESB 3.pdf'],
+      // Integrated Marketing
+      IMCE: ['IMCE 1.pdf', 'IMCE 2.pdf', 'IMCE 3.pdf'],
+      IMCP: ['IMCP 1.pdf', 'IMCP 2.pdf', 'IMCP 3.pdf'],
+      IMCS: ['IMCS 1.pdf', 'IMCS 2.pdf', 'IMCS 3.pdf'],
       // Operations Research
-      BOR: ['BOR 1.pdf', 'BOR 2.pdf', 'BOR 3.pdf'],
+      BSOR: ['BSOR 1.pdf', 'BSOR 2.pdf', 'BSOR 3.pdf'],
       BMOR: ['BMOR 1.pdf', 'BMOR 2.pdf', 'BMOR 3.pdf'],
       FOR: ['FOR 1.pdf', 'FOR 2.pdf', 'FOR 3.pdf'],
       HTOR: ['HTOR 1.pdf', 'HTOR 2.pdf', 'HTOR 3.pdf'],
@@ -275,4 +281,5 @@
   </script>
 </body>
 </html>
+
 
