@@ -3,283 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DECA Written Events</title>
-
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-  <!-- Choices.js -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-
+  <title>Choose Written Event | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      margin: 0;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #d0e8ff, #ffffff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-      padding: 40px 30px;
-      max-width: 720px;
-      width: 100%;
-    }
-
-    h1 {
-      text-align: center;
-      color: #1565c0;
-      font-size: 32px;
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      margin: 20px 0 8px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    select, button {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    button {
-      background-color: #1565c0;
+      background: linear-gradient(to bottom, #0b0e1a 75%, #1e1446);
       color: white;
-      font-weight: 600;
-      margin-top: 25px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s ease;
     }
-
-    button:hover {
-      background-color: #0d47a1;
+    .glow {
+      text-shadow: 0 0 12px #a855f7;
     }
-
-    .desc {
-      font-size: 14px;
-      color: #555;
-      margin-top: 5px;
+    .scroll-box {
+      animation: scrollUp 18s linear infinite;
     }
-
-    .results {
-      margin-top: 35px;
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
     }
-
-    .file-entry {
-      background: #f1f9ff;
-      border-left: 6px solid #1565c0;
-      padding: 16px 20px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .file-entry a {
-      text-decoration: none;
-      font-weight: 500;
-      color: #0d47a1;
-      font-size: 16px;
-    }
-
-    .file-entry a.download {
-      background: #1565c0;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-top: 8px;
-    }
-
-    iframe {
-      margin-top: 30px;
-      width: 100%;
-      height: 500px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      display: none;
-    }
-
-    .choices__inner {
-      padding: 14px !important;
-      border-radius: 10px !important;
-      font-size: 16px !important;
-    }
-
-    .choices {
-      margin-bottom: 10px;
+    .event-border {
+      border: 2px solid rgba(168, 85, 247, 0.4);
+      border-radius: 12px;
+      padding: 12px;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>DECA Written Events</h1>
+<body class="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0b0e1a]">
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl scale-[1.15]">
+    <!-- Left Section -->
+    <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 glow">Choose your written event:</h1>
+      <div class="w-full mb-6">
+        <label for="event-type" class="block mb-2 text-lg font-semibold">Select event category:</label>
+        <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
+          <option disabled selected value="">-- Select Event Type --</option>
+          <option value="project">Project Management</option>
+          <option value="entrepreneurship">Entrepreneurship</option>
+          <option value="marketing">Integrated Marketing</option>
+          <option value="research">Operations Research</option>
+        </select>
+      </div>
+      <div id="event-container" class="w-full mb-6 hidden">
+        <label for="event" class="block mb-2 text-lg font-semibold">Select written event:</label>
+        <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
+      </div>
+      <button id="generate-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
+        View Examples
+      </button>
+      <a href="index.html" class="block mt-6 text-blue-400 hover:underline">&larr; Return to Home</a>
+    </div>
 
-    <label for="eventType">Select an Event Category:</label>
-    <select id="eventType">
-      <option value="">-- Choose Category --</option>
-      <option value="projectManagement">Project Management</option>
-      <option value="entrepreneurship">Entrepreneurship</option>
-      <option value="operationResearch">Operations Research</option>
-      <option value="marketing">Integrated Marketing</option>
-    </select>
-
-    <label for="subEvent">Select a Sub-Event:</label>
-    <select id="subEvent">
-      <option value="">-- Choose an event type first --</option>
-    </select>
-    <div class="desc" id="subDesc"></div>
-
-    <button onclick="showExamples()">🔍 Show Event Examples</button>
-
-    <div class="results" id="results"></div>
-    <iframe id="pdfViewer"></iframe>
+    <!-- Right Scrolling Section -->
+    <div class="w-full md:w-1/2 max-h-[360px] overflow-hidden relative event-border">
+      <div class="scroll-box space-y-4">
+        <div class="space-y-4">
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">PMBS – Business Solutions</div>
+          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">PMCD – Career Development</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">PMCA – Community Awareness</div>
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">PMCG – Community Giving</div>
+          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">PMFL – Financial Literacy</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">PMSP – Sales Project</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">EFB – Franchise Plan</div>
+          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">EBG – Business Growth</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">EIB – Innovation Plan</div>
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">EIP – Independent Plan</div>
+          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">IBP – International Plan</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">ESB – Startup Plan</div>
+          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">IMCE – Marketing Campaign: Event</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">IMCP – Marketing Campaign: Product</div>
+          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">IMCS – Marketing Campaign: Service</div>
+          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">BSOR – Business Services OR</div>
+          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">BMOR – Mgmt/Admin OR</div>
+          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">FOR – Finance OR</div>
+          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">HTOR – Hospitality/Tourism OR</div>
+          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">SEOR – Sports/Ent Marketing OR</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    let subEventChoices;
+    const eventTypeSelect = document.getElementById('event-type');
+    const eventContainer = document.getElementById('event-container');
+    const eventSelect = document.getElementById('event');
+    const generateBtn = document.getElementById('generate-btn');
 
-    const subEventMap = {
-      projectManagement: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
+    const events = {
+      project: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
       entrepreneurship: ['EFB', 'EBG', 'EIB', 'EIP', 'IBP', 'ESB'],
-      operationResearch: ['BSOR', 'BMOR', 'FOR', 'HTOR', 'SEOR'],
-      marketing: ['IMCE', 'IMCP', 'IMCS']
+      marketing: ['IMCE', 'IMCP', 'IMCS'],
+      research: ['BSOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
     };
 
-    const subEventLabels = {
-      PMBS: 'Project Management: Business Solutions',
-      PMCD: 'Project Management: Career Development',
-      PMCA: 'Project Management: Community Awareness',
-      PMCG: 'Project Management: Community Giving',
-      PMFL: 'Project Management: Financial Literacy',
-      PMSP: 'Project Management: Sales Project',
-      EFB: 'Franchise Business Plan (EFB)',
-      EBG: 'Business Growth Plan (EBG)',
-      EIB: 'Innovation Plan (EIB)',
-      EIP: 'Independent Business Plan (EIP)',
-      IBP: 'International Business Plan (IBP)',
-      ESB: 'Start-Up Business Plan (ESB)',
-      IMCE: 'Integrated Marketing Campaign – Event',
-      IMCP: 'Integrated Marketing Campaign – Product',
-      IMCS: 'Integrated Marketing Campaign – Service',
-      BSOR: 'Business Services Operations Research',
-      BMOR: 'Business Management and Administration OR',
-      FOR: 'Finance Operations Research',
-      HTOR: 'Hospitality and Tourism OR',
-      SEOR: 'Sports and Entertainment Marketing OR'
+    const labels = {
+      PMBS: 'Business Solutions',
+      PMCD: 'Career Development',
+      PMCA: 'Community Awareness',
+      PMCG: 'Community Giving',
+      PMFL: 'Financial Literacy',
+      PMSP: 'Sales Project',
+      EFB: 'Franchise Business Plan',
+      EBG: 'Business Growth Plan',
+      EIB: 'Innovation Plan',
+      EIP: 'Independent Business Plan',
+      IBP: 'International Business Plan',
+      ESB: 'Startup Business Plan',
+      IMCE: 'Marketing Campaign – Event',
+      IMCP: 'Marketing Campaign – Product',
+      IMCS: 'Marketing Campaign – Service',
+      BSOR: 'Business Services OR',
+      BMOR: 'Management/Admin OR',
+      FOR: 'Finance OR',
+      HTOR: 'Hospitality/Tourism OR',
+      SEOR: 'Sports/Entertainment OR'
     };
-    const fileMap = {
-      // Project Management
-      PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
-      PMCD: ['PMCD 1.pdf', 'PMCD 2.pdf', 'PMCD 3.pdf'],
-      PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
-      PMCG: ['PMCG 1.pdf', 'PMCG 2.pdf', 'PMCG 3.pdf'],
-      PMFL: ['PMFL 1.pdf', 'PMFL 2.pdf', 'PMFL 3.pdf'],
-      PMSP: ['PMSP 1.pdf', 'PMSP 2.pdf', 'PMSP 3.pdf'],
-      // Entrepreneurship
-      EFB: ['EFB 1.pdf', 'EFB 2.pdf', 'EFB 3.pdf'],
-      EBG: ['EBG 1.pdf', 'EBG 2.pdf', 'EBG 3.pdf'],
-      EIB: ['EIB 1.pdf', 'EIB 2.pdf', 'EIB 3.pdf'],
-      EIP: ['EIP 1.pdf', 'EIP 2.pdf', 'EIP 3.pdf'],
-      IBP: ['IBP 1.pdf', 'IBP 2.pdf', 'IBP 3.pdf'],
-      ESB: ['ESB 1.pdf', 'ESB 2.pdf', 'ESB 3.pdf'],
-      // Integrated Marketing
-      IMCE: ['IMCE 1.pdf', 'IMCE 2.pdf', 'IMCE 3.pdf'],
-      IMCP: ['IMCP 1.pdf', 'IMCP 2.pdf', 'IMCP 3.pdf'],
-      IMCS: ['IMCS 1.pdf', 'IMCS 2.pdf', 'IMCS 3.pdf'],
-      // Operations Research
-      BSOR: ['BSOR 1.pdf', 'BSOR 2.pdf', 'BSOR 3.pdf'],
-      BMOR: ['BMOR 1.pdf', 'BMOR 2.pdf', 'BMOR 3.pdf'],
-      FOR: ['FOR 1.pdf', 'FOR 2.pdf', 'FOR 3.pdf'],
-      HTOR: ['HTOR 1.pdf', 'HTOR 2.pdf', 'HTOR 3.pdf'],
-      SEOR: ['SEOR 1.pdf', 'SEOR 2.pdf', 'SEOR 3.pdf']
-    };
-
-    const eventTypeEl = document.getElementById('eventType');
-    const subEventEl = document.getElementById('subEvent');
-    const resultsEl = document.getElementById('results');
-    const subDescEl = document.getElementById('subDesc');
-    const pdfViewer = document.getElementById('pdfViewer');
-
-    const eventChoices = new Choices(eventTypeEl, { searchEnabled: true });
-    subEventChoices = new Choices(subEventEl, { searchEnabled: true });
-
-    eventTypeEl.addEventListener('change', (e) => {
-      const selected = e.target.value;
-      subDescEl.textContent = '';
-      pdfViewer.style.display = 'none';
-      resultsEl.innerHTML = '';
-      subEventChoices.clearChoices();
-
-      if (subEventMap[selected]) {
-        const newOptions = subEventMap[selected].map(code => ({
-          value: code,
-          label: subEventLabels[code] || code
-        }));
-        subEventChoices.setChoices(newOptions, 'value', 'label', true);
-      }
-    });
-
-    subEventEl.addEventListener('change', () => {
-      const selectedSub = subEventEl.value;
-      subDescEl.textContent = subEventLabels[selectedSub] || '';
-      resultsEl.innerHTML = '';
-      pdfViewer.style.display = 'none';
-    });
-
-    function showExamples() {
-      const subEvent = subEventEl.value;
-      resultsEl.innerHTML = '';
-      pdfViewer.style.display = 'none';
-
-      const files = fileMap[subEvent];
-      if (!files) {
-        resultsEl.textContent = 'No files available.';
-        return;
-      }
-
-      files.forEach(file => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'file-entry';
-
-        const viewLink = document.createElement('a');
-        viewLink.href = `./pdfs/${file}`;
-        viewLink.innerHTML = `<i class="fas fa-file-pdf"></i> ${file}`;
-        viewLink.onclick = (e) => {
-          e.preventDefault();
-          pdfViewer.src = `./pdfs/${file}`;
-          pdfViewer.style.display = 'block';
-        };
-
-        const downloadBtn = document.createElement('a');
-        downloadBtn.href = `./pdfs/${file}`;
-        downloadBtn.download = file;
-        downloadBtn.className = 'download';
-        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
-
-        wrapper.appendChild(viewLink);
-        wrapper.appendChild(downloadBtn);
-        resultsEl.appendChild(wrapper);
-      });
-    }
-  </script>
-</body>
-</html>
