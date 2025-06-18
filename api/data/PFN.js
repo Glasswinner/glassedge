@@ -274,7 +274,7 @@ Use the following style: **${style}**
 ${
       style === "Foundational Style"
         ? "Create a scenario where the student’s responsibilities naturally involve applying the indicators. Example: helping a customer, assisting a colleague, or reporting to a supervisor. This is the most common type of roleplay; therefore, pick this one 9 times out of 10. Furthermore, as a general instruction applying despite which type of roleplay you pick, do not include a scenario logic section at the bottom of the roleplay."
-        : "Create a realistic business problem that the student must solve using the indicators. The scenario should require their judgment, analysis, or communication."
+        : "Create a realistic business problem that the student must solve using the indicators. The scenario should require their judgment, analysis, or communication.The level of indepth knowledge mustn't be much greater than the example roleplay."
     }
     `.trim();
   }
