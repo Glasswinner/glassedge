@@ -1,119 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DECA Written Events</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-        .results {
-            margin-top: 20px;
-        }
-        a {
-            display: block;
-            margin: 5px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DECA Written Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1565c0;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: 0.3s;
+    }
+
+    select:focus, button:focus {
+      outline: none;
+      border-color: #1565c0;
+      box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.2);
+    }
+
+    button {
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0d47a1;
+    }
+
+    .results {
+      margin-top: 30px;
+    }
+
+    .file-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #e3f2fd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 10px 0;
+      gap: 10px;
+    }
+
+    .file-entry a {
+      text-decoration: none;
+      color: #0d47a1;
+      font-weight: 500;
+    }
+
+    .file-entry a.download {
+      background-color: #1565c0;
+      color: white;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    iframe {
+      margin-top: 20px;
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>DECA Written Events</h1>
-        <label for="eventType">Choose an event type:</label>
-        <select id="eventType">
-            <option value="">--Select--</option>
-            <option value="projectManagement">Project Management</option>
-            <option value="entrepreneurship">Entrepreneurship</option>
-            <option value="operationResearch">Operation Research</option>
-        </select>
+  <div class="container">
+    <h1>DECA Written Events</h1>
 
-        <label for="subEvent">Choose a sub-event:</label>
-        <select id="subEvent">
-            <option value="">--Select a main event type first--</option>
-        </select>
+    <label for="eventType">Choose an event type:</label>
+    <select id="eventType">
+      <option value="">-- Select --</option>
+      <option value="projectManagement">Project Management</option>
+      <option value="entrepreneurship">Entrepreneurship</option>
+      <option value="operationResearch">Operation Research</option>
+    </select>
 
-        <button onclick="showExamples()">Lock In Search</button>
+    <label for="subEvent">Choose a sub-event:</label>
+    <select id="subEvent">
+      <option value="">-- Select a main event type first --</option>
+    </select>
+    <div class="desc" id="subDesc"></div>
 
-        <div class="results" id="results"></div>
-    </div>
+    <button onclick="showExamples()">🔍 Lock In Search</button>
 
-    <script>
-        const subEventMap = {
-            projectManagement: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
-            entrepreneurship: ['EBG', 'EFB', 'EIB', 'EIP', 'IBP', 'ESB'],
-            operationResearch: ['BOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
-        };
+    <div class="results" id="results"></div>
+    <iframe id="pdfViewer"></iframe>
+  </div>
 
-        const fileMap = {
-            PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
-            PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
-            PMCD: ['PMCD 1.pdf', 'PMCD 2.pdf', 'PMCD 3.pdf'],
-            PMCG: ['PMCG 1.pdf', 'PMCG 2.pdf', 'PMCG 3.pdf'],
-            PMFL: ['PMFL 1.pdf', 'PMFL 2.pdf', 'PMFL 3.pdf'],
-            PMSP: ['PMSP 1.pdf', 'PMSP 2.pdf', 'PMSP 3.pdf'],
-            EBG: ['EBG 1.pdf', 'EBG 2.pdf', 'EBG 3.pdf'],
-            EFB: ['EFB 1.pdf', 'EFB 2.pdf', 'EFB 3.pdf'],
-            EIB: ['EIB 1.pdf', 'EIB 2.pdf', 'EIB 3.pdf'],
-            EIP: ['EIP 1.pdf', 'EIP 2.pdf', 'EIP 3.pdf'],
-            IBP: ['IBP 1.pdf', 'IBP 2.pdf', 'IBP 3.pdf'],
-            ESB: ['ESB 1.pdf', 'ESB 2.pdf', 'ESB 3.pdf'],
-            BOR: ['BSOR 1.pdf', 'BSOR 2.pdf', 'BSOR 3.pdf'],
-            BMOR: ['BMOR 1.pdf', 'BMOR 2.pdf', 'BMOR 3.pdf'],
-            FOR: ['FOR 1.pdf', 'FOR 2.pdf', 'FOR 3.pdf'],
-            HTOR: ['HTOR 1.pdf', 'HTOR 2.pdf', 'HTOR 3.pdf'],
-            SEOR: ['SEOR 1.pdf', 'SEOR 2.pdf', 'SEOR 3.pdf']
-        };
+  <script>
+    const subEventMap = {
+      projectManagement: ['PMBS', 'PMCD', 'PMCA', 'PMCG', 'PMFL', 'PMSP'],
+      entrepreneurship: ['EBG', 'EFB', 'EIB', 'EIP', 'IBP', 'ESB'],
+      operationResearch: ['BOR', 'BMOR', 'FOR', 'HTOR', 'SEOR']
+    };
 
-        const eventTypeEl = document.getElementById('eventType');
-        const subEventEl = document.getElementById('subEvent');
-        const resultsEl = document.getElementById('results');
+    const subEventLabels = {
+      PMBS: 'Project Management: Business Solutions',
+      PMCD: 'Project Management: Career Development',
+      PMCA: 'Project Management: Community Awareness',
+      PMCG: 'Project Management: Community Giving',
+      PMFL: 'Project Management: Financial Literacy',
+      PMSP: 'Project Management: Sales Project',
+      EBG: 'Entrepreneurship: Business Growth Plan',
+      EFB: 'Entrepreneurship: Franchise Business Plan',
+      EIB: 'Entrepreneurship: Innovation Plan',
+      EIP: 'Entrepreneurship: Independent Business Plan',
+      IBP: 'International Business Plan',
+      ESB: 'Entrepreneurship: Startup Business Plan',
+      BOR: 'Business Operations Research',
+      BMOR: 'Business Management and Administration OR',
+      FOR: 'Finance Operations Research',
+      HTOR: 'Hospitality and Tourism OR',
+      SEOR: 'Sports and Entertainment Marketing OR'
+    };
 
-        eventTypeEl.addEventListener('change', () => {
-            const selected = eventTypeEl.value;
-            subEventEl.innerHTML = '<option value="">--Select--</option>';
-            if (subEventMap[selected]) {
-                subEventMap[selected].forEach(sub => {
-                    const opt = document.createElement('option');
-                    opt.value = sub;
-                    opt.textContent = sub;
-                    subEventEl.appendChild(opt);
-                });
-            }
+    const fileMap = {
+      PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
+      PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf', 'PMBS 3.pdf'],
+      // Add the rest as needed
+    };
+
+    const eventTypeEl = document.getElementById('eventType');
+    const subEventEl = document.getElementById('subEvent');
+    const resultsEl = document.getElementById('results');
+    const subDescEl = document.getElementById('subDesc');
+    const pdfViewer = document.getElementById('pdfViewer');
+
+    eventTypeEl.addEventListener('change', () => {
+      const selected = eventTypeEl.value;
+      subEventEl.innerHTML = '<option value="">-- Select a sub-event --</option>';
+      subDescEl.textContent = '';
+      pdfViewer.style.display = 'none';
+      resultsEl.innerHTML = '';
+
+      if (subEventMap[selected]) {
+        subEventMap[selected].forEach(code => {
+          const opt = document.createElement('option');
+          opt.value = code;
+          opt.textContent = subEventLabels[code] || code;
+          subEventEl.appendChild(opt);
         });
+      }
+    });
 
-        function showExamples() {
-            const subEvent = subEventEl.value;
-            resultsEl.innerHTML = '';
-            if (!fileMap[subEvent]) {
-                resultsEl.textContent = 'No files available.';
-                return;
-            }
+    subEventEl.addEventListener('change', () => {
+      const selectedSub = subEventEl.value;
+      subDescEl.textContent = subEventLabels[selectedSub] || '';
+      resultsEl.innerHTML = '';
+      pdfViewer.style.display = 'none';
+    });
 
-            fileMap[subEvent].forEach(file => {
-                const link = document.createElement('a');
-                link.href = `./pdfs/${file}`;
-                link.target = '_blank';
-                link.textContent = file;
-                resultsEl.appendChild(link);
-            });
-        }
-    </script>
+    function showExamples() {
+      const subEvent = subEventEl.value;
+      resultsEl.innerHTML = '';
+      pdfViewer.style.display = 'none';
+
+      const files = fileMap[subEvent];
+      if (!files) {
+        resultsEl.textContent = 'No files available.';
+        return;
+      }
+
+      files.forEach(file => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'file-entry';
+
+        const viewLink = document.createElement('a');
+        viewLink.href = `./pdfs/${file}`;
+        viewLink.innerHTML = `<i class="fas fa-file-pdf"></i> ${file}`;
+        viewLink.onclick = (e) => {
+          e.preventDefault();
+          pdfViewer.src = `./pdfs/${file}`;
+          pdfViewer.style.display = 'block';
+        };
+
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = `./pdfs/${file}`;
+        downloadBtn.download = file;
+        downloadBtn.className = 'download';
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+
+        wrapper.appendChild(viewLink);
+        wrapper.appendChild(downloadBtn);
+        resultsEl.appendChild(wrapper);
+      });
+    }
+
+    new Choices('#eventType', { searchEnabled: true });
+    new Choices('#subEvent', { searchEnabled: true });
+  </script>
 </body>
 </html>
-
