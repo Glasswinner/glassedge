@@ -1,101 +1,249 @@
-<script>
-  let eventChoices;
-  let subEventChoices;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DECA Written Events</title>
 
-  const subEventMap = {
-    projectManagement: ['PMBS', 'PMCD', 'PMCA'],
-    entrepreneurship: ['EBG', 'EFB'],
-    operationResearch: ['BOR', 'BMOR']
-  };
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-  const subEventLabels = {
-    PMBS: 'Project Management: Business Solutions',
-    PMCD: 'Project Management: Career Development',
-    PMCA: 'Project Management: Community Awareness',
-    EBG: 'Entrepreneurship: Business Growth Plan',
-    EFB: 'Entrepreneurship: Franchise Business Plan',
-    BOR: 'Business Operations Research',
-    BMOR: 'Business Management and Administration OR'
-  };
+  <!-- Choices.js (Searchable Dropdown) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  const fileMap = {
-    PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
-    PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf'],
-    EBG: ['EBG 1.pdf'],
-    BOR: ['BOR 1.pdf']
-  };
-
-  const eventTypeEl = document.getElementById('eventType');
-  const subEventEl = document.getElementById('subEvent');
-  const resultsEl = document.getElementById('results');
-  const subDescEl = document.getElementById('subDesc');
-  const pdfViewer = document.getElementById('pdfViewer');
-
-  eventChoices = new Choices('#eventType', { searchEnabled: true });
-  subEventChoices = new Choices('#subEvent', { searchEnabled: true });
-
-  eventTypeEl.addEventListener('change', (e) => {
-    const selected = e.target.value;
-    subDescEl.textContent = '';
-    pdfViewer.style.display = 'none';
-    resultsEl.innerHTML = '';
-
-    subEventChoices.clearStore(); // clear previous options
-    subEventChoices.clearChoices();
-
-    if (subEventMap[selected]) {
-      const newOptions = subEventMap[selected].map(code => ({
-        value: code,
-        label: subEventLabels[code] || code,
-        selected: false,
-        disabled: false
-      }));
-      subEventChoices.setChoices(newOptions, 'value', 'label', true);
-    } else {
-      subEventChoices.setChoices([{ value: '', label: '-- No options --', disabled: true }], 'value', 'label', true);
-    }
-  });
-
-  subEventEl.addEventListener('change', () => {
-    const selectedSub = subEventEl.value;
-    subDescEl.textContent = subEventLabels[selectedSub] || '';
-    resultsEl.innerHTML = '';
-    pdfViewer.style.display = 'none';
-  });
-
-  function showExamples() {
-    const subEvent = subEventEl.value;
-    resultsEl.innerHTML = '';
-    pdfViewer.style.display = 'none';
-
-    const files = fileMap[subEvent];
-    if (!files) {
-      resultsEl.textContent = 'No files available.';
-      return;
+  <!-- Custom Styles -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      margin: 0;
     }
 
-    files.forEach(file => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'file-entry';
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
 
-      const viewLink = document.createElement('a');
-      viewLink.href = `./pdfs/${file}`;
-      viewLink.innerHTML = `<i class="fas fa-file-pdf"></i> ${file}`;
-      viewLink.onclick = (e) => {
-        e.preventDefault();
-        pdfViewer.src = `./pdfs/${file}`;
-        pdfViewer.style.display = 'block';
-      };
+    h1 {
+      text-align: center;
+      color: #1565c0;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
 
-      const downloadBtn = document.createElement('a');
-      downloadBtn.href = `./pdfs/${file}`;
-      downloadBtn.download = file;
-      downloadBtn.className = 'download';
-      downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: #333;
+    }
 
-      wrapper.appendChild(viewLink);
-      wrapper.appendChild(downloadBtn);
-      resultsEl.appendChild(wrapper);
+    select, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0d47a1;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .results {
+      margin-top: 30px;
+    }
+
+    .file-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #e3f2fd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 10px 0;
+      gap: 10px;
+    }
+
+    .file-entry a {
+      text-decoration: none;
+      color: #0d47a1;
+      font-weight: 500;
+    }
+
+    .file-entry a.download {
+      background-color: #1565c0;
+      color: white;
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+
+    iframe {
+      margin-top: 20px;
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: none;
+    }
+
+    /* Fix Choices styles */
+    .choices__inner {
+      padding: 12px !important;
+      border-radius: 8px !important;
+      font-size: 16px !important;
+    }
+
+    .choices {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DECA Written Events</h1>
+
+    <label for="eventType">Choose an event type:</label>
+    <select id="eventType">
+      <option value="">-- Select --</option>
+      <option value="projectManagement">Project Management</option>
+      <option value="entrepreneurship">Entrepreneurship</option>
+      <option value="operationResearch">Operation Research</option>
+    </select>
+
+    <label for="subEvent">Choose a sub-event:</label>
+    <select id="subEvent">
+      <option value="">-- Select a main event type first --</option>
+    </select>
+    <div class="desc" id="subDesc"></div>
+
+    <button onclick="showExamples()">🔍 Lock In Search</button>
+
+    <div class="results" id="results"></div>
+    <iframe id="pdfViewer"></iframe>
+  </div>
+
+  <script>
+    let subEventChoices;
+
+    const subEventMap = {
+      projectManagement: ['PMBS', 'PMCD', 'PMCA'],
+      entrepreneurship: ['EBG', 'EFB'],
+      operationResearch: ['BOR', 'BMOR']
+    };
+
+    const subEventLabels = {
+      PMBS: 'Project Management: Business Solutions',
+      PMCD: 'Project Management: Career Development',
+      PMCA: 'Project Management: Community Awareness',
+      EBG: 'Entrepreneurship: Business Growth Plan',
+      EFB: 'Entrepreneurship: Franchise Business Plan',
+      BOR: 'Business Operations Research',
+      BMOR: 'Business Management and Administration OR'
+    };
+
+    const fileMap = {
+      PMCA: ['PMCA 1.pdf', 'PMCA 2.pdf', 'PMCA 3.pdf'],
+      PMBS: ['PMBS 1.pdf', 'PMBS 2.pdf'],
+      EBG: ['EBG 1.pdf'],
+      BOR: ['BOR 1.pdf']
+    };
+
+    const eventTypeEl = document.getElementById('eventType');
+    const subEventEl = document.getElementById('subEvent');
+    const resultsEl = document.getElementById('results');
+    const subDescEl = document.getElementById('subDesc');
+    const pdfViewer = document.getElementById('pdfViewer');
+
+    const eventChoices = new Choices(eventTypeEl, { searchEnabled: true });
+    subEventChoices = new Choices(subEventEl, { searchEnabled: true });
+
+    eventTypeEl.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      subDescEl.textContent = '';
+      pdfViewer.style.display = 'none';
+      resultsEl.innerHTML = '';
+
+      subEventChoices.clearChoices();
+
+      if (subEventMap[selected]) {
+        const newOptions = subEventMap[selected].map(code => ({
+          value: code,
+          label: subEventLabels[code] || code
+        }));
+        subEventChoices.setChoices(newOptions, 'value', 'label', true);
+      }
     });
-  }
-</script>
+
+    subEventEl.addEventListener('change', () => {
+      const selectedSub = subEventEl.value;
+      subDescEl.textContent = subEventLabels[selectedSub] || '';
+      resultsEl.innerHTML = '';
+      pdfViewer.style.display = 'none';
+    });
+
+    function showExamples() {
+      const subEvent = subEventEl.value;
+      resultsEl.innerHTML = '';
+      pdfViewer.style.display = 'none';
+
+      const files = fileMap[subEvent];
+      if (!files) {
+        resultsEl.textContent = 'No files available.';
+        return;
+      }
+
+      files.forEach(file => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'file-entry';
+
+        const viewLink = document.createElement('a');
+        viewLink.href = `./pdfs/${file}`;
+        viewLink.innerHTML = `<i class="fas fa-file-pdf"></i> ${file}`;
+        viewLink.onclick = (e) => {
+          e.preventDefault();
+          pdfViewer.src = `./pdfs/${file}`;
+          pdfViewer.style.display = 'block';
+        };
+
+        const downloadBtn = document.createElement('a');
+        downloadBtn.href = `./pdfs/${file}`;
+        downloadBtn.download = file;
+        downloadBtn.className = 'download';
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+
+        wrapper.appendChild(viewLink);
+        wrapper.appendChild(downloadBtn);
+        resultsEl.appendChild(wrapper);
+      });
+    }
+  </script>
+</body>
+</html>
