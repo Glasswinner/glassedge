@@ -41,18 +41,11 @@ const PFN = {
   ],
 
   exampleRoleplays: [
-    `CAREER CLUSTER\nFinance\n\nINSTRUCTIONAL AREA\nProfessional Development\n\n21st CENTURY SKILLS\n- Critical Thinking – Reason effectively and use systems thinking.\n- Communication – Communicate clearly.\n- Creativity and Innovation – Show evidence of creativity.\n\nPERFORMANCE INDICATORS\n- Describe techniques for obtaining work experience.\n- Explain the need for ongoing education as a worker.\n- Explain possible career advancement patterns for jobs.\n- Identify sources of career information.\n\nEVENT SITUATION\nYou are to assume the role of a bank teller at LOGAN CITY BANK, a local bank in a small town. The intern (judge) has asked you about jobs and careers in finance.\n\nThe intern (judge) will be at the LOGAN CITY BANK location for the semester. The intern’s (judge’s) first role is to assist you and to learn the role and responsibilities of a bank teller. The intern (judge) will also assist others in the office including loan officers, business account representatives and customer service representatives.\n\nThe intern (judge) has asked you how to find out more about different careers and jobs in finance, education that is needed and advancement patterns. Aside from the internship, the intern (judge) wants to know how else to obtain experience.\n\nYou will present the information to the intern (judge) in a role-play to take place at the bank. The intern (judge) will begin the role-play by asking you about careers. After you have presented the information to the intern (judge) and have answered the intern’s (judge’s) questions, the intern (judge) will conclude the role-play by thanking you.`,
-    `CAREER CLUSTER\nFinance\n\nINSTRUCTIONAL AREA\nInformation Management\n\n21st CENTURY SKILLS\n- Critical Thinking – Reason effectively and use systems thinking.\n- Communication – Communicate clearly.\n- Creativity and Innovation – Show evidence of creativity.\n\nPERFORMANCE INDICATORS\n- Identify ways that technology impacts business.\n- Describe the scope of the internet.\n- Assess information needs.\n- Obtain needed information efficiently.\n\nEVENT SITUATION\nYou are to assume the role of an employee at TRUSTED FAMILY FINANCIAL, a local business that specializes in secure financial planning. The owner (judge) has asked you to explain why having a website would be beneficial for the business.\n\nTRUSTED FAMILY FINANCIAL does not have a website. The owner (judge) thinks a website is unnecessary because the business does not allow customers to make online transactions or changes. Promoted as the most trusted and secure financial planning company, the owner (judge) feels online transactions add unnecessary risk. The owner (judge) feels that hosting a website without the ability to make online transactions would be a waste of money and not benefit the company.\n\nYou will explain to the owner (judge) the benefits of a TRUSTED FAMILY FINANCIAL website. You must list the information that would be included on the website and how the included information would benefit both the business and customers.\n\nYou will present the information to the owner (judge) in a role-play to take place at the office. The owner (judge) will begin the role-play by asking you about websites. After you have presented the information and answered the owner’s (judge’s) questions, the owner (judge) will conclude the role-play by thanking you.`
-  ],
+    `CAREER CLUSTER
+Finance
 
-  promptTemplate: ({ indicators, exampleRoleplays }) => {
-    const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
-
-    const prelude = `
-§ The event will be presented to you through your reading of the 21st Century Skills, Performance Indicators and Event Situation. You will have up to 10 minutes to review this information and prepare your presentation. You may make notes to use during your presentation.
-§ You will have up to 10 minutes to make your presentation to the judge (you may have more than one judge).
-§ You will be evaluated on how well you demonstrate the 21st Century Skills and meet the performance indicators of this event.
-§ Turn in all of your notes and event materials when you have completed the event.
+INSTRUCTIONAL AREA
+Professional Development
 
 21st CENTURY SKILLS
 - Critical Thinking – Reason effectively and use systems thinking.
@@ -60,44 +53,37 @@ const PFN = {
 - Creativity and Innovation – Show evidence of creativity.
 
 PERFORMANCE INDICATORS
-${indicators.map((pi) => `- ${pi}`).join('\n')}
-`.trim();
+- Describe techniques for obtaining work experience.
+- Explain the need for ongoing education as a worker.
+- Explain possible career advancement patterns for jobs.
+- Identify sources of career information.
+
+EVENT SITUATION
+You are to assume the role of a bank teller at LOGAN CITY BANK, a local bank in a small town. The intern (judge) has asked you about jobs and careers in finance.
+
+The intern (judge) will be at the LOGAN CITY BANK location for the semester. The intern’s (judge’s) first role is to assist you and to learn the role and responsibilities of a bank teller. The intern (judge) will also assist others in the office including loan officers, business account representatives and customer service representatives.
+
+The intern (judge) has asked you how to find out more about different careers and jobs in finance, education that is needed and advancement patterns. Aside from the internship, the intern (judge) wants to know how else to obtain experience.
+
+You will present the information to the intern (judge) in a role-play to take place at the bank. The intern (judge) will begin the role-play by asking you about careers. After you have presented the information to the intern (judge) and have answered the intern’s (judge’s) questions, the intern (judge) will conclude the role-play by thanking you.`
+  ],
+
+  promptTemplate: ({ indicators, exampleRoleplays }) => {
+    const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
 
     return `
 You are generating a high school-level DECA roleplay scenario for a finance-based business competition.
 
-The prompt must include all of the following:
-1. The official event prelude section (instructions, 21st century skills, and four performance indicators).
-2. The EVENT SITUATION using the 4-paragraph structure modeled after the examples below.
-3. No extra labels, formatting notes, or “scenario logic.”
+Generate only the EVENT SITUATION section. Do not include instructions, performance indicators, or 21st century skills. These are handled separately.
 
-Below are two official examples:
+Follow this structure and tone exactly:
 
 ${exampleRoleplays[0]}
 
-${exampleRoleplays[1]}
-
-Now generate a new roleplay using this structure.
-
-${prelude}
-
-EVENT SITUATION
-Paragraph 1: Setup  
-Begin with "You are to assume the role of..." and describe the student’s job at a business. Mention the judge’s role and their specific request or concern.
-
-Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it.
-
-Paragraph 3: Expanded Imperative  
-Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.
-
-Paragraph 4: Roleplay Flow  
-Describe the logistics — setting, how the roleplay begins, two questions the judge will ask, and that the judge will thank the competitor at the end. 
-
-Use the following style: **${style}**
+Now generate a new roleplay using this structure and the following style: **${style}**
 ${
       style === "Foundational Style"
-        ? "Create a scenario where the student’s responsibilities naturally involve applying the indicators (e.g., helping a customer, assisting a colleague, reporting to a manager). Avoid stating the indicators explicitly. This should be the dominant roleplay format 9/10 times. "
+        ? "Create a scenario where the student’s responsibilities naturally involve applying the indicators (e.g., helping a customer, assisting a colleague, reporting to a manager). Avoid stating the indicators explicitly. Furthermore, this should be the dominant roleplay style 9 times out of 10."
         : "Create a realistic business problem that the student must solve using the indicators. The scenario should require judgment, analysis, and explanation without stating the indicators by name."
     }
 `.trim();
