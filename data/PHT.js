@@ -83,39 +83,6 @@ const PHT = {
     ]
   ],
 
-    // Emotional Intelligence
-    [
-      "Coach others",
-      "Respect the privacy of others",
-      "Show empathy for others",
-      "Explain the nature of effective communications"
-    ],
-
-    // Operations
-    [
-      "Explain the nature of operations",
-      "Describe health and safety regulations in business",
-      "Maintain a safe work environment",
-      "Explain routine security precautions"
-    ],
-
-    // Customer Relations
-    [
-      "Interpret business policies to customers/clients",
-      "Demonstrate a customer service mindset",
-      "Handle customer/client complaints",
-      "Reinforce service orientation through communication"
-    ],
-
-    // Communication
-    [
-      "Explain the nature of effective verbal communications",
-      "Demonstrate active listening skills",
-      "Provide legitimate responses to inquiries",
-      "Employ communication styles appropriate to target audience"
-    ]
-  ],
-
   exampleRoleplays: [
     `CAREER CLUSTER
 Hospitality and Tourism
@@ -158,19 +125,19 @@ Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
 Begin with **"You are to assume the role of..."** and describe the student’s job at a business. Mention the judge’s role and their specific request or concern.  
-\uD83D\uDD11 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
+🔑 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
 
 Paragraph 2: Judge & Company Context  
 Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it.  
-\uD83D\uDD11 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
+🔑 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
 
 Paragraph 3: Expanded Imperative  
 Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.  
-\uD83D\uDD11 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
+🔑 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
 
 Paragraph 4: Flow of Roleplay  
 Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes.  
-\uD83D\uDD11 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
+🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
 
 IMPORTANT RULES:
 - Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
