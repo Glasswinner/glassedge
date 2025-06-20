@@ -52,7 +52,8 @@ export default async function handler(req, res) {
       console.error("❌ DeepSeek returned empty or invalid content:", result);
       return res.status(500).json({
         score: 0,
-        feedback: "DeepSeek did not return a valid response."
+        feedback: "DeepSeek did not return a valid response.",
+        full: ""
       });
     }
 
@@ -69,7 +70,11 @@ export default async function handler(req, res) {
       feedback = feedbackMatch[1].trim();
     }
 
-    return res.status(200).json({ score, feedback });
+    return res.status(200).json({
+      score,
+      feedback,
+      full: aiText
+    });
   } catch (err) {
     console.error("🔥 DeepSeek grading error:", err.message, err.stack);
     return res.status(500).json({ error: "Grading failed", message: err.message });
