@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const mod = await import(`./grading/${eventCode}grade.js`);
+    const mod = await import(`../grading/${eventCode}grade.js`);
     const config = mod.default?.default || mod.default || mod;
 
     const deepseekRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
