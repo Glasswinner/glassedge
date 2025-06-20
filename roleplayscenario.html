@@ -211,7 +211,8 @@
           });
 
           const grade = await gradeRes.json();
-          window.location.href = `/feedback.html?score=${grade.score}&feedback=${encodeURIComponent(grade.feedback)}&transcript=${encodeURIComponent(transcript)}`;
+          window.location.href = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
+
         } catch {
           status.textContent = "❌ Transcription or grading failed.";
         }
