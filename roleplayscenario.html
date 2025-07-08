@@ -18,7 +18,7 @@
     const roleplayBanks = { PFN: PFNBank, PBM: PBMBank };
     document.getElementById("event-code").textContent = window.eventCode;
 
-    async function fetchWithTimeout(url, options = {}, timeout = 59000) {
+    async function fetchWithTimeout(url, options = {}, timeout = 300000) {
       return Promise.race([
         fetch(url, options),
         new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout))
