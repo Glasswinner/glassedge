@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Written Example Viewer | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0b0e1a 75%, #1e1446);
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center px-6 py-10">
+  <h1 class="text-4xl font-bold mb-6">Written Event Example</h1>
+
+  <div class="w-full max-w-6xl mb-6">
+    <iframe id="pdf-frame" class="w-full h-[90vh] rounded-lg border-2 border-purple-500 shadow-lg" frameborder="0"></iframe>
+  </div>
+
+  <a href="index.html" class="text-blue-400 hover:underline text-lg mt-4">&larr; Return to Home</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const eventCode = params.get("event");
+    const filePath = eventCode ? `/data/${eventCode}1.pdf` : null;
+
+    const iframe = document.getElementById('pdf-frame');
+
+    if (filePath) {
+      fetch(filePath, { method: 'HEAD' })
+        .then(res => {
+          if (res.ok) {
+            iframe.src = filePath;
+          } else {
+            showError();
+          }
+        })
+        .catch(showError);
+    } else {
+      showError();
+    }
+
+    function showError() {
+      document.body.innerHTML += `
+        <div class="text-red-400 mt-6 text-center text-xl">
+          ⚠️ No example found for this event.
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
