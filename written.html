@@ -29,8 +29,8 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex items-start justify-center px-4 py-12">
-  <div class="flex flex-col md:flex-row items-start justify-center w-full max-w-7xl scale-[1.15]">
+<body class="min-h-screen px-4 py-12 bg-gradient-to-b from-[#0b0e1a] to-[#1e1446] text-white">
+  <div class="flex flex-col md:flex-row items-start justify-center w-full max-w-7xl mx-auto scale-[1.15]">
 
     <!-- Left Section -->
     <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
@@ -63,7 +63,6 @@
     <div class="w-full md:w-1/2 max-h-[360px] overflow-hidden relative event-border">
       <div class="scroll-box space-y-4">
         <div class="space-y-4">
-          <!-- Just a sample subset -->
           <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">PMBS – Business Solutions</div>
           <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">PMCG – Community Giving</div>
           <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">EFB – Franchise Plan</div>
@@ -72,12 +71,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- PDF Viewer Section -->
-  <div id="pdf-section" class="w-full max-w-6xl mt-12 hidden">
-    <h2 class="text-2xl font-bold mb-4 text-center">View Submitted Example</h2>
-    <iframe id="pdf-frame" class="w-full h-[90vh] rounded-lg shadow-xl border-2 border-purple-500" frameborder="0"></iframe>
   </div>
 
   <script>
@@ -114,32 +107,7 @@
     viewBtn.addEventListener('click', function () {
       const eventCode = eventSelect.value;
       if (eventCode) {
-        const pdfPath = `/data/${eventCode}1.pdf`;
-        const iframe = document.getElementById('pdf-frame');
-        const pdfSection = document.getElementById('pdf-section');
-
-        // Try loading the PDF first
-        fetch(pdfPath, { method: 'HEAD' })
-          .then(res => {
-            if (res.ok) {
-              iframe.src = pdfPath;
-              pdfSection.classList.remove('hidden');
-              window.scrollTo({ top: pdfSection.offsetTop, behavior: 'smooth' });
-            } else {
-              showError();
-            }
-          })
-          .catch(showError);
-
-        function showError() {
-          pdfSection.innerHTML = `
-            <div class="text-center text-red-400 mt-12 text-xl">
-              ⚠️ Sorry, no example found for ${eventCode}.
-            </div>
-          `;
-          pdfSection.classList.remove('hidden');
-          window.scrollTo({ top: pdfSection.offsetTop, behavior: 'smooth' });
-        }
+        window.location.href = `writtenview.html?event=${eventCode}`;
       }
     });
   </script>
