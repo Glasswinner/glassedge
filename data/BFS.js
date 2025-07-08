@@ -191,7 +191,7 @@ Paragraph 6: Roleplay Flow
 Explain how the roleplay begins, that the judge will ask two questions, and how it ends. Do not mention rubrics.
 
 IMPORTANT:
-- Embed the indicators naturally. Do NOT list or label them explicitly.
+- Embed the indicators naturally. Do NOT list or label them explicitly, but at the end, list out the five performance indicators, under a new line titled "performance indicators.". Furthermore, do not explicity label paragraphs. 
 - Do not include judge instructions, scenario logic sections, or DECA branding.
 - Match tone and format to actual BFS event examples.
 
