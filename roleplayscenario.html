@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Make eventCode globally accessible
     window.urlParams = new URLSearchParams(window.location.search);
     window.eventCode = urlParams.get("event") || "PFN";
   </script>
@@ -18,31 +17,17 @@
     const roleplayBanks = { PFN: PFNBank, PBM: PBMBank };
     document.getElementById("event-code").textContent = window.eventCode;
 
-    async function fetchWithTimeout(url, options = {}, timeout = 300000) {
+    async function fetchWithTimeout(url, options = {}, timeout = 120000) {
       return Promise.race([
         fetch(url, options),
         new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout))
       ]);
     }
 
-    async function fetchPromptAttempt() {
-      try {
-        const res = await fetchWithTimeout('/api/generatePrompt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventCode: window.eventCode })
-        });
-
-        const data = await res.json();
-        return (res.ok && data.prompt) ? data : null;
-      } catch {
-        return null;
-      }
-    }
-
-    async function fetchPromptWithRetry() {
+    async function fetchPromptWithFallback() {
       const promptElement = document.getElementById("generated-prompt");
       const preludeElement = document.getElementById("prelude-block");
+      const noticeElement = document.getElementById("loading-notice");
       const skills = [
         "- Critical Thinking – Reason effectively and use systems thinking.",
         "- Communication – Communicate clearly.",
@@ -56,14 +41,22 @@
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
         `;
+        noticeElement.classList.add("hidden");
         startPrepTimer();
       };
 
-      const data1 = await fetchPromptAttempt();
-      if (data1) return handlePrompt(data1);
+      try {
+        const res = await fetchWithTimeout('/api/generatePrompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ eventCode: window.eventCode })
+        });
 
-      const data2 = await fetchPromptAttempt();
-      if (data2) return handlePrompt(data2);
+        const data = await res.json();
+        if (res.ok && data.prompt) return handlePrompt(data);
+      } catch {
+        // Do nothing, fallback will be used
+      }
 
       const fallback = roleplayBanks[window.eventCode];
       if (fallback?.length) {
@@ -74,13 +67,14 @@
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
         `;
+        noticeElement.classList.add("hidden");
         startPrepTimer();
       } else {
         promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
       }
     }
 
-    fetchPromptWithRetry();
+    fetchPromptWithFallback();
   </script>
 </head>
 <body class="min-h-screen bg-[#0b0e1a] text-white">
@@ -88,6 +82,7 @@
     <div class="w-2/3 p-8 overflow-y-auto">
       <h2 class="text-2xl font-bold text-blue-400 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
       <div id="prelude-block" class="mb-4"></div>
+      <p id="loading-notice" class="text-sm text-gray-400 italic mb-2">⚠️ Response may take up to 2 minutes to generate, please be patient.</p>
       <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg max-h-[90vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
       </div>
