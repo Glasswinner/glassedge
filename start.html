@@ -4,35 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get Started – GlassEDGE</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, #0b0e1a 75%, #1e1446);
+    }
+  </style>
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center px-4 py-10">
+<body class="text-white min-h-screen flex flex-col">
 
-  <div class="text-center max-w-3xl w-full">
-    <h1 class="text-4xl font-bold mb-12 text-blue-400">I'm improving my...</h1>
-
-    <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
-
-      <!-- Roleplays Bubble -->
-      <div class="bg-blue-900 hover:bg-blue-800 transition duration-300 rounded-2xl p-8 w-full md:w-1/2 shadow-xl text-left">
-        <h2 class="text-2xl font-semibold mb-4">🎭 Roleplays</h2>
-        <p class="mb-6 text-gray-300">Practice real DECA scenarios with generated prompts or learn from top competitor walkthroughs.</p>
-        <a href="roleplay.html" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium text-white">Explore Roleplays</a>
+  <!-- Navbar (copied from index.html) -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex items-center">
+          <span class="text-lg font-semibold flex items-center">
+            GlassEDGE
+            <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-6 ml-2" />
+          </span>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-sm font-medium">
+          <a href="roleplay.html" class="hover:underline">Roleplays</a>
+          <a href="#" class="hover:underline">Walkthrough Videos</a>
+          <a href="written.html" class="hover:underline">Written Event Gallery</a>
+          <a href="#" class="hover:underline">About Us</a>
+        </nav>
+        <div>
+          <a href="start.html">
+            <button class="bg-white text-purple-600 font-semibold text-sm px-4 py-2 rounded-full shadow-md hover:opacity-90">
+              Get Started →
+            </button>
+          </a>
+        </div>
       </div>
-
-      <!-- Writtens Bubble -->
-      <div class="bg-purple-900 hover:bg-purple-800 transition duration-300 rounded-2xl p-8 w-full md:w-1/2 shadow-xl text-left">
-        <h2 class="text-2xl font-semibold mb-4">📝 Writtens</h2>
-        <p class="mb-6 text-gray-300">Browse high-scoring written events or upload your own for AI feedback (coming soon).</p>
-        <a href="written.html" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium text-white">Explore Writtens</a>
-      </div>
-
-      <!-- Back to Home -->
-  <a href="index.html" class="text-blue-400 hover:underline mt-10">← Return to Home</a>
-
-
     </div>
-  </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center px-4 py-16">
+    <div class="text-center max-w-4xl w-full">
+      <h1 class="text-4xl font-bold mb-12 text-purple-400">Choose your path...</h1>
+
+      <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
+
+        <!-- Roleplays Bubble -->
+        <div class="bg-purple-800 hover:bg-purple-700 transition duration-300 rounded-2xl p-8 w-full md:w-1/2 shadow-xl text-left">
+          <h2 class="text-2xl font-semibold mb-4">🎭 Roleplay Events</h2>
+          <p class="mb-6 text-purple-200">Practice DECA-style business simulations with generated prompts, scoring, and walkthroughs.</p>
+          <a href="roleplay.html" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium text-white">Explore Roleplays</a>
+        </div>
+
+        <!-- Written Events Bubble -->
+        <div class="bg-purple-800 hover:bg-purple-700 transition duration-300 rounded-2xl p-8 w-full md:w-1/2 shadow-xl text-left">
+          <h2 class="text-2xl font-semibold mb-4">📝 Written Events</h2>
+          <p class="mb-6 text-purple-200">Browse top DECA written projects or upload your own for AI-powered feedback (coming soon).</p>
+          <a href="written.html" class="inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium text-white">Explore Writtens</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Return Home Button -->
+  <footer class="text-center pb-8">
+    <a href="index.html" class="text-purple-300 hover:underline text-sm">← Return to Home</a>
+  </footer>
 
 </body>
 </html>
