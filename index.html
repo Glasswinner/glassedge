@@ -12,15 +12,18 @@
         background: linear-gradient(to bottom, #fdf9ff, #f8f4fc);
       }
       .scrolling-box {
-        animation: scroll-up 15s linear infinite;
+        animation: scroll-loop 20s linear infinite;
       }
-      @keyframes scroll-up {
+      @keyframes scroll-loop {
         0% {
           transform: translateY(0%);
         }
         100% {
           transform: translateY(-50%);
         }
+      }
+      .emoji-purple {
+        filter: hue-rotate(275deg) saturate(150%);
       }
     </style>
   </head>
@@ -61,7 +64,7 @@
               Dominate the <br />Business World with <br />
               <span class="text-purple-600 inline-flex items-center gap-2">
                 GlassEDGE
-                <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-10" />
+                <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-12" />
               </span>
             </h1>
           </div>
@@ -83,71 +86,60 @@
 
         <!-- Scrolling Feature Box -->
         <div class="w-full">
-          <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-96 overflow-hidden relative">
-            <div class="absolute inset-0 overflow-hidden">
-              <div class="space-y-6 scrolling-box">
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>🧠</span><span>AI generated feedback.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>📄</span><span>Comprehensive written event gallery.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>✨</span><span>Written Event feedback.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>🔍</span><span>Written Event Checker.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>📚</span><span>Business term explanations.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>🧩</span><span>Roleplay strategy analysis.</span></div>
-                <div class="bg-purple-100 rounded-full px-4 py-2 text-purple-700 font-semibold text-sm flex items-center gap-2"><span>📈</span><span>Performance metric dashboards.</span></div>
+          <div class="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6 h-[440px] overflow-hidden relative">
+            <div class="absolute inset-0 overflow-hidden px-2">
+              <div class="space-y-5 scrolling-box">
+                <!-- Duplicated list for infinite scroll illusion -->
+                <div class="space-y-5">
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🧠</span><span>AI generated feedback.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📄</span><span>Comprehensive written event gallery.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">✨</span><span>Written Event feedback.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🔍</span><span>Written Event Checker.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📚</span><span>Business term explanations.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🧩</span><span>Roleplay strategy analysis.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📈</span><span>Performance metric dashboards.</span>
+                  </div>
+                </div>
+                <!-- Duplicate again for looping -->
+                <div class="space-y-5">
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🧠</span><span>AI generated feedback.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📄</span><span>Comprehensive written event gallery.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">✨</span><span>Written Event feedback.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🔍</span><span>Written Event Checker.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📚</span><span>Business term explanations.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">🧩</span><span>Roleplay strategy analysis.</span>
+                  </div>
+                  <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                    <span class="emoji-purple">📈</span><span>Performance metric dashboards.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Platform Screenshot Section -->
-    <section class="bg-white py-20 px-6 xl:px-40">
-      <div class="grid md:grid-cols-2 gap-12">
-        <div class="shadow-xl rounded-xl overflow-hidden border">
-          <div class="p-6">
-            <h3 class="text-purple-600 text-lg font-bold mb-2">Roleplay Events</h3>
-          </div>
-          <div class="flex justify-center items-center bg-purple-100 h-48">
-            <span class="text-purple-600 font-semibold">🎬 Demo videos coming soon...</span>
-          </div>
-        </div>
-        <div class="shadow-xl rounded-xl overflow-hidden border">
-          <div class="p-6">
-            <h3 class="text-purple-600 text-lg font-bold mb-2">Written Events</h3>
-          </div>
-          <div class="flex justify-center items-center bg-purple-100 h-48">
-            <span class="text-purple-600 font-semibold">🎬 Demo videos coming soon...</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Platform Features Section -->
-    <section class="bg-white py-24 px-6 xl:px-40">
-      <div class="grid md:grid-cols-2 gap-12">
-        <div class="shadow-xl rounded-2xl p-8 border">
-          <h3 class="text-purple-600 text-xl font-bold mb-4">Roleplay Generator</h3>
-          <ul class="text-gray-700 space-y-4">
-            <li><strong>🧠 AI Tutor</strong> — DECA-specific AI tutor with voice capabilities</li>
-            <li><strong>📊 Roleplay Grading</strong> — Visual analysis with PI-specific feedback</li>
-            <li><strong>📝 Exam Practice</strong> — Topic-based uploads + feedback</li>
-            <li><strong>📚 Real-world knowledge</strong> — Gain real-world business experience</li>
-          </ul>
-          <a href="roleplay.html" class="mt-6 inline-block bg-gradient-to-r from-purple-500 to-blue-500 text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
-            Roleplay Generator →
-          </a>
-        </div>
-        <div class="shadow-xl rounded-2xl p-8 border">
-          <h3 class="text-purple-600 text-xl font-bold mb-4">Written Event Gallery</h3>
-          <ul class="text-gray-700 space-y-4">
-            <li><strong>📄 Past Projects</strong> — Explore successful DECA written entries</li>
-            <li><strong>🧠 AI Event Checker</strong> — Coming soon: instant feedback on your writing</li>
-            <li><strong>📂 Event Database</strong> — Filter by category, topic, or team/individual</li>
-            <li><strong>📝 Judge Rubrics</strong> — Learn how events are scored</li>
-          </ul>
-          <a href="written.html" class="mt-6 inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
-            Explore Written Gallery →
-          </a>
         </div>
       </div>
     </section>
