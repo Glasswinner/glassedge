@@ -12,11 +12,11 @@
         background-color: #f9fafb;
       }
       .scrolling-box {
-        animation: scroll-up 15s linear infinite;
+        animation: scroll-up 14s linear infinite;
       }
       @keyframes scroll-up {
         0% {
-          transform: translateY(0);
+          transform: translateY(0%);
         }
         100% {
           transform: translateY(-50%);
@@ -24,35 +24,29 @@
       }
     </style>
   </head>
-  <body>
+  <body class="bg-white text-gray-800">
     <!-- Navbar -->
-    <header class="bg-white shadow sticky top-0 z-50">
-      <div class="max-w-screen-xl mx-auto px-6">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex items-center">
-            <img src="https://via.placeholder.com/30" class="h-6 w-6 mr-2" alt="GlassEDGE Logo" />
-            <span class="text-lg font-semibold text-purple-600">GlassEDGE</span>
-          </div>
-          <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-            <a href="roleplay.html" class="hover:text-black">Roleplays</a>
-            <a href="walkthrough.html" class="hover:text-black">Walkthrough Videos</a>
-            <a href="written.html" class="hover:text-black">Written Event Gallery</a>
-            <a href="#" class="hover:text-black">About Us</a>
-          </nav>
-          <div class="flex items-center space-x-3">
-            <a href="start.html">
-              <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-md hover:opacity-90">
-                Get Started →
-              </button>
-            </a>
-          </div>
+    <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow sticky top-0 z-50">
+      <div class="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <img src="https://via.placeholder.com/30" class="h-6 w-6" alt="GlassEDGE Logo" />
+          <span class="text-lg font-bold">GlassEDGE</span>
         </div>
+        <nav class="hidden md:flex space-x-6 text-sm font-medium">
+          <a href="roleplay.html" class="hover:underline">Roleplays</a>
+          <a href="walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+          <a href="written.html" class="hover:underline">Written Event Gallery</a>
+          <a href="#" class="hover:underline">About Us</a>
+        </nav>
+        <a href="start.html" class="bg-white text-purple-600 px-4 py-2 rounded-full font-semibold text-sm shadow hover:bg-gray-100 transition">
+          Get Started →
+        </a>
       </div>
     </header>
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-br from-white to-purple-50 pt-20 pb-32 px-4 md:px-12 xl:px-40">
-      <div class="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-12">
+      <div class="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h1 class="text-4xl xl:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
             Dominate the Business World with <span class="text-purple-600">GlassEDGE</span>
@@ -64,23 +58,47 @@
             Explore Platforms →
           </button>
           <div class="flex gap-6 mt-10 text-sm text-gray-500">
-            <div class="flex items-center gap-2"><span>⚙️</span><span>AI-Powered</span></div>
-            <div class="flex items-center gap-2"><span>🏆</span><span>Proven Results</span></div>
-            <div class="flex items-center gap-2"><span>💬</span><span>Expert Feedback</span></div>
+            <div class="flex items-center gap-2"><span>⚙️</span> <span>AI-Powered</span></div>
+            <div class="flex items-center gap-2"><span>🏆</span> <span>Proven Results</span></div>
+            <div class="flex items-center gap-2"><span>💬</span> <span>Expert Feedback</span></div>
           </div>
         </div>
 
-        <!-- Auto-scrolling Feature Bubbles -->
+        <!-- Scrolling Bubbles -->
         <div class="w-full">
-          <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-64 overflow-hidden relative">
-            <div class="absolute inset-0 overflow-hidden">
-              <div class="space-y-4 scrolling-box">
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🖋️ Comprehensive written event gallery.</div>
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🎥 Demo videos.</div>
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🌟 Written Event feedback.</div>
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🔍 Written Event Checker.</div>
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🧠 AI generated roleplays.</div>
-                <div class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium w-fit flex items-center gap-2">🧠 AI generated feedback.</div>
+          <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg h-64 overflow-hidden p-4">
+            <div class="h-full overflow-hidden relative">
+              <div class="scrolling-box space-y-4">
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    🧠 AI generated feedback.
+                  </span>
+                </div>
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    🧠 AI generated roleplays.
+                  </span>
+                </div>
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    🔍 Written Event Checker.
+                  </span>
+                </div>
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    ✨ Written Event feedback.
+                  </span>
+                </div>
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    🎥 Demo videos.
+                  </span>
+                </div>
+                <div class="flex items-center justify-center">
+                  <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                    📄 Comprehensive written event gallery.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -88,7 +106,7 @@
       </div>
     </section>
 
-    <!-- Platform Screenshot Section -->
+    <!-- Demo Video Section -->
     <section class="bg-white py-20 px-6 xl:px-40">
       <div class="grid md:grid-cols-2 gap-12">
         <div class="shadow-xl rounded-xl overflow-hidden border">
@@ -96,28 +114,28 @@
             <h3 class="text-purple-600 text-lg font-bold mb-2">Roleplay Events</h3>
             <button class="text-sm text-purple-500 underline">Watch Demo</button>
           </div>
-          <img src="https://via.placeholder.com/1280x720/000000/FFFFFF?text=+" class="w-full" alt="Placeholder Screenshot A" />
+          <img src="https://via.placeholder.com/1280x720/000000/FFFFFF?text=+" class="w-full" alt="Roleplay Demo" />
         </div>
         <div class="shadow-xl rounded-xl overflow-hidden border">
           <div class="p-6">
             <h3 class="text-purple-600 text-lg font-bold mb-2">Written Events</h3>
             <button class="text-sm text-purple-500 underline">Watch Demo</button>
           </div>
-          <img src="https://via.placeholder.com/1280x720/000000/FFFFFF?text=+" class="w-full" alt="Placeholder Screenshot B" />
+          <img src="https://via.placeholder.com/1280x720/000000/FFFFFF?text=+" class="w-full" alt="Written Demo" />
         </div>
       </div>
     </section>
 
-    <!-- Feature + Redirect Buttons -->
+    <!-- Feature Cards -->
     <section class="bg-white py-20 px-6 xl:px-40">
       <div class="grid md:grid-cols-2 gap-12">
         <div class="bg-white rounded-xl shadow-md p-8 border">
           <h3 class="text-purple-600 text-xl font-bold mb-6">Roleplay Events</h3>
           <ul class="space-y-4 text-sm text-gray-700">
-            <li class="flex items-center gap-3"><span class="text-xl">🧠</span><span><strong>AI Tutor</strong>: DECA-specific AI tutor with voice capabilities</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">🎯</span><span><strong>Roleplay Grading</strong>: Visual analysis with PI-specific feedback</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">📝</span><span><strong>Exam Practice</strong>: Topic-based custom uploads + feedback</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">📚</span><span><strong>Vocabulary</strong>: 300+ business terms with explanations</span></li>
+            <li class="flex items-center gap-3"><span class="text-xl">🧠</span> <strong>AI Tutor</strong>: DECA-specific AI tutor with voice capabilities</li>
+            <li class="flex items-center gap-3"><span class="text-xl">🎯</span> <strong>Roleplay Grading</strong>: Visual analysis with PI-specific feedback</li>
+            <li class="flex items-center gap-3"><span class="text-xl">📝</span> <strong>Exam Practice</strong>: Topic-based uploads + feedback</li>
+            <li class="flex items-center gap-3"><span class="text-xl">📚</span> <strong>Vocabulary</strong>: 300+ business terms with explanations</li>
           </ul>
           <div class="mt-6">
             <a href="roleplay.html" class="inline-block bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-md hover:opacity-90">
@@ -131,10 +149,10 @@
             <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs font-semibold">New</span>
           </div>
           <ul class="space-y-4 text-sm text-gray-700">
-            <li class="flex items-center gap-3"><span class="text-xl">🧠</span><span><strong>AI Study Assistant</strong>: Help with WSC/written topics</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">📘</span><span><strong>Theme Master</strong>: Guides for deeper written strategy</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">📝</span><span><strong>Case Practice</strong>: Practice written prompts with feedback</span></li>
-            <li class="flex items-center gap-3"><span class="text-xl">✍️</span><span><strong>Writing Support</strong>: Feedback on structure and clarity</span></li>
+            <li class="flex items-center gap-3"><span class="text-xl">🧠</span> <strong>AI Study Assistant</strong>: Help with WSC/written topics</li>
+            <li class="flex items-center gap-3"><span class="text-xl">📘</span> <strong>Theme Master</strong>: Guides for deeper written strategy</li>
+            <li class="flex items-center gap-3"><span class="text-xl">📝</span> <strong>Case Practice</strong>: Written prompt feedback</li>
+            <li class="flex items-center gap-3"><span class="text-xl">✍️</span> <strong>Writing Support</strong>: Feedback on structure and clarity</li>
           </ul>
           <div class="mt-6">
             <a href="written.html" class="inline-block bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-md hover:opacity-90">
