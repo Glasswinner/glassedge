@@ -11,12 +11,23 @@
         font-family: 'Inter', sans-serif;
         background-color: #f9fafb;
       }
+      .scrolling-box {
+        animation: scroll-up 10s linear infinite;
+      }
+      @keyframes scroll-up {
+        0% {
+          transform: translateY(0%);
+        }
+        100% {
+          transform: translateY(-50%);
+        }
+      }
     </style>
   </head>
   <body>
     <!-- Notification Banner -->
     <div class="bg-gradient-to-r from-purple-600 to-pink-400 text-white text-sm text-center py-2">
-      Placeholder banner message — Learn more →
+      Prilo for the World Scholars Cup is released, try it free! — Learn more →
     </div>
 
     <!-- Navbar -->
@@ -24,73 +35,59 @@
       <div class="max-w-screen-xl mx-auto px-6">
         <div class="flex justify-between h-16 items-center">
           <div class="flex items-center">
-            <img src="https://via.placeholder.com/30" class="h-6 w-6 mr-2" alt="Placeholder Logo" />
-            <span class="text-lg font-semibold text-purple-600">Placeholder</span>
+            <img src="https://via.placeholder.com/30" class="h-6 w-6 mr-2" alt="GlassEDGE Logo" />
+            <span class="text-lg font-semibold text-purple-600">GlassEDGE</span>
           </div>
           <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-            <a href="#" class="hover:text-black">Team</a>
-            <a href="#" class="hover:text-black">Platforms</a>
-            <a href="#" class="hover:text-black">Enterprise</a>
-            <a href="#" class="hover:text-black">Resources</a>
-            <a href="#" class="hover:text-black">Blog</a>
+            <a href="#" class="hover:text-black">Roleplays</a>
+            <a href="#" class="hover:text-black">Walkthrough Videos</a>
+            <a href="#" class="hover:text-black">Written Event Gallery</a>
+            <a href="#" class="hover:text-black">About Us</a>
           </nav>
           <div class="flex items-center space-x-3">
-            <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-md hover:opacity-90">
-              Get Started →
-            </button>
+            <a href="start.html">
+              <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-md hover:opacity-90">
+                Get Started →
+              </button>
+            </a>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Hero Section with Tabs -->
+    <!-- Hero Section -->
     <section class="bg-gradient-to-br from-white to-purple-50 pt-20 pb-32 px-4 md:px-12 xl:px-40">
       <div class="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-12">
         <div>
           <h1 class="text-4xl xl:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
-            Dominate Placeholder Competitions with
-            <span class="text-purple-600">Placeholder</span>
+            Dominate the Business World with <span class="text-purple-600">GlassEDGE</span>
           </h1>
           <p class="text-gray-600 text-lg mb-6">
-            Get personalized AI tutoring, unlimited practice, and expert feedback for placeholder competitions.
+            Practice real business scenarios, browse our written event gallery, and collaborate with GlassEDGE's personalized AI coach.
           </p>
           <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-md hover:opacity-90">
             Explore Platforms →
           </button>
           <div class="flex gap-6 mt-10 text-sm text-gray-500">
-            <div class="flex items-center gap-2">
-              <span>⚙️</span> <span>AI-Powered</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span>🏆</span> <span>Proven Results</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span>💬</span> <span>Expert Feedback</span>
-            </div>
+            <div class="flex items-center gap-2"><span>⚙️</span><span>AI-Powered</span></div>
+            <div class="flex items-center gap-2"><span>🏆</span><span>Proven Results</span></div>
+            <div class="flex items-center gap-2"><span>💬</span><span>Expert Feedback</span></div>
           </div>
         </div>
+
+        <!-- Auto-scrolling Feature Box -->
         <div class="w-full">
-          <div class="flex rounded-lg overflow-hidden border max-w-md mx-auto mb-2">
-            <button onclick="showTab(0)" id="tabBtn0" class="tab-btn w-1/2 px-4 py-2 text-sm font-semibold bg-purple-600 text-white">
-              DECA Platform
-            </button>
-            <button onclick="showTab(1)" id="tabBtn1" class="tab-btn w-1/2 px-4 py-2 text-sm font-semibold bg-gray-200 text-gray-800">
-              WSC Platform
-            </button>
-          </div>
-          <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-64 overflow-y-scroll space-y-4">
-            <div class="tab-pane" id="tab0">
-              <div class="flex items-center gap-4"><span>🧠</span><span>24/7 DECA-Specific AI Tutor</span></div>
-              <div class="flex items-center gap-4"><span>📊</span><span>Personalized Performance Analytics</span></div>
-              <div class="flex items-center gap-4"><span>🗣️</span><span>Smart Vocabulary Learning</span></div>
-              <div class="flex items-center gap-4"><span>📚</span><span>Competition Strategy Guide</span></div>
-              <div class="flex items-center gap-4"><span>🎭</span><span>AI-Powered Roleplay Practice</span></div>
-            </div>
-            <div class="tab-pane hidden" id="tab1">
-              <div class="flex items-center gap-4"><span>🧠</span><span>24/7 WSC-Specific AI Tutor</span></div>
-              <div class="flex items-center gap-4"><span>📊</span><span>Collaborative Debrief Notes</span></div>
-              <div class="flex items-center gap-4"><span>📝</span><span>Summary Practice Reports</span></div>
-              <div class="flex items-center gap-4"><span>💡</span><span>Dynamic Scoring Suggestions</span></div>
+          <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-64 overflow-hidden relative">
+            <div class="absolute inset-0 overflow-hidden">
+              <div class="space-y-6 scrolling-box">
+                <div class="flex items-center gap-4"><span>🧠</span><span>24/7 DECA-Specific AI Tutor</span></div>
+                <div class="flex items-center gap-4"><span>📊</span><span>Personalized Performance Analytics</span></div>
+                <div class="flex items-center gap-4"><span>🗣️</span><span>Smart Vocabulary Learning</span></div>
+                <div class="flex items-center gap-4"><span>📚</span><span>Competition Strategy Guide</span></div>
+                <div class="flex items-center gap-4"><span>🎭</span><span>AI-Powered Roleplay Practice</span></div>
+                <div class="flex items-center gap-4"><span>🧠</span><span>24/7 DECA-Specific AI Tutor</span></div>
+                <div class="flex items-center gap-4"><span>📊</span><span>Personalized Performance Analytics</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -153,21 +150,5 @@
         </div>
       </div>
     </section>
-
-    <!-- JS Tabs Logic -->
-    <script>
-      function showTab(index) {
-        const tabs = document.querySelectorAll(".tab-pane");
-        const buttons = document.querySelectorAll(".tab-btn");
-        tabs.forEach((pane, i) => pane.classList.toggle("hidden", i !== index));
-        buttons.forEach((btn, i) => {
-          btn.classList.toggle("bg-purple-600", i === index);
-          btn.classList.toggle("text-white", i === index);
-          btn.classList.toggle("bg-gray-200", i !== index);
-          btn.classList.toggle("text-gray-800", i !== index);
-        });
-      }
-      showTab(0);
-    </script>
   </body>
 </html>
