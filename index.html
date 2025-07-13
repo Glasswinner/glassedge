@@ -10,31 +10,37 @@
       body {
         font-family: 'Inter', sans-serif;
         background-color: #0b0e1a;
-        background: linear-gradient(to bottom, #0b0e1a, #1a1a1a);
+        background: linear-gradient(to bottom, #0b0e1a 40%, #100720 100%);
       }
       .scrolling-box {
         animation: scroll-loop 20s linear infinite;
       }
       @keyframes scroll-loop {
-        0% {
-          transform: translateY(0%);
-        }
-        100% {
-          transform: translateY(-50%);
-        }
+        0% { transform: translateY(0%); }
+        100% { transform: translateY(-50%); }
       }
       .emoji-purple {
         filter: hue-rotate(275deg) saturate(150%);
+      }
+      .glow-text {
+        text-shadow:
+          0 0 4px rgba(168, 85, 247, 0.6),
+          0 0 8px rgba(168, 85, 247, 0.4);
+      }
+      .glow-box {
+        box-shadow:
+          0 0 12px rgba(168, 85, 247, 0.2),
+          0 0 30px rgba(168, 85, 247, 0.1);
       }
     </style>
   </head>
   <body class="text-white">
     <!-- Navbar -->
-    <header class="bg-gradient-to-r from-purple-700 to-pink-500 sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-[#4c1d95] to-[#6b21a8] sticky top-0 z-50">
       <div class="max-w-screen-xl mx-auto px-6">
         <div class="flex justify-between h-16 items-center">
           <div class="flex items-center">
-            <span class="text-lg font-semibold flex items-center">
+            <span class="text-lg font-semibold glow-text flex items-center">
               GlassEDGE
               <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-6 ml-2" />
             </span>
@@ -60,21 +66,19 @@
     <section class="pt-20 pb-36 px-4 md:px-12 xl:px-40">
       <div class="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <div class="flex items-center gap-4 mb-6">
-            <h1 class="text-5xl xl:text-6xl font-extrabold leading-tight text-white">
-              Dominate the <br />Business World with <br />
-              <span class="text-purple-400 inline-flex items-center gap-2">
-                GlassEDGE
-                <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-12" />
-              </span>
-            </h1>
-          </div>
+          <h1 class="text-5xl xl:text-6xl font-extrabold glow-text leading-tight text-white">
+            Dominate the <br />Business World with <br />
+            <span class="text-purple-300 glow-text inline-flex items-center gap-2">
+              GlassEDGE
+              <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-12" />
+            </span>
+          </h1>
 
-          <p class="text-gray-400 text-lg mb-6">
+          <p class="text-gray-400 text-lg mb-6 glow-text mt-4">
             Practice real business scenarios, browse our written event gallery, and collaborate with GlassEDGE’s personalized AI coach.
           </p>
           <a href="start.html">
-            <button class="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-md hover:opacity-90">
+            <button class="bg-gradient-to-r from-[#6b21a8] to-[#3b82f6] text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-md hover:opacity-90">
               Explore Platforms →
             </button>
           </a>
@@ -87,35 +91,25 @@
 
         <!-- Scrolling Feature Box -->
         <div class="w-full">
-          <div class="max-w-lg mx-auto bg-gray-900 rounded-xl shadow-lg p-6 h-[440px] overflow-hidden relative">
+          <div class="max-w-lg mx-auto bg-gray-900 rounded-xl shadow-lg p-6 h-[440px] overflow-hidden relative glow-box">
             <div class="absolute inset-0 overflow-hidden px-2">
               <div class="space-y-5 scrolling-box">
                 <div class="space-y-5">
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                  <div class="bg-[#4c1d95]/90 px-4 py-3 text-purple-200 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto glow-text">
                     <span class="emoji-purple">📄</span><span>Comprehensive written event gallery.</span>
                   </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                  <div class="bg-[#4c1d95]/90 px-4 py-3 text-purple-200 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto glow-text">
                     <span class="emoji-purple">✨</span><span>Written Event feedback.</span>
                   </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                  <div class="bg-[#4c1d95]/90 px-4 py-3 text-purple-200 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto glow-text">
                     <span class="emoji-purple">🔍</span><span>Written Event Checker.</span>
                   </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
-                    <span class="emoji-purple">📘</span><span>Business term explanations.</span>
-                  </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
-                    <span class="emoji-purple">🧩</span><span>Roleplay strategy analysis.</span>
-                  </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
-                    <span class="emoji-purple">📈</span><span>Performance metric dashboards.</span>
-                  </div>
-                  <div class="bg-purple-950 px-4 py-3 text-purple-300 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">
+                  <div class="bg-[#4c1d95]/90 px-4 py-3 text-purple-200 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto glow-text">
                     <span class="emoji-purple">🧠</span><span>AI generated feedback.</span>
                   </div>
                 </div>
-                <!-- Duplicate block for seamless loop -->
                 <div class="space-y-5">
-                  <!-- repeat items here... -->
+                  <!-- Repeat as needed -->
                 </div>
               </div>
             </div>
@@ -124,52 +118,51 @@
       </div>
     </section>
 
-    <!-- Platform Screenshot Section -->
+    <!-- Demo Section -->
     <section class="bg-gray-900 py-20 px-6 xl:px-40">
       <div class="grid md:grid-cols-2 gap-12">
-        <div class="shadow-xl rounded-xl overflow-hidden border border-purple-900">
+        <div class="shadow-xl rounded-xl overflow-hidden border border-[#5b21b6] glow-box">
           <div class="p-6">
-            <h3 class="text-purple-400 text-lg font-bold mb-2">Roleplay Events</h3>
+            <h3 class="text-purple-300 text-lg font-bold glow-text mb-2">Roleplay Events</h3>
           </div>
-          <div class="flex justify-center items-center bg-purple-950 h-48">
-            <span class="text-purple-300 font-semibold">🎬 Demo videos coming soon...</span>
+          <div class="flex justify-center items-center bg-[#4c1d95]/90 h-48">
+            <span class="text-purple-200 font-semibold glow-text">🎬 Demo videos coming soon...</span>
           </div>
         </div>
-        <div class="shadow-xl rounded-xl overflow-hidden border border-purple-900">
+        <div class="shadow-xl rounded-xl overflow-hidden border border-[#5b21b6] glow-box">
           <div class="p-6">
-            <h3 class="text-purple-400 text-lg font-bold mb-2">Written Events</h3>
+            <h3 class="text-purple-300 text-lg font-bold glow-text mb-2">Written Events</h3>
           </div>
-          <div class="flex justify-center items-center bg-purple-950 h-48">
-            <span class="text-purple-300 font-semibold">🎬 Demo videos coming soon...</span>
+          <div class="flex justify-center items-center bg-[#4c1d95]/90 h-48">
+            <span class="text-purple-200 font-semibold glow-text">🎬 Demo videos coming soon...</span>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Platform Features Section -->
+        <!-- Feature Cards -->
     <section class="bg-gray-900 py-24 px-6 xl:px-40">
       <div class="grid md:grid-cols-2 gap-12">
-        <div class="shadow-xl rounded-2xl p-8 border border-purple-900">
-          <h3 class="text-purple-400 text-xl font-bold mb-4">Roleplay Generator</h3>
-          <ul class="text-purple-200 space-y-4">
+        <div class="shadow-xl rounded-2xl p-8 border border-[#5b21b6] glow-box">
+          <h3 class="text-purple-300 text-xl font-bold mb-4 glow-text">Roleplay Generator</h3>
+          <ul class="text-purple-200 space-y-4 glow-text">
             <li><strong>🧠 AI Tutor</strong> — DECA-specific AI tutor with voice capabilities</li>
             <li><strong>📊 Roleplay Grading</strong> — Visual analysis with PI-specific feedback</li>
             <li><strong>📝 Exam Practice</strong> — Topic-based uploads + feedback</li>
             <li><strong>📚 Real-world knowledge</strong> — Gain real-world business experience</li>
           </ul>
-          <a href="roleplay.html" class="mt-6 inline-block bg-gradient-to-r from-purple-600 to-blue-500 text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
+          <a href="roleplay.html" class="mt-6 inline-block bg-gradient-to-r from-[#6b21a8] to-[#3b82f6] text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
             Roleplay Generator →
           </a>
         </div>
-        <div class="shadow-xl rounded-2xl p-8 border border-purple-900">
-          <h3 class="text-purple-400 text-xl font-bold mb-4">Written Event Gallery</h3>
-          <ul class="text-purple-200 space-y-4">
+        <div class="shadow-xl rounded-2xl p-8 border border-[#5b21b6] glow-box">
+          <h3 class="text-purple-300 text-xl font-bold mb-4 glow-text">Written Event Gallery</h3>
+          <ul class="text-purple-200 space-y-4 glow-text">
             <li><strong>📄 Past Projects</strong> — Explore successful DECA written entries</li>
             <li><strong>🧠 AI Event Checker</strong> — Coming soon: instant feedback on your writing</li>
             <li><strong>📂 Event Database</strong> — Filter by category, topic, or team/individual</li>
             <li><strong>📝 Judge Rubrics</strong> — Learn how events are scored</li>
           </ul>
-          <a href="written.html" class="mt-6 inline-block bg-gradient-to-r from-purple-500 to-pink-400 text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
+          <a href="written.html" class="mt-6 inline-block bg-gradient-to-r from-[#9333ea] to-[#ec4899] text-white px-5 py-3 rounded-lg font-semibold text-sm shadow hover:opacity-90">
             Explore Written Gallery →
           </a>
         </div>
@@ -177,3 +170,4 @@
     </section>
   </body>
 </html>
+
