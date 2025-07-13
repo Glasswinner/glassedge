@@ -11,25 +11,16 @@
         font-family: 'Inter', sans-serif;
         background-color: #f9fafb;
       }
-      .scrolling-box {
-        animation: scroll-up 10s linear infinite;
+      .scroll-box {
+        animation: scrollUp 20s linear infinite;
       }
-      @keyframes scroll-up {
-        0% {
-          transform: translateY(0%);
-        }
-        100% {
-          transform: translateY(-50%);
-        }
+      @keyframes scrollUp {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-50%); }
       }
     </style>
   </head>
   <body>
-    <!-- Notification Banner -->
-    <div class="bg-gradient-to-r from-purple-600 to-pink-400 text-white text-sm text-center py-2">
-      Prilo for the World Scholars Cup is released, try it free! — Learn more →
-    </div>
-
     <!-- Navbar -->
     <header class="bg-white shadow sticky top-0 z-50">
       <div class="max-w-screen-xl mx-auto px-6">
@@ -39,9 +30,9 @@
             <span class="text-lg font-semibold text-purple-600">GlassEDGE</span>
           </div>
           <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-            <a href="#" class="hover:text-black">Roleplays</a>
-            <a href="#" class="hover:text-black">Walkthrough Videos</a>
-            <a href="#" class="hover:text-black">Written Event Gallery</a>
+            <a href="roleplay.html" class="hover:text-black">Roleplays</a>
+            <a href="walkthrough.html" class="hover:text-black">Walkthrough Videos</a>
+            <a href="written.html" class="hover:text-black">Written Event Gallery</a>
             <a href="#" class="hover:text-black">About Us</a>
           </nav>
           <div class="flex items-center space-x-3">
@@ -79,14 +70,16 @@
         <div class="w-full">
           <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-64 overflow-hidden relative">
             <div class="absolute inset-0 overflow-hidden">
-              <div class="space-y-6 scrolling-box">
-                <div class="flex items-center gap-4"><span>🧠</span><span>24/7 DECA-Specific AI Tutor</span></div>
-                <div class="flex items-center gap-4"><span>📊</span><span>Personalized Performance Analytics</span></div>
-                <div class="flex items-center gap-4"><span>🗣️</span><span>Smart Vocabulary Learning</span></div>
-                <div class="flex items-center gap-4"><span>📚</span><span>Competition Strategy Guide</span></div>
-                <div class="flex items-center gap-4"><span>🎭</span><span>AI-Powered Roleplay Practice</span></div>
-                <div class="flex items-center gap-4"><span>🧠</span><span>24/7 DECA-Specific AI Tutor</span></div>
-                <div class="flex items-center gap-4"><span>📊</span><span>Personalized Performance Analytics</span></div>
+              <div class="space-y-6 scroll-box">
+                <div class="flex items-center gap-4"><span>🧠</span><span>AI generated roleplays.</span></div>
+                <div class="flex items-center gap-4"><span>📊</span><span>AI generated feedback.</span></div>
+                <div class="flex items-center gap-4"><span>📃</span><span>Comprehensive written event gallery.</span></div>
+                <div class="flex items-center gap-4"><span>🎥</span><span>Demo videos.</span></div>
+                <div class="flex items-center gap-4"><span>✍️</span><span>Written Event feedback.</span></div>
+                <div class="flex items-center gap-4"><span>🔍</span><span>Written Event Checker.</span></div>
+                <!-- repeat to loop scroll -->
+                <div class="flex items-center gap-4"><span>🧠</span><span>AI generated roleplays.</span></div>
+                <div class="flex items-center gap-4"><span>📊</span><span>AI generated feedback.</span></div>
               </div>
             </div>
           </div>
@@ -114,7 +107,7 @@
       </div>
     </section>
 
-    <!-- Feature + Redirect Buttons -->
+    <!-- Feature Button Section -->
     <section class="bg-white py-20 px-6 xl:px-40">
       <div class="grid md:grid-cols-2 gap-12">
         <div class="bg-white rounded-xl shadow-md p-8 border">
@@ -137,7 +130,7 @@
             <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs font-semibold">New</span>
           </div>
           <ul class="space-y-4 text-sm text-gray-700">
-            <li class="flex items-center gap-3"><span class="text-xl">🧠</span><span><strong>AI Study Assistant</strong>: Help with WSC/written topics</span></li>
+            <li class="flex items-center gap-3"><span class="text-xl">🧠</span><span><strong>AI Study Assistant</strong>: Help with written topics</span></li>
             <li class="flex items-center gap-3"><span class="text-xl">📘</span><span><strong>Theme Master</strong>: Guides for deeper written strategy</span></li>
             <li class="flex items-center gap-3"><span class="text-xl">📝</span><span><strong>Case Practice</strong>: Practice written prompts with feedback</span></li>
             <li class="flex items-center gap-3"><span class="text-xl">✍️</span><span><strong>Writing Support</strong>: Feedback on structure and clarity</span></li>
