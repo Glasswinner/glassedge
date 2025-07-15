@@ -29,8 +29,8 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0b0e1a]">
-  <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl scale-[1.15]">
+<body class="min-h-screen px-4 py-12 bg-[#0b0e1a]">
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl mx-auto">
     <!-- Left Section -->
     <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
       <h1 class="text-4xl md:text-5xl font-bold mb-6 glow">Choose your event category:</h1>
@@ -43,7 +43,7 @@
           <option value="individual">Individual Series</option>
         </select>
       </div>
-      <div id="event-container" class="w-full mb-6 hidden">
+      <div id="event-container" class="w-full mb-6 opacity-50 pointer-events-none">
         <label for="event" class="block mb-2 text-lg font-semibold">Select event:</label>
         <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
       </div>
@@ -51,7 +51,7 @@
         Start Scenario
       </button>
       <div class="mt-8 p-4 border border-purple-600 bg-purple-900/30 rounded-lg text-purple-300 text-sm md:text-base font-medium">
-       <p><strong>Notice:</strong> GlassEDGE currently supports only <span class="text-white font-semibold">Principles events</span> and <span class="text-white font-semibold">Business Finance Series (BFS)</span>. More events are coming soon.</p>
+        <p><strong>Notice:</strong> GlassEDGE currently supports only <span class="text-white font-semibold">Principles events</span> and <span class="text-white font-semibold">Business Finance Series (BFS)</span>. More events are coming soon.</p>
       </div>
       <a href="index.html" class="block mt-6 text-blue-400 hover:underline">&larr; Return to Home</a>
     </div>
@@ -92,6 +92,27 @@
     </div>
   </div>
 
+  <!-- Full-width info bar -->
+  <section class="bg-purple-600 mt-40 py-24 px-6 w-full">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-white mb-6">How the Roleplay Generator Works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-white text-left max-w-6xl mx-auto">
+        <div>
+          <h3 class="text-xl font-semibold mb-2">1. Pick an Event</h3>
+          <p>Select your DECA cluster or series to generate a prompt specific to that event’s structure.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-2">2. Prep Like Real Competition</h3>
+          <p>Use a built-in timer and structured prompt to simulate your 10-minute prep time.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-2">3. Practice & Get Feedback</h3>
+          <p>Record your pitch or walk through the rubric to improve delivery and understanding of PIs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
@@ -114,7 +135,7 @@
         opt.textContent = code;
         eventSelect.appendChild(opt);
       });
-      eventContainer.classList.remove('hidden');
+      eventContainer.classList.remove('opacity-50', 'pointer-events-none');
       generateBtn.disabled = true;
     });
 
