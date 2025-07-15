@@ -10,20 +10,12 @@
     body {
       font-family: 'Inter', sans-serif;
     }
-    .glow {
-      text-shadow: 0 0 12px #a855f7;
-    }
     .scroll-box {
-      animation: scrollUp 20s linear infinite;
+      animation: scrollUp 25s linear infinite;
     }
     @keyframes scrollUp {
       0% { transform: translateY(0); }
       100% { transform: translateY(-50%); }
-    }
-    .event-border {
-      
-      border-radius: 12px;
-      padding: 12px;
     }
   </style>
 </head>
@@ -43,8 +35,8 @@
   </header>
 
   <!-- Main Generator Section -->
-  <main class="px-6 py-12 max-w-6xl mx-auto">
-    <div class="flex flex-col md:flex-row gap-8 items-start">
+  <main class="px-6 py-16 max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row gap-12 items-start">
       <!-- Form -->
       <div class="flex-1 space-y-4">
         <h2 class="text-3xl font-bold text-purple-600">Choose your event category:</h2>
@@ -56,14 +48,16 @@
           <option value="individual">Individual Series</option>
         </select>
 
-        <div id="event-container" class="">
+        <div id="event-container">
           <label for="event" class="block font-medium text-sm">Select event:</label>
           <select id="event" class="w-full p-3 rounded border border-gray-300 bg-gray-100 cursor-not-allowed" disabled>
             <option disabled selected value="">-- Select Event --</option>
           </select>
         </div>
 
-        <button id="generate-btn" class="w-full bg-purple-600 text-white p-3 rounded font-semibold hover:bg-purple-700" disabled>Start Scenario</button>
+        <button id="generate-btn" class="w-full bg-purple-600 text-white p-3 rounded font-semibold hover:bg-purple-700" disabled>
+          Start Scenario
+        </button>
 
         <div class="text-sm text-purple-800 bg-purple-100 border border-purple-300 p-4 rounded">
           <strong>Notice:</strong> GlassEDGE currently supports only <em>Principles</em> and <em>BFS</em> events. More coming soon!
@@ -71,8 +65,8 @@
         <a href="index.html" class="block text-sm text-blue-600 hover:underline">← Return to Home</a>
       </div>
 
-      <!-- Events -->
-      <div class="flex-1 max-h-[440px] overflow-hidden relative event-border">
+      <!-- Events Scroll Box -->
+      <div class="flex-1 max-h-[500px] overflow-hidden border border-purple-200 rounded-md p-2">
         <div class="scroll-box space-y-2">
           <div class="space-y-2">
             <div class="p-3 bg-yellow-100 text-yellow-900 rounded font-semibold">PBM - Principles of Business Mgmt</div>
@@ -109,26 +103,30 @@
   </main>
 
   <!-- How It Works Bar -->
-  <section class="w-full bg-purple-600 text-white px-8 py-32 mt-24">
+  <section class="w-full bg-purple-600 text-white px-8 py-24 mt-20">
     <div class="max-w-6xl mx-auto text-center">
-      <h2 class="text-2xl font-bold mb-6">How the Roleplay Generator Works</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-        <div>
-          <h3 class="font-semibold mb-1">1. Pick an Event</h3>
-          <p class="text-sm">Select your DECA cluster or series to generate a prompt specific to that event’s structure.</p>
+      <h2 class="text-2xl font-bold mb-12">How the Roleplay Generator Works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center space-y-4">
+          <img src="glassnewlogo.png" alt="Step 1" class="rounded-xl shadow-lg w-full max-w-sm" />
+          <h3 class="text-lg font-semibold">1. Pick an Event</h3>
+          <p class="text-sm text-white">Select your DECA cluster or series to generate a prompt specific to that event’s structure.</p>
         </div>
-        <div>
-          <h3 class="font-semibold mb-1">2. Prep Like Real Competition</h3>
-          <p class="text-sm">Use a built-in timer and structured prompt to simulate your 10-minute prep time.</p>
+        <div class="flex flex-col items-center space-y-4">
+          <img src="glassnewlogo.png" alt="Step 2" class="rounded-xl shadow-lg w-full max-w-sm" />
+          <h3 class="text-lg font-semibold">2. Prep Like Real Competition</h3>
+          <p class="text-sm text-white">Use a built-in timer and structured prompt to simulate your 10-minute prep time.</p>
         </div>
-        <div>
-          <h3 class="font-semibold mb-1">3. Practice & Get Feedback</h3>
-          <p class="text-sm">Record your pitch or walk through the rubric to improve delivery and understanding of PIs.</p>
+        <div class="flex flex-col items-center space-y-4">
+          <img src="glassnewlogo.png" alt="Step 3" class="rounded-xl shadow-lg w-full max-w-sm" />
+          <h3 class="text-lg font-semibold">3. Practice & Get Feedback</h3>
+          <p class="text-sm text-white">Record your pitch or walk through the rubric to improve delivery and understanding of PIs.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Script -->
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
@@ -153,7 +151,6 @@
       });
       eventSelect.disabled = false;
       eventSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
-      eventContainer.classList.remove('hidden');
       generateBtn.disabled = true;
     });
 
