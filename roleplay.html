@@ -42,13 +42,13 @@
   </header>
 
   <!-- Main Generator Section -->
-  <main class="px-6 py-16 max-w-6xl mx-auto">
-    <div class="flex flex-col md:flex-row gap-8 items-start">
+  <main class="px-6 pt-20 pb-40 max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row gap-12 items-start">
       <!-- Form -->
-      <div class="flex-1 space-y-6 scale-[1.1]">
-        <h2 class="text-4xl font-bold text-purple-600">Choose your event category:</h2>
-        <label class="block font-medium text-base">Select event type:</label>
-        <select id="event-type" class="w-full p-3 rounded border border-gray-300">
+      <div class="flex-1 space-y-8 scale-[1.25]">
+        <h2 class="text-5xl font-extrabold text-purple-700 tracking-tight">Choose Your Event Category</h2>
+        <label class="block font-medium text-lg">Select event type:</label>
+        <select id="event-type" class="w-full p-4 rounded border border-gray-300 text-lg">
           <option disabled selected value="">-- Select Event Type --</option>
           <option value="principles">Principles of Business Administration</option>
           <option value="team">Team Decision Making</option>
@@ -56,24 +56,25 @@
         </select>
 
         <div id="event-container">
-          <label for="event" class="block font-medium text-base">Select event:</label>
-          <select id="event" class="w-full p-3 rounded border border-gray-300 bg-gray-100 cursor-not-allowed" disabled>
+          <label for="event" class="block font-medium text-lg">Select event:</label>
+          <select id="event" class="w-full p-4 rounded border border-gray-300 bg-gray-100 cursor-not-allowed text-lg" disabled>
             <option disabled selected value="">-- Select Event --</option>
           </select>
         </div>
 
-        <button id="generate-btn" class="w-full bg-purple-600 text-white p-3 rounded font-semibold hover:bg-purple-700" disabled>Start Scenario</button>
+        <button id="generate-btn" class="w-full bg-purple-600 text-white p-4 rounded font-semibold text-lg hover:bg-purple-700" disabled>Start Scenario</button>
 
-        <div class="text-sm text-purple-800 bg-purple-100 border border-purple-300 p-4 rounded">
+        <div class="text-base text-purple-800 bg-purple-100 border border-purple-300 p-4 rounded">
           <strong>Notice:</strong> GlassEDGE currently supports only <em>Principles</em> and <em>BFS</em> events. More coming soon!
         </div>
         <a href="index.html" class="block text-sm text-blue-600 hover:underline">← Return to Home</a>
       </div>
 
       <!-- Events -->
-      <div class="flex-1 max-h-[460px] overflow-hidden relative event-border">
-        <div class="scroll-box space-y-2">
-          <div class="space-y-2">
+      <div class="flex-1 max-h-[580px] overflow-hidden relative event-border scale-[1.2]">
+        <div class="scroll-box space-y-3">
+          <div class="space-y-3">
+            <!-- [EVENT LIST – UNCHANGED] -->
             <div class="p-3 bg-yellow-100 text-yellow-900 rounded font-semibold">PBM - Principles of Business Mgmt</div>
             <div class="p-3 bg-gray-100 text-gray-900 rounded font-semibold">PEN - Principles of Entrepreneurship</div>
             <div class="p-3 bg-green-100 text-green-900 rounded font-semibold">PFN - Principles of Finance</div>
@@ -108,26 +109,23 @@
   </main>
 
   <!-- How It Works Bar -->
-  <section class="w-full bg-purple-600 text-white px-8 pt-24 pb-32 mt-12">
+  <section class="w-full bg-purple-600 text-white px-8 pt-24 pb-32 mt-40">
     <div class="max-w-6xl mx-auto text-center">
       <h2 class="text-5xl font-bold -mt-20 mb-2">How the Roleplay Generator Works</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="relative md:-translate-x-64 text-center">
           <h4 class="font-semibold text-lg mb-1">Step 1: Pick an Event</h4>
           <img src="step1.png" alt="Step 1" class="mx-auto mb-3 rounded-lg shadow-md h-48 w-auto" />
-          
           <p class="text-lg">Select your DECA cluster or series to generate a prompt specific to that event’s structure.</p>
         </div>
         <div class="relative text-center">
           <h4 class="font-semibold text-lg mb-1">Step 2: Prep Like Real Competition</h4>
           <img src="step2.png" alt="Step 2" class="mx-auto mb-3 rounded-lg shadow-md h-48 w-auto" />
-          
           <p class="text-lg">Use a built-in timer and structured prompt to simulate your 10-minute prep time.</p>
         </div>
         <div class="relative md:translate-x-64 text-center">
-          <h4 class="font-semibold text-lg mb-1">Step 3</h4>
-          <img src="step3.png" alt="Step 3: Practice & Get Feedback" class="mx-auto mb-3 rounded-lg shadow-md h-48 w-auto" />
-          
+          <h4 class="font-semibold text-lg mb-1">Step 3: Practice & Get Feedback</h4>
+          <img src="step3.png" alt="Step 3" class="mx-auto mb-3 rounded-lg shadow-md h-48 w-auto" />
           <p class="text-lg">Record your pitch or walk through the rubric to improve delivery and understanding of PIs.</p>
         </div>
       </div>
