@@ -26,7 +26,7 @@ You must evaluate the feasibility of the advertising campaign, advise on cash fl
 
 The CEO will begin the role-play by welcoming you and asking for your strategic recommendations. After presenting your analysis and answering follow-up questions, the role-play will conclude when the CEO thanks you.
 
-performance indicators:
+PERFORMANCE INDICATORS:
 - Describe the nature of income statements
 - Perform budgetary cost analysis
 - Explain legal considerations for finance
