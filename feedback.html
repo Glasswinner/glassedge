@@ -9,15 +9,15 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #0b0e1a;
-      color: white;
+      background: linear-gradient(to bottom, #fdf9ff, #f8f4fc);
+      color: #1a1a1a;
     }
   </style>
 </head>
-<body class="min-h-screen bg-[#0b0e1a] text-white p-6">
+<body class="min-h-screen">
 
   <!-- Navbar -->
-  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white shadow-md py-3 px-6 flex items-center justify-between">
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white shadow-md py-3 px-6 sticky top-0 z-50 flex items-center justify-between">
     <div class="flex items-center space-x-2">
       <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="w-6 h-6" />
       <span class="text-white font-bold text-lg">GlassEDGE</span>
@@ -28,39 +28,41 @@
       <a href="written.html" class="hover:underline">Written Event Gallery</a>
       <a href="about.html" class="hover:underline">About Us</a>
     </nav>
-    <a href="index.html#start" class="bg-white text-purple-600 hover:bg-gray-200 font-semibold px-4 py-2 rounded-full text-sm shadow">
+    <a href="index.html#start" class="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-4 py-2 rounded-full text-sm shadow">
       Get Started →
     </a>
   </header>
 
-  <div class="max-w-4xl mx-auto space-y-8 mt-10">
-    <h1 class="text-3xl font-bold text-blue-400 text-center">🏆 Your Roleplay Feedback</h1>
+  <!-- Feedback Content -->
+  <div class="max-w-4xl mx-auto space-y-10 py-12 px-4">
+    <h1 class="text-3xl font-extrabold text-center text-blue-600">🏆 Your Roleplay Feedback</h1>
 
-    <!-- Grade Summary -->
-    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
-      <h2 class="text-2xl font-semibold mb-4 text-white">📊 Score</h2>
-      <p class="text-4xl font-bold text-green-400" id="score">--</p>
+    <!-- Score Section -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">📊 Score</h2>
+      <p class="text-4xl font-bold text-green-500" id="score">--</p>
     </div>
 
-    <!-- Full AI Response -->
-    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
-      <h2 class="text-2xl font-semibold mb-4 text-white">💬 Judge Rubric Feedback</h2>
-      <pre id="feedback" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-300 bg-black p-4 rounded-md max-h-[500px] overflow-y-auto">Loading...</pre>
+    <!-- Feedback Section -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">💬 Judge Rubric Feedback</h2>
+      <pre id="feedback" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[500px] overflow-y-auto">Loading...</pre>
     </div>
 
     <!-- Transcript Section -->
-    <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 shadow-lg">
-      <h2 class="text-2xl font-semibold mb-4 text-white">📝 Transcript</h2>
-      <pre id="transcript" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-400 bg-black p-4 rounded-md max-h-[300px] overflow-y-auto"></pre>
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">📝 Transcript</h2>
+      <pre id="transcript" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[300px] overflow-y-auto">Loading...</pre>
     </div>
 
     <!-- Action Buttons -->
     <div class="flex justify-center gap-6">
-      <a id="retry-link" href="roleplayscenario.html?event=PFN" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-white font-semibold">🎥 Try Again</a>
-      <a href="index.html" class="text-blue-400 underline text-lg font-medium">← Return to Home</a>
+      <a id="retry-link" href="roleplayscenario.html?event=PFN" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl text-white font-semibold shadow">🎥 Try Again</a>
+      <a href="index.html" class="text-blue-500 underline text-lg font-medium">← Return to Home</a>
     </div>
   </div>
 
+  <!-- Script -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const score = params.get("score") || "--";
@@ -72,7 +74,6 @@
     document.getElementById("feedback").textContent = feedback;
     document.getElementById("transcript").textContent = transcript;
 
-    // Update retry link dynamically
     const retryLink = document.getElementById("retry-link");
     retryLink.href = `roleplayscenario.html?event=${eventCode}`;
   </script>
