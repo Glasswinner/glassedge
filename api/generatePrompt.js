@@ -17,7 +17,15 @@ async function fetchPromptFromModel(userPrompt) {
     throw new Error("No prompt choices returned from model");
   }
 
-  return result.choices[0].message.content;
+  let content = result.choices[0].message.content;
+
+  // Strip everything before and including </think> or similar
+  const thinkEndMatch = content.match(/<\/think>|<\/thinking>|<\/reflection>/i);
+  if (thinkEndMatch) {
+    content = content.slice(thinkEndMatch.index + thinkEndMatch[0].length).trimStart();
+  }
+
+  return content;
 }
 
 export default async function handler(req, res) {
