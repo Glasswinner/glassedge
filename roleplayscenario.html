@@ -37,10 +37,10 @@
       const handlePrompt = ({ prompt }) => {
         promptElement.textContent = prompt;
         localStorage.setItem("glassedge_prompt", prompt);
-        preludeElement.innerHTML = 
+        preludeElement.innerHTML = `
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => <li>${s}</li>).join('')}</ul>
-        ;
+          <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
+        `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
       };
@@ -63,10 +63,10 @@
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
         promptElement.textContent = fallbackPrompt;
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
-        preludeElement.innerHTML = 
+        preludeElement.innerHTML = `
           <div class="font-semibold text-blue-300 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => <li>${s}</li>).join('')}</ul>
-        ;
+          <ul class="mb-4 list-disc list-inside text-white">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
+        `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
       } else {
@@ -123,7 +123,7 @@
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
       const sec = String(seconds % 60).padStart(2, '0');
-      timerDisplay.textContent = ${min}:${sec};
+      timerDisplay.textContent = `${min}:${sec}`;
 
       if (seconds <= 60) timerDisplay.classList.add("text-red-500");
       if (seconds > 0) return seconds--;
@@ -206,7 +206,7 @@
           });
 
           const grade = await gradeRes.json();
-          window.location.href = /feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)};
+          window.location.href = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
 
         } catch {
           status.textContent = "❌ Transcription or grading failed.";
