@@ -268,7 +268,7 @@ IMPORTANT RULES:
 - Embed the performance indicators naturally in the logic of the scenario, and do not make it blatantly obvious. Have some tact here. Do NOT tell the student to “explain the four performance indicators.” Furthermore, do not use the same performance indicators as the example roleplay. Use the other set provided.
 - The response must not include rubrics, judge instructions, expected responses, or DECA branding.
 - Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- Match the length and structure of the Logan City Bank example. Do not shorten or reformat. At the end, display the four performance indicators explicitly. 
+- Match the length and structure of the Logan City Bank example; this does not mean you must make an intern scenario. That is merely an example; you can make multitude of scenarios based around the basics of finance/its industry. Do not shorten or reformat. At the end, display the four performance indicators explicitly. 
 
 Use the following style: **${style}**
 ${
