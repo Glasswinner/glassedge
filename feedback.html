@@ -16,42 +16,47 @@
 </head>
 <body class="min-h-screen">
 
-  <!-- Navbar -->
-  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white shadow-md py-3 px-6 sticky top-0 z-50 flex items-center justify-between">
-    <div class="flex items-center space-x-2">
-      <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="w-6 h-6" />
-      <span class="text-white font-bold text-lg">GlassEDGE</span>
+  <!-- ✅ NAVBAR (Perfected Layout) -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <!-- Left: Logo -->
+      <div class="flex items-center space-x-2">
+        <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="w-5 h-5" />
+        <span class="text-white font-bold text-lg">GlassEDGE</span>
+      </div>
+      <!-- Center: Navigation -->
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="roleplayscenario.html" class="hover:underline">Roleplays</a>
+        <a href="walkthroughs.html" class="hover:underline">Walkthrough Videos</a>
+        <a href="written.html" class="hover:underline">Written Event Gallery</a>
+        <a href="about.html" class="hover:underline">About Us</a>
+      </nav>
+      <!-- Right: CTA -->
+      <a href="index.html#start" class="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-4 py-2 rounded-full text-sm shadow">
+        Get Started →
+      </a>
     </div>
-    <nav class="space-x-6 hidden md:flex text-sm font-medium">
-      <a href="roleplayscenario.html" class="hover:underline">Roleplays</a>
-      <a href="walkthroughs.html" class="hover:underline">Walkthrough Videos</a>
-      <a href="written.html" class="hover:underline">Written Event Gallery</a>
-      <a href="about.html" class="hover:underline">About Us</a>
-    </nav>
-    <a href="index.html#start" class="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-4 py-2 rounded-full text-sm shadow">
-      Get Started →
-    </a>
   </header>
 
-  <!-- Feedback Content -->
+  <!-- ✅ MAIN CONTENT -->
   <div class="max-w-4xl mx-auto space-y-10 py-12 px-4">
-    <h1 class="text-3xl font-extrabold text-center text-blue-600">🏆 Your Roleplay Feedback</h1>
+    <h1 class="text-3xl font-extrabold text-center text-purple-600">🏆 Your Roleplay Feedback</h1>
 
     <!-- Score Section -->
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">📊 Score</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">📊 Score</h2>
       <p class="text-4xl font-bold text-green-500" id="score">--</p>
     </div>
 
     <!-- Feedback Section -->
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">💬 Judge Rubric Feedback</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">💬 Judge Rubric Feedback</h2>
       <pre id="feedback" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[500px] overflow-y-auto">Loading...</pre>
     </div>
 
     <!-- Transcript Section -->
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-800">📝 Transcript</h2>
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">📝 Transcript</h2>
       <pre id="transcript" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[300px] overflow-y-auto">Loading...</pre>
     </div>
 
@@ -62,7 +67,7 @@
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- ✅ SCRIPT -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const score = params.get("score") || "--";
@@ -74,8 +79,7 @@
     document.getElementById("feedback").textContent = feedback;
     document.getElementById("transcript").textContent = transcript;
 
-    const retryLink = document.getElementById("retry-link");
-    retryLink.href = `roleplayscenario.html?event=${eventCode}`;
+    document.getElementById("retry-link").href = `roleplayscenario.html?event=${eventCode}`;
   </script>
 </body>
 </html>
