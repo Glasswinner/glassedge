@@ -1,12 +1,12 @@
 async function fetchPromptFromModel(userPrompt) {
-  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      "Authorization": `Bearer ${process.env.GROQ_KEY}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "deepseek/deepseek-r1-0528:free",
+      model: "deepseek-r1-distill-llama-70b",
       messages: [{ role: "user", content: userPrompt }],
       temperature: 0.9
     })
