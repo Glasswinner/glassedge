@@ -70,15 +70,20 @@
   <!-- ✅ SCRIPT -->
   <script>
     const params = new URLSearchParams(window.location.search);
-    const score = params.get("score") || "--";
-    const feedback = decodeURIComponent(params.get("feedback") || "No feedback provided.");
+    const rawFeedback = decodeURIComponent(params.get("feedback") || "No feedback provided.");
     const transcript = decodeURIComponent(params.get("transcript") || "Transcript not available.");
     const eventCode = params.get("event") || "PFN";
 
-    document.getElementById("score").textContent = score;
-    document.getElementById("feedback").textContent = feedback;
-    document.getElementById("transcript").textContent = transcript;
+    // Extract score from "Total Score: 98/100" or similar
+    let score = "--";
+    const scoreMatch = rawFeedback.match(/total score[:\s]*([0-9]{1,3})\s*\/\s*100/i);
+    if (scoreMatch && scoreMatch[1]) {
+      score = scoreMatch[1];
+    }
 
+    document.getElementById("score").textContent = score;
+    document.getElementById("feedback").textContent = rawFeedback;
+    document.getElementById("transcript").textContent = transcript;
     document.getElementById("retry-link").href = `roleplayscenario.html?event=${eventCode}`;
   </script>
 </body>
