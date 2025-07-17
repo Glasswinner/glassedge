@@ -25,14 +25,14 @@ export default async function handler(req, res) {
     const mod = await import(`../grading/${eventCode}grade.js`);
     const config = mod.default?.default || mod.default || mod;
 
-    const deepseekRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Authorization": `Bearer ${process.env.GROQ_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-r1-0528:free",
+        model: "deepseek-r1-distill-llama-70b",
         messages: [
           { role: "system", content: config.instructions },
           {
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       })
     });
 
-    const result = await deepseekRes.json();
+    const result = await response.json();
     const aiText = result?.choices?.[0]?.message?.content?.trim();
 
     console.log("💬 AI Text Response:", aiText);
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       full: aiText
     });
   } catch (err) {
-    console.error("🔥 DeepSeek grading error:", err.message, err.stack);
+    console.error("🔥 Grading error:", err.message, err.stack);
     return res.status(500).json({ error: "Grading failed", message: err.message });
   }
 }
