@@ -44,9 +44,9 @@ export default async function handler(req, res) {
     });
 
     const result = await response.json();
-    const aiText = result?.choices?.[0]?.message?.content?.trim();
+    let aiText = result?.choices?.[0]?.message?.content?.trim();
 
-    console.log("💬 AI Text Response:", aiText);
+    console.log("💬 AI Text Response (Raw):", aiText);
 
     if (!aiText) {
       console.error("❌ DeepSeek returned empty or invalid content:", result);
@@ -57,6 +57,10 @@ export default async function handler(req, res) {
       });
     }
 
+    // 🔥 Strip <think>...</think> section from response if present
+    aiText = aiText.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+
+    // Continue with same scoring and response logic
     const scoreMatch = aiText.match(/score[:\s]*([0-9]{1,3})/i);
     const feedbackMatch = aiText.match(/feedback[:\s]*(.+)/is);
 
