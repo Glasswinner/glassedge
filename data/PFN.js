@@ -265,10 +265,10 @@ Describe the logistics of the interaction — the setting, how the roleplay begi
 🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
 
 IMPORTANT RULES:
-- Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
+- Embed the performance indicators naturally in the logic of the scenario, and do not make it blatantly obvious. Have some tact here. Do NOT tell the student to “explain the four performance indicators.”
 - The response must not include rubrics, judge instructions, expected responses, or DECA branding.
 - Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- Match the length and structure of the Logan City Bank example. Do not shorten or reformat. At the end, display the four performance indicators.
+- Match the length and structure of the Logan City Bank example. Do not shorten or reformat. At the end, display the four performance indicators explicitly. 
 
 Use the following style: **${style}**
 ${
