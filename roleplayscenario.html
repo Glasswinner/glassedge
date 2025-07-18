@@ -36,8 +36,8 @@
       ];
 
       const handlePrompt = ({ prompt }) => {
-        console.log("📋 Indicators used:", indicators);
         promptElement.textContent = prompt;
+        console.log("📋 Indicators used:", indicators);
         localStorage.setItem("glassedge_prompt", prompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
