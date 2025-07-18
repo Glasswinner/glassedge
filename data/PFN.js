@@ -270,15 +270,15 @@ Begin with **"You are to assume the role of..."** and describe the student’s j
 🔑 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it.  
+Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it. Give at least three sentences here. 
 🔑 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
 
 Paragraph 3: Expanded Imperative  
-Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.  
+Rephrase and expand the student’s task. Include specific actions they must take and why the information matters. This must be at least 3-4 sentences
 🔑 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
 
 Paragraph 4: Flow of Roleplay  
-Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes.  
+Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes. At the end, present the two questions the judge will ask.
 🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
 
 IMPORTANT RULES:
