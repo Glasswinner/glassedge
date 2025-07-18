@@ -201,7 +201,7 @@ Scenarios must reflect realistic business management and administration workplac
 
 
 SCENARIO DEPTH:
-Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic entrepreneurship(ie. a business owner, aspiring entrepreneur, etc.) role.
+Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic business management role(ie. a business owner, general manager, human resources manager, etc.) role.
 
 
 Use the following style: **${style}**
