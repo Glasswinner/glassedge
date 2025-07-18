@@ -258,6 +258,8 @@ ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this format:
 
+Performance Indicators: Place the four performance indicators, each on a new line.
+
 Paragraph 1: Setup  
 Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
