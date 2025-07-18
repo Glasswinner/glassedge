@@ -28,6 +28,9 @@ async function fetchPromptFromModel(userPrompt) {
   // Delete just the first line (and trim whitespace)
   content = content.split('\n').slice(1).join('\n').trim();
 
+  // Delete any line that starts with spaces or asterisks and "paragraph" (case-insensitive)
+  content = content.replace(/^[\s\*]*paragraph.*$/gim, '');
+
   // Clean up extra blank lines (optional, makes output neater)
   content = content.replace(/\n{3,}/g, '\n\n').trim();
 
