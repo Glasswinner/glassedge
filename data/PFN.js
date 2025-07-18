@@ -262,14 +262,19 @@ Paragraph 1: Setup
 Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the company and how the topic is relevant to the business. This must be 3 or more full sentences.
+Explain who the judge is, what they do, and how they interact with the student.  
+🔑 Required phrasing: “The [judge] will be at [company] for [time]... The company specializes in...”  
+Include at least 3 full sentences describing the business and the topic's relevance.
 
 Paragraph 3: Expanded Imperative  
-Restate and expand on what the student must do. Embed the indicators naturally through realistic tasks and phrasing. This must be 3–4 full sentences and should feel like real workplace instructions—not a list of topics.
+Restate and expand on what the student must do.  
+🔑 Required phrasing: “You must [do task]... You should [support/explain] to help the [judge role] understand...”  
+Write 3–4 full sentences using natural, realistic instructions. Embed the indicators tactfully without listing them.
+
 
 Paragraph 4: Flow of Roleplay  
-Explain where the roleplay takes place and how it unfolds. Required phrasing:  
-"You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you... The [judge] will thank you at the end of the meeting."
+Explain where the roleplay takes place and how it unfolds, and two questions the judge has. Required phrasing:  
+"You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you two questions: ... The [judge] will thank you at the end of the meeting."
 
 SCENARIO RANGE:
 Scenarios must reflect realistic entry-level finance workplace settings. Acceptable contexts include:  
