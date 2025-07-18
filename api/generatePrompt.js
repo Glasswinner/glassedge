@@ -25,8 +25,8 @@ async function fetchPromptFromModel(userPrompt) {
     content = content.slice(thinkEndMatch.index + thinkEndMatch[0].length).trimStart();
   }
 
-  // Remove everything up to and including the first colon on every line
-  content = content.replace(/^.*?:\s*/gm, '');
+  // Delete just the first line (and trim whitespace)
+  content = content.split('\n').slice(1).join('\n').trim();
 
   // Clean up extra blank lines (optional, makes output neater)
   content = content.replace(/\n{3,}/g, '\n\n').trim();
