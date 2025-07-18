@@ -161,7 +161,8 @@ Scenarios must reflect realistic entrepreneurship workplace setting. Acceptable 
   -Outlining the importance of maintaining consistent inventory for smooth operations
 
   -Explaining how economic trends influence small business strategy and revenue
- 
+
+ Scenarios are not limited to these contexts. Always consider the performance indicators when making a scenario.
 
 
 SCENARIO DEPTH:
