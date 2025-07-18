@@ -242,7 +242,18 @@ The intern will thank you at the end of the role-play.`
     const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
 
     return `
-You are generating a high school-level DECA roleplay scenario for a Principles of Finance (PFN) event. Follow this **EXACT 4-paragraph structure** modeled after the example below. Do not label or title the paragraphs.
+You are generating a high school-level DECA roleplay scenario for a Principles of Finance (PFN) event. Follow the tone of the example below. Do not label or title the paragraphs.
+SCENARIO RANGE:
+Scenarios should reflect realistic workplace situations for high school–level employees in finance roles. These may include:
+- Assisting a customer with banking or credit services
+- Mentoring a new intern
+- Preparing for a financial education event or workshop
+- Updating documents, reports, or data for a supervisor
+- Responding to an operational or customer-service concern
+- Explaining financial decisions to coworkers
+-And more...these are just examples to show what scenario CAN be like...you can go into scenarios different to these.
+These examples are merely general guides, and you must go into greater depth than that.Avoid unrealistic executive decision-making, dramatic emergencies, or school-based settings. All scenarios must be grounded in a small-business or entry-level professional finance context.
+
 
 ${exampleRoleplays[0]}
 
