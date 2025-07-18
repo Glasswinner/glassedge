@@ -13,8 +13,9 @@
   <script type="module">
     import PFNBank from '/roleplaybanks/PFNroleplaybank.js';
     import PBMBank from '/roleplaybanks/PBMroleplaybank.js';
+    import BFSBank from '/roleplaybanks/BFSroleplaybank.js';
 
-    const roleplayBanks = { PFN: PFNBank, PBM: PBMBank };
+    const roleplayBanks = { PFN: PFNBank, PBM: PBMBank, BFS: BFSBank };
     document.getElementById("event-code").textContent = window.eventCode;
 
     async function fetchWithTimeout(url, options = {}, timeout = 120000) {
