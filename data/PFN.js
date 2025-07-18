@@ -259,6 +259,10 @@ ${exampleRoleplays[0]}
 
 DO NOT REPEAT THE GIST OF THIS SCENARIO...PREVIOUSLY MENTIONED WERE THE TYPES OF SCENARIOS YOU COULD FOLLOW...
 
+SCENARIO DEPTH REQUIREMENT:
+Each paragraph should be 2–4 full sentences and provide meaningful detail. Use realistic workplace tasks, specific examples, and natural phrasing. Avoid vague summaries. The scenario should provide enough information to support a thoughtful, high-scoring student response without feeling generic.
+
+
 Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
