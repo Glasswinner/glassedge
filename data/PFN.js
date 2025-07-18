@@ -257,6 +257,8 @@ These examples are merely general guides, and you must go into greater depth tha
 
 ${exampleRoleplays[0]}
 
+DO NOT REPEAT THE GIST OF THIS SCENARIO...PREVIOUSLY MENTIONED WERE THE TYPES OF SCENARIOS YOU COULD FOLLOW...
+
 Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
@@ -276,7 +278,7 @@ Describe the logistics of the interaction — the setting, how the roleplay begi
 🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
 
 IMPORTANT RULES:
-- Embed the performance indicators naturally in the logic of the scenario, and do not make it blatantly obvious. Have some tact here. Do NOT tell the student to “explain the four performance indicators.” Furthermore, do not use the same performance indicators as the example roleplay. Use the other set provided.
+- Embed the performance indicators naturally in the logic of the scenario, and do not make it blatantly obvious. Have some tact here. Do NOT tell the student to “explain the four performance indicators.” Furthermore, do not use the same performance indicators as the example roleplay.
 - The response must not include rubrics, judge instructions, expected responses, or DECA branding.
 - Output only the student-facing scenario in plain text. No formatting instructions or labels.
 - The student must be an employee performing financial duties( accountant, financial advisor, etc.) Do not shorten or reformat from the given paragraph structure. 
