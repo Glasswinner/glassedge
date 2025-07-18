@@ -245,19 +245,15 @@ promptTemplate: ({ indicators, exampleRoleplays }) => {
   return `
 You are generating a realistic, high school-level DECA roleplay scenario for the Principles of Finance (PFN) event.
 
-❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.
-❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.
+❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.  
+❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.  
+❗ The student must be an employee performing financial duties (e.g., in banking, accounting, financial planning, or investments).  
+❗ The judge should NOT be an intern unless indicators explicitly relate to professional development or training.
 
-PERFORMANCE INDICATORS:
+⬇️ Use the following performance indicators as the foundation for your prompt:  
 - ${indicators.join('\n- ')}
 
-REQUIREMENTS:
-- The roleplay must focus specifically on the concepts above. For example, if the indicators relate to credit, the scenario must center around credit-related duties.
-- Do not include intern, career exploration, or education-themed scenarios unless the indicators directly deal with professional development.
-- The example below is on professional development, but your scenario must reflect only the topic and indicators given.
-- Do NOT reference DECA, rubrics, scoring, or formatting instructions.
-
-SCENARIO EXAMPLE (DO NOT COPY):
+SCENARIO EXAMPLE (DO NOT COPY):  
 ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this format:
@@ -266,25 +262,26 @@ Paragraph 1: Setup
 Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the company and how the topic is relevant to the business. Give at least 3 full sentences.
+Explain who the judge is, what they do, and how they interact with the student. Describe the company and how the topic is relevant to the business. This must be 3 or more full sentences.
 
 Paragraph 3: Expanded Imperative  
-Restate and expand on what the student must do. Explain why the task matters. Embed the indicators naturally without calling them “performance indicators.” This must be 3–4 full sentences.
+Restate and expand on what the student must do. Embed the indicators naturally through realistic tasks and phrasing. This must be 3–4 full sentences and should feel like real workplace instructions—not a list of topics.
 
 Paragraph 4: Flow of Roleplay  
-Explain where the interaction is taking place and how it will unfold. Include the phrase:
+Explain where the roleplay takes place and how it unfolds. Required phrasing:  
 "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you... The [judge] will thank you at the end of the meeting."
 
 SCENARIO RANGE:
-Scenarios should reflect realistic entry-level finance workplace settings. Acceptable contexts include:
-- Assisting clients with credit or banking issues
-- Preparing budget summaries or financial reports
-- Managing a data discrepancy or error in documentation
-- Responding to internal questions about financial tools, ethics, or compliance
-- Helping a supervisor solve a practical finance problem
+Scenarios must reflect realistic entry-level finance workplace settings. Acceptable contexts include:  
+- Assisting clients with banking or investment concerns  
+- Collaborating on financial documents or reporting  
+- Clarifying compliance or policy details for a colleague  
+- Responding to operational questions in a financial setting  
+- Explaining professional development pathways for finance employees
 
 SCENARIO DEPTH:
-Each paragraph must be 2–4 full sentences, detailed, and natural. Avoid fluff, vague summaries, and overused templates. Avoid dramatic emergencies or high-level executive decision-making.
+Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic finance role.
+
 
 
 
