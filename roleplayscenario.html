@@ -36,6 +36,7 @@
       ];
 
       const handlePrompt = ({ prompt }) => {
+        console.log("📋 Indicators used:", indicators);
         promptElement.textContent = prompt;
         localStorage.setItem("glassedge_prompt", prompt);
         preludeElement.innerHTML = `
