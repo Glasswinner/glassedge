@@ -209,6 +209,7 @@ const PFN = {
 
   exampleRoleplays: [
     `CAREER CLUSTER
+
 Finance
 
 INSTRUCTIONAL AREA
@@ -236,56 +237,57 @@ You will present this information in a role-play that takes place at the bank. T
 1. Which professional organizations are important to join in finance?
 2. How can I use this internship as a tool for future employment?
 The intern will thank you at the end of the role-play.`
-  ],
+],
 
-  promptTemplate: ({ indicators, exampleRoleplays }) => {
-    const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
+promptTemplate: ({ indicators, exampleRoleplays }) => {
+  const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
 
-    return `
-You are generating a high school-level DECA roleplay scenario for a Principles of Finance (PFN) event. Follow the tone of the example below. Do not label or title the paragraphs.
-SCENARIO RANGE:
-Scenarios should reflect realistic workplace situations for high school–level employees in finance roles. These may include:
-- Assisting a customer with banking or credit services
-- Mentoring a new intern
-- Preparing for a financial education event or workshop
-- Updating documents, reports, or data for a supervisor
-- Responding to an operational or customer-service concern
-- Explaining financial decisions to coworkers
--And more...these are just examples to show what scenario CAN be like...you can go into scenarios different to these.
-These examples are merely general guides, and you must go into greater depth than that.Avoid unrealistic executive decision-making, dramatic emergencies, or school-based settings. All scenarios must be grounded in a small-business or entry-level professional finance context.
+  return `
+You are generating a realistic, high school-level DECA roleplay scenario for the Principles of Finance (PFN) event.
 
+❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.
+❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.
 
+PERFORMANCE INDICATORS:
+- ${indicators.join('\n- ')}
+
+REQUIREMENTS:
+- The roleplay must focus specifically on the concepts above. For example, if the indicators relate to credit, the scenario must center around credit-related duties.
+- Do not include intern, career exploration, or education-themed scenarios unless the indicators directly deal with professional development.
+- The example below is on professional development, but your scenario must reflect only the topic and indicators given.
+- Do NOT reference DECA, rubrics, scoring, or formatting instructions.
+
+SCENARIO EXAMPLE (DO NOT COPY):
 ${exampleRoleplays[0]}
-
-DO NOT REPEAT THE GIST OF THIS SCENARIO...PREVIOUSLY MENTIONED WERE THE TYPES OF SCENARIOS YOU COULD FOLLOW...
-
-SCENARIO DEPTH REQUIREMENT:
-Each paragraph should be 2–4 full sentences and provide meaningful detail. Use realistic workplace tasks, specific examples, and natural phrasing. Avoid vague summaries. The scenario should provide enough information to support a thoughtful, high-scoring student response without feeling generic.
-
 
 Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
-Begin with **"You are to assume the role of..."** and describe the student’s job at a business. Mention the judge’s role and their specific request or concern.  
-🔑 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
+Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it. Give at least three sentences here. 
-🔑 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
+Explain who the judge is, what they do, and how they interact with the student. Describe the company and how the topic is relevant to the business. Give at least 3 full sentences.
 
 Paragraph 3: Expanded Imperative  
-Rephrase and expand the student’s task. Include specific actions they must take and why the information matters. This must be at least 3-4 sentences
-🔑 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
+Restate and expand on what the student must do. Explain why the task matters. Embed the indicators naturally without calling them “performance indicators.” This must be 3–4 full sentences.
 
 Paragraph 4: Flow of Roleplay  
-Describe the logistics of the interaction — the setting, how the roleplay begins, how the roleplay concludes, and the two questions you provide the judge will ask..
-🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you... The [judge] will thank you at the end of the meeting."
+Explain where the interaction is taking place and how it will unfold. Include the phrase:
+"You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you... The [judge] will thank you at the end of the meeting."
 
-IMPORTANT RULES:
-- Embed the performance indicators naturally in the logic of the scenario, and do not make it blatantly obvious. Have some tact here. Do NOT tell the student to “explain the four performance indicators.” Furthermore, do not use the same performance indicators as the example roleplay.
-- The response must not include rubrics, judge instructions, expected responses, or DECA branding.
-- Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- The student must be an employee performing financial duties( accountant, financial advisor, etc.) Do not shorten or reformat from the given paragraph structure. 
+SCENARIO RANGE:
+Scenarios should reflect realistic entry-level finance workplace settings. Acceptable contexts include:
+- Assisting clients with credit or banking issues
+- Preparing budget summaries or financial reports
+- Managing a data discrepancy or error in documentation
+- Responding to internal questions about financial tools, ethics, or compliance
+- Helping a supervisor solve a practical finance problem
+
+SCENARIO DEPTH:
+Each paragraph must be 2–4 full sentences, detailed, and natural. Avoid fluff, vague summaries, and overused templates. Avoid dramatic emergencies or high-level executive decision-making.
+
+
+
 
 Use the following style: **${style}**
 ${
