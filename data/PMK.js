@@ -135,33 +135,71 @@ You will present the information to the co-worker (judge) in a role-play to take
     const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
 
     return `
-You are generating a high school-level DECA roleplay scenario for a Principles of Marketing (PMK) event. Follow this **EXACT 4-paragraph structure** modeled after the example below. Do not label or title the paragraphs.
+You are generating a realistic, high school-level DECA roleplay scenario for the Principles of Marketing (PMK) event.
 
+❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.  
+❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.  
+❗ The student must take on a role typical in marketing communications, marketing management, marketing research, merchandising and professional selling.
+ 
+❗ The judge should NOT be a new employee unless indicators explicitly relate to professional development or training.
+
+⬇️ Use the following performance indicators as the foundation for your prompt:  
+- ${indicators.join('\n- ')}
+
+SCENARIO EXAMPLE (DO NOT COPY):  
 ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
-Begin with **"You are to assume the role of..."** and describe the student’s job at a business. Mention the judge’s role and their specific request or concern.  
-🔑 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
+Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it.  
-🔑 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
+Explain who the judge is, what they do, and how they interact with the student.  
+🔑 Required phrasing: “The [judge] will be at [company] for [time]... The company specializes in...”  
+Include at least 3 full sentences describing the business and the topic's relevance.
 
 Paragraph 3: Expanded Imperative  
-Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.  
-🔑 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
+Restate and expand on what the student must do.  
+🔑 Required phrasing: “You must [do task]... You should [support/explain] to help the [judge role] understand...”  
+Write 3–4 full sentences using natural, realistic instructions. Embed the indicators tactfully without listing them.
+
 
 Paragraph 4: Flow of Roleplay  
-Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes.  
-🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
+Explain where the roleplay takes place and how it unfolds, and two questions the judge has. Required phrasing:  
+"You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you two questions: ... The [judge] will thank you at the end of the meeting."
 
-IMPORTANT RULES:
-- Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
-- The response must not include rubrics, judge instructions, expected responses, or DECA branding.
-- Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- Match the length and structure of the FUN FINDS example. Do not shorten or reformat. At the end, display the four performance indicators. 
+SCENARIO RANGE:
+Scenarios must reflect realistic marketing workplace setting. Acceptable contexts include: 
+  -Explaining how to communicate a policy change to customers using multiple channels
+
+  -Determining the best way to collect customer feedback at an event or location
+
+  -Recommending how a business can use social media to better understand customer preferences
+
+  -Writing informational messages to announce new products, services, or restrictions
+
+  -Describing how to use customer data to develop personalized marketing strategies
+
+  -Planning how to gather and use customer insights to improve loyalty or satisfaction
+
+  -Outlining how to choose appropriate promotional methods for a new campaign
+
+  -Responding to a manager’s request for better ways to engage customers at the point of sale
+
+  -Advising a teammate on ethical and effective use of customer input from social platforms
+
+  -Clarifying how improved communication contributes to stronger brand-customer relationships
+
+
+  
+ 
+ 
+
+
+SCENARIO DEPTH:
+Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic marketing role( marketing coordinator, social media manager, marketing specialist, etc.) role.
+
 
 Use the following style: **${style}**
 ${
