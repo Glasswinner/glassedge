@@ -195,6 +195,8 @@ Scenarios must reflect realistic business management and administration workplac
   -Justifying a shift in customer service strategy or internal operations
 
   -Clarifying how competition affects company pricing and strategic decisions
+
+  Scenarios are not limited to these contexts. Always consider the performance indicators when making a scenario.
   
  
  
