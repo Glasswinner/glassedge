@@ -25,8 +25,11 @@ async function fetchPromptFromModel(userPrompt) {
     content = content.slice(thinkEndMatch.index + thinkEndMatch[0].length).trimStart();
   }
 
-  // Remove any line/paragraph containing "here is a generated scenario:"
-  content = content.replace(/^.*here is a generated scenario:.*$/gim, '').replace(/\n{3,}/g, '\n\n').trim();
+  // Remove everything up to and including the first colon on every line
+  content = content.replace(/^.*?:\s*/gm, '');
+
+  // Clean up extra blank lines (optional, makes output neater)
+  content = content.replace(/\n{3,}/g, '\n\n').trim();
 
   return content;
 }
