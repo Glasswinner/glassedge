@@ -6,7 +6,7 @@ async function fetchPromptFromModel(userPrompt) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "deepseek-r1-distill-llama-70b",
+      model: "llama3-70b-8192",
       messages: [{ role: "user", content: userPrompt }],
       temperature: 0.9
     })
