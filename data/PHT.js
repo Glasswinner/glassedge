@@ -117,33 +117,69 @@ You will present the information to the student (judge) in a role-play to take p
     const style = Math.random() < 0.9 ? "Foundational Style" : "Problem-Solution Style";
 
     return `
-You are generating a high school-level DECA roleplay scenario for a Principles of Hospitality and Tourism (PHT) event. Follow this **EXACT 4-paragraph structure** modeled after the example below. Do not label or title the paragraphs.
+You are generating a realistic, high school-level DECA roleplay scenario for the Principles of Hospitality and Tourism (PMK) event.
 
+❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.  
+❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.  
+❗ The student must take on a role typical in careers in hotels, restaurants, and tourism and travel.
+❗ The judge should NOT be a new employee unless indicators explicitly relate to professional development or training.
+
+⬇️ Use the following performance indicators as the foundation for your prompt:  
+- ${indicators.join('\n- ')}
+
+SCENARIO EXAMPLE (DO NOT COPY):  
 ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this format:
 
 Paragraph 1: Setup  
-Begin with **"You are to assume the role of..."** and describe the student’s job at a business. Mention the judge’s role and their specific request or concern.  
-🔑 Required phrasing: "You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic]."
+Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
 Paragraph 2: Judge & Company Context  
-Explain who the judge is, what they do, and how they interact with the student. Describe the business’s focus and how the topic relates to it.  
-🔑 Required phrasing: "The [judge role] will be at [company] for [time]... The company specializes in..."
+Explain who the judge is, what they do, and how they interact with the student.  
+🔑 Required phrasing: “The [judge] will be at [company] for [time]... The company specializes in...”  
+Include at least 3 full sentences describing the business and the topic's relevance.
 
 Paragraph 3: Expanded Imperative  
-Rephrase and expand the student’s task. Include specific actions they must take and why the information matters.  
-🔑 Required phrasing: "You must [do task]... You should [support/explain] to help the [judge role] understand..."
+Restate and expand on what the student must do.  
+🔑 Required phrasing: “You must [do task]... You should [support/explain] to help the [judge role] understand...”  
+Write 3–4 full sentences using natural, realistic instructions. Embed the indicators tactfully without listing them.
+
 
 Paragraph 4: Flow of Roleplay  
-Describe the logistics of the interaction — the setting, how the roleplay begins, that the judge will ask two questions, and how the roleplay concludes.  
-🔑 Required phrasing: "You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... After you have presented... the [judge] will thank you."
+Explain where the roleplay takes place and how it unfolds, and two questions the judge has. Required phrasing:  
+"You will present the information to the [judge]... The [judge] will begin the role-play by asking you about... During your conversation the [judge] will ask you two questions: ... The [judge] will thank you at the end of the meeting."
 
-IMPORTANT RULES:
-- Embed the performance indicators naturally in the logic of the scenario. Do NOT tell the student to “explain the four performance indicators.”
-- The response must not include rubrics, judge instructions, expected responses, or DECA branding.
-- Output only the student-facing scenario in plain text. No formatting instructions or labels.
-- Match the length and structure of the CITY HOTEL example. Do not shorten or reformat. At the end, display the four performance indicators.
+SCENARIO RANGE:
+Scenarios must reflect realistic hospitality and tourism workplace setting. Acceptable contexts include: 
+  -Coaching a new front desk employee on how to handle declined credit cards with empathy
+
+  -Explaining how to keep a restaurant's self-service stations safe and secure for guests
+
+  -Outlining health and safety procedures for food-handling equipment in a buffet-style setting
+
+  -Recommending routine safety precautions and training for hospitality employees
+
+  -Responding to a hospitality student’s questions about career pathways in hotel management
+
+  -Explaining networking strategies to find job opportunities in hospitality and tourism
+
+  -Describing professional development resources for advancing in the hospitality industry
+
+  -Advising a coworker on how to maintain guest privacy and professionalism during check-in
+
+  -Helping a new employee understand proper communication with frustrated guests
+
+  -Supporting a colleague in identifying alternative career paths in the hospitality sector
+  Scenarios are not limited to these contexts. Always consider the performance indicators when making a scenario.
+ 
+  
+ 
+ 
+
+
+SCENARIO DEPTH:
+Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic hospitality and tourism role( travel desk, travel agent, cruise ship employee, hotel desk employee, etc.)
 
 Use the following style: **${style}**
 ${
