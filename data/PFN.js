@@ -247,7 +247,7 @@ You are generating a realistic, high school-level DECA roleplay scenario for the
 
 ❗ DO NOT COPY OR REWORD THE EXAMPLE BELOW. It is only to show tone and paragraph structure.  
 ❗ The topic of your generated scenario MUST clearly relate to the performance indicators provided below.  
-❗ The student must be an employee performing financial duties (e.g., in banking, accounting, financial planning, or investments).  
+❗ The student must ALWAYS be an employee performing financial duties (e.g., in banking, accounting, financial planning, or investments).  
 ❗ The judge should NOT be an intern unless indicators explicitly relate to professional development or training.
 
 ⬇️ Use the following performance indicators as the foundation for your prompt:  
