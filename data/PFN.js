@@ -284,6 +284,8 @@ Scenarios must reflect realistic entry-level finance workplace settings. Accepta
 - Responding to operational questions in a financial setting  
 - Explaining professional development pathways for finance employees
 
+Scenarios are not limited to these contexts. Always consider the performance indicators when making a scenario.
+
 SCENARIO DEPTH:
 Each paragraph must be 2–4 full sentences with meaningful detail and a natural voice. Avoid vague summaries, dramatic emergencies, or high-level executive decision-making. The tone should reflect a student employee in a realistic finance role.
 
