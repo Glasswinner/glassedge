@@ -55,14 +55,13 @@
         "- Creativity and Innovation – Show evidence of creativity."
       ];
 
+      // Button DOM for indicators (for later use)
+      const showBtn = document.getElementById("show-indicators-btn");
+      const indicatorsDiv = document.getElementById("indicators-list");
+
       const handlePrompt = ({ prompt, indicators }) => {
         promptElement.innerHTML = markdownTableToHTML(prompt);
-        console.log("✅ Using AI-generated prompt");
-        console.log("📋 Indicators used:", indicators);
-
-        // Save indicators globally for reveal button
         window.currentIndicators = indicators;
-
         localStorage.setItem("glassedge_prompt", prompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
@@ -70,6 +69,10 @@
         `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
+        // Show the button after prompt loads
+        showBtn.classList.remove("hidden");
+        indicatorsDiv.classList.add("hidden");
+        showBtn.classList.add("animate-fadeIn");
       };
 
       try {
@@ -80,21 +83,15 @@
         });
 
         const data = await res.json();
-        console.log("🧠 AI response data:", data);
-
         if (res.ok && data.prompt) return handlePrompt(data);
       } catch {}
 
-      console.warn("🚨 Using fallback roleplay from local bank");
-
+      // Fallback
       const fallback = roleplayBanks[window.eventCode];
       if (fallback?.length) {
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
         promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
-
-        // Example fallback indicators (should be loaded from bank in real code)
         window.currentIndicators = ["No AI indicators found."];
-
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
@@ -102,6 +99,9 @@
         `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
+        showBtn.classList.remove("hidden");
+        indicatorsDiv.classList.add("hidden");
+        showBtn.classList.add("animate-fadeIn");
       } else {
         promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
       }
@@ -109,6 +109,13 @@
 
     fetchPromptWithFallback();
   </script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to   { opacity: 1; transform: none;}
+    }
+    .animate-fadeIn { animation: fadeIn 0.6s cubic-bezier(.4,0,.2,1) 1; }
+  </style>
 </head>
 <body class="bg-white text-gray-800 font-inter">
   <!-- Header -->
@@ -147,18 +154,20 @@
       </div>
 
       <!-- PERFORMANCE INDICATOR REVEAL BUTTON + BOX -->
-      <div id="show-indicators-section" class="mt-8 text-center">
-        <button id="show-indicators-btn" class="bg-blue-600 text-white px-4 py-2 rounded-2xl shadow-xl hover:bg-blue-700 transition-all">
+      <div id="show-indicators-section" class="mt-24 text-center">
+        <button id="show-indicators-btn"
+          class="hidden bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-2xl shadow-xl font-semibold text-base transition-all hover:scale-105"
+        >
           Can't see your performance indicators? Click here to view them.
         </button>
-        <div id="indicators-list" class="hidden mt-4 bg-neutral-800 p-4 rounded-xl shadow-xl text-left max-w-xl mx-auto text-white"></div>
+        <div id="indicators-list" class="hidden mt-6 bg-[#f2f2f2] p-6 rounded-xl shadow-xl text-left max-w-xl mx-auto text-gray-900"></div>
       </div>
       <script>
         // Indicator reveal logic
         document.addEventListener("DOMContentLoaded", function() {
           const showBtn = document.getElementById("show-indicators-btn");
           const listDiv = document.getElementById("indicators-list");
-          showBtn.addEventListener("click", function() {
+          showBtn.onclick = function() {
             let indicators = window.currentIndicators || [];
             if (Array.isArray(indicators) && indicators.length > 0 && indicators[0] !== "No AI indicators found.") {
               listDiv.innerHTML = `
@@ -172,7 +181,7 @@
             }
             listDiv.classList.remove("hidden");
             showBtn.classList.add("hidden");
-          });
+          };
         });
       </script>
       <!-- END PERFORMANCE INDICATOR ADDITION -->
