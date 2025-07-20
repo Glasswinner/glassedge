@@ -234,7 +234,7 @@ Provide relevant data, costs, or business challenges that the student must refer
 Paragraph 4: Imperative  
 You must [list the core tasks—e.g., calculate, prepare, explain, analyze, recommend] related to [the accounting concept or scenario]. You should [support/explain/apply] your findings to help the [judge role] understand [the reasoning, importance, or impact].
 
-Paragraph 5: Roleplay Flow  
+Paragraph 5: Roleplay Flow + two questions( that you formulate) for the participant
 You will present the information to the [manager/owner/client] (judge) in a role-play to take place in the [company/judge’s] office. The [judge role] will begin the role-play by greeting you and asking to hear your ideas. During the meeting, the judge will ask you two questions... After you have presented your analysis and answered the [judge role]’s questions, the [judge role] will conclude the role-play by thanking you for your work.
 
 IMPORTANT:
