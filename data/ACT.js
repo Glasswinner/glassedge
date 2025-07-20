@@ -220,7 +220,7 @@ ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this structure. Incorporate the suggested sentence frames for each paragraph to match official DECA event style.
 
-Performance Indicators: Place the five performance indicators, each on a new line.
+Performance Indicators: Make a line called Performance Indicators. Below, place the five performance indicators, each on a new line.
 
 Paragraph 1: Setup  
 You are to assume the role of a(n) [accountant/consultant/senior accountant] at [COMPANY NAME]. The [judge role: manager, owner, or client] has asked you to [briefly state the request or concern].
