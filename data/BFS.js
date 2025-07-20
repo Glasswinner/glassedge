@@ -166,8 +166,7 @@ You will present your ideas to the owner (judge) in a role-play to take place in
     const includeJudgment = Math.random() < 0.7;
 
     return `
-⬇️ Use the following performance indicators as the foundation for your prompt:  
-- ${indicators.join('\n- ')
+
 You are generating a DECA roleplay scenario for the Business Finance Series (BFS) event. Follow this multi-paragraph format that mirrors actual DECA roleplays.
 
 ${exampleRoleplays[0]}
