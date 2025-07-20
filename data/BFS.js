@@ -175,7 +175,8 @@ Now generate a new roleplay using this structure:
 Performance Indicators: Place the five performance indicators, each on a new line.
 
 Paragraph 1: Setup  
-Describe the student’s role at a company and the judge’s request. Start with: “You are to assume the role of...”
+Describe the student’s role at a company and the judge’s request. Start with: You are to assume the role of a(n) [financial analysist, senior financial advisor, etc.] at [COMPANY NAME]. The [judge role: manager, owner, or client] has asked you to [briefly state the request or concern].
+
 
 Paragraph 2: Judge & Company Context  
 Describe the company’s business, the judge’s role, and why the issue is relevant to the business.
@@ -190,7 +191,8 @@ ${includeJudgment ? `Paragraph 5: Recommendation
 Conclude with an instruction that the student should form a recommendation or judgment based on their analysis.` : ``}
 
 Paragraph 6: Roleplay Flow  
-Explain how the roleplay begins, that the judge will ask two questions, and how it ends. Do not mention rubrics.
+Explain how the roleplay begins, the judge's two questions, and how it ends. Do not mention rubrics. Required phrasing: You will present the information to the [manager/owner/client] (judge) in a role-play to take place in the [company/judge’s] office. The [judge role] will begin the role-play by greeting you and asking to hear your ideas. During the meeting, the [judge role] will ask you 2 questions... After you have presented your analysis and answered the [judge role]’s questions, the [judge role] will conclude the role-play by thanking you for your work.
+
 
 IMPORTANT:
 - Embed the indicators naturally. Do NOT list or label them explicitly. Furthermore, do not explicity label paragraphs. 
