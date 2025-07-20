@@ -214,6 +214,11 @@ You will present the information to the client (judge) in a role-play to take pl
   ],
 
   promptTemplate: ({ indicators, exampleRoleplays }) => `
+
+  
+⬇️ Use the following performance indicators as the foundation for your prompt:  
+- ${indicators.join('\n- ')}
+
 You are generating a DECA roleplay scenario for the Accounting Applications Series (ACT) event. Follow this multi-paragraph format that mirrors actual DECA roleplays.
 
 ${exampleRoleplays[0]}
