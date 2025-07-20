@@ -172,6 +172,8 @@ ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this structure:
 
+Performance Indicators: Place the five performance indicators, each on a new line.
+
 Paragraph 1: Setup  
 Describe the student’s role at a company and the judge’s request. Start with: “You are to assume the role of...”
 
@@ -191,7 +193,7 @@ Paragraph 6: Roleplay Flow
 Explain how the roleplay begins, that the judge will ask two questions, and how it ends. Do not mention rubrics.
 
 IMPORTANT:
-- Embed the indicators naturally. Do NOT list or label them explicitly, but at the end, list out the five performance indicators, under a new line titled "performance indicators.". Furthermore, do not explicity label paragraphs. 
+- Embed the indicators naturally. Do NOT list or label them explicitly. Furthermore, do not explicity label paragraphs. 
 - Do not include judge instructions, scenario logic sections, or DECA branding.
 - Match tone and format to actual BFS event examples.
 
