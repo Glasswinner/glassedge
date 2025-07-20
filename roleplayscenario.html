@@ -60,6 +60,9 @@
         console.log("✅ Using AI-generated prompt");
         console.log("📋 Indicators used:", indicators);
 
+        // Save indicators globally for reveal button
+        window.currentIndicators = indicators;
+
         localStorage.setItem("glassedge_prompt", prompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
@@ -88,6 +91,10 @@
       if (fallback?.length) {
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
         promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
+
+        // Example fallback indicators (should be loaded from bank in real code)
+        window.currentIndicators = ["No AI indicators found."];
+
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
@@ -138,6 +145,37 @@
       <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
       </div>
+
+      <!-- PERFORMANCE INDICATOR REVEAL BUTTON + BOX -->
+      <div id="show-indicators-section" class="mt-8 text-center">
+        <button id="show-indicators-btn" class="bg-blue-600 text-white px-4 py-2 rounded-2xl shadow-xl hover:bg-blue-700 transition-all">
+          Can't see your performance indicators? Click here to view them.
+        </button>
+        <div id="indicators-list" class="hidden mt-4 bg-neutral-800 p-4 rounded-xl shadow-xl text-left max-w-xl mx-auto text-white"></div>
+      </div>
+      <script>
+        // Indicator reveal logic
+        document.addEventListener("DOMContentLoaded", function() {
+          const showBtn = document.getElementById("show-indicators-btn");
+          const listDiv = document.getElementById("indicators-list");
+          showBtn.addEventListener("click", function() {
+            let indicators = window.currentIndicators || [];
+            if (Array.isArray(indicators) && indicators.length > 0 && indicators[0] !== "No AI indicators found.") {
+              listDiv.innerHTML = `
+                <strong class="block mb-2 text-lg">Performance Indicators for this scenario:</strong>
+                <ul class="list-disc pl-5 mt-2">
+                  ${indicators.map(i => `<li>${i}</li>`).join('')}
+                </ul>
+              `;
+            } else {
+              listDiv.innerHTML = `<em>Sorry, no indicators are available for this scenario.</em>`;
+            }
+            listDiv.classList.remove("hidden");
+            showBtn.classList.add("hidden");
+          });
+        });
+      </script>
+      <!-- END PERFORMANCE INDICATOR ADDITION -->
     </div>
 
     <!-- Right Column -->
