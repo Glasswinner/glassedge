@@ -173,7 +173,7 @@ ${exampleRoleplays[0]}
 
 Now generate a new roleplay using this structure:
 
-Performance Indicators: Place the five performance indicators, each on a new line.
+At the top of your output place the five performance indicators, each on a new line.
 
 Paragraph 1: Setup  
 Describe the student’s role at a company and the judge’s request. Start with: You are to assume the role of a(n) [financial analysist, senior financial advisor, etc.] at [COMPANY NAME]. The [judge role: manager, owner, or client] has asked you to [briefly state the request or concern].
