@@ -254,6 +254,8 @@ ${exampleScenarios.map((s, i) => `${i + 1}. ${s}`).join('\n')}
 
 Now generate a new scenario using this paragraph structure:
 
+Performance Indicators: Place the performance indicators here, each on a new line. 
+
 Paragraph 1: Setup  
 Start with: “You are to assume the role of a [role] at [business]. The [judge] has asked you about [topic].”
 
