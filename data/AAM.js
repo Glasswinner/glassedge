@@ -183,51 +183,44 @@ You will present your ideas to the director of merchandising (judge) in a role-p
   ],
 
   // Additional creative reference scenarios (not to be copied, only for inspiration)
-  exampleScenarios: [
-    "A regional accessories chain is struggling with inventory loss and needs to develop new security protocols and staff training.",
-    "A fashion retailer is launching a plus-size line and must create an in-store and social media campaign to drive awareness.",
-    "An athletic apparel store is planning a back-to-school sales event and wants to coordinate merchandising and promotional efforts.",
-    "A boutique is adopting a new point-of-sale system and needs a transition plan for staff, inventory, and customer experience.",
-    "A teen-focused fashion brand is considering a pop-up partnership with a sneaker company and must plan cross-merchandising displays."
-  ],
-
-  scenarioTypes: [
-    "Launching a new product line or seasonal collection",
-    "Introducing a customer loyalty program or special event",
-    "Responding to a new competitor or changing fashion trends",
-    "Partnering with another brand for a pop-up or promotion",
-    "Reducing excess inventory or updating clearance policies",
-    "Implementing sustainability or ethical sourcing initiatives",
-    "Expanding or shifting the target demographic",
-    "Adopting new retail technology or e-commerce solutions",
-    "Addressing negative social media feedback or a PR issue",
-    "Introducing plus-size, adaptive, or gender-neutral products",
-    "Improving customer service or staff training",
-    "Changing visual merchandising or store layout",
-    "Launching a back-to-school, holiday, or seasonal campaign",
-    "Implementing or revamping a loyalty app",
-    "Adding a new department or product category",
-    "Transitioning to eco-friendly packaging",
-    "Responding to a supply chain disruption",
-    "Developing a strategy for online order fulfillment",
-    "Enhancing loss prevention or security protocols",
-    "Responding to customer feedback about product quality",
-    "Implementing a new inventory management system",
-    "Hosting an influencer or community event",
-    "Adopting omnichannel sales strategies",
-    "Introducing a private label or exclusive collection",
-    "Evaluating a new in-store service (personal styling, pickup, etc.)",
-    "Managing returns, exchanges, and warranty issues",
-    "Expanding international sourcing or distribution",
-    "Addressing labor shortages or training needs",
-    "Adjusting to new retail regulations or policies",
-    "Handling negative online reviews and reputation management",
-    "Updating employee incentive or commission programs",
-    "Improving the checkout experience (mobile POS, express lanes)",
-    "Planning for emergency preparedness or crisis response",
-    "Launching a charitable or cause-related marketing campaign",
-    "Rebranding or refreshing store/company image"
-  ],
+  scenarioRange: `
+SCENARIO RANGE:
+Scenarios must reflect realistic apparel and accessories marketing workplace settings. Acceptable contexts include:
+- Launching a new product line or seasonal collection
+- Introducing a customer loyalty program or special event
+- Responding to a new competitor or changing fashion trends
+- Partnering with another brand for a pop-up or promotion
+- Reducing excess inventory or updating clearance policies
+- Implementing sustainability or ethical sourcing initiatives
+- Expanding or shifting the target demographic
+- Adopting new retail technology or e-commerce solutions
+- Addressing negative social media feedback or a PR issue
+- Introducing plus-size, adaptive, or gender-neutral products
+- Improving customer service or staff training
+- Changing visual merchandising or store layout
+- Launching a back-to-school, holiday, or seasonal campaign
+- Implementing or revamping a loyalty app
+- Adding a new department or product category
+- Transitioning to eco-friendly packaging
+- Responding to a supply chain disruption
+- Developing a strategy for online order fulfillment
+- Enhancing loss prevention or security protocols
+- Responding to customer feedback about product quality
+- Implementing a new inventory management system
+- Hosting an influencer or community event
+- Adopting omnichannel sales strategies
+- Introducing a private label or exclusive collection
+- Evaluating a new in-store service (personal styling, pickup, etc.)
+- Managing returns, exchanges, and warranty issues
+- Expanding international sourcing or distribution
+- Addressing labor shortages or training needs
+- Adjusting to new retail regulations or policies
+- Handling negative online reviews and reputation management
+- Updating employee incentive or commission programs
+- Improving the checkout experience (mobile POS, express lanes)
+- Planning for emergency preparedness or crisis response
+- Launching a charitable or cause-related marketing campaign
+- Rebranding or refreshing store/company image
 
   promptTemplate: ({ indicators, exampleRoleplays, scenarioTypes, exampleScenarios }) => {
     return `
@@ -264,7 +257,7 @@ Explain what the business is, what they do, which customer demographic they targ
 
 Paragraphs 3–4: Explanation of Policy or Consideration  
 Paragraph 3: Explain the situation/context (either a policy the company currently has or a policy they consider adopting/change in company’s situation–like a new business partner)  
-Paragraph 4: Explain what the new policy may do (if going down that route), or an issue with the current policy.
+Paragraph 4: Explain what the new policy may do (if going down that route), or an issue with the current policy. In both cases, refer to the scenario range for inspiration. 
 
 Paragraph 5: Imperative for the Student  
 State what the student must do: recommend/reject a policy, solve an issue, or make a plan of action.
