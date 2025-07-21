@@ -224,7 +224,7 @@ Scenarios must reflect realistic apparel and accessories marketing workplace set
 
   promptTemplate: ({ indicators, exampleRoleplays, scenarioTypes, exampleScenarios }) => {
     return `
-You are generating a realistic, creative DECA AAM (Apparel and Accessories Marketing) roleplay scenario.
+ You are generating a realistic, creative DECA AAM (Apparel and Accessories Marketing) roleplay scenario.
 
 ❗ DO NOT COPY OR REWORD THE EXAMPLE ROLEPLAYS BELOW. They are official event scenarios provided only to show structure, realism, and tone.
 ❗ You may reference the exampleScenarios only for creative inspiration and style—not for copying or direct reuse.
