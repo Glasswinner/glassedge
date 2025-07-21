@@ -221,8 +221,9 @@ Scenarios must reflect realistic apparel and accessories marketing workplace set
 - Planning for emergency preparedness or crisis response
 - Launching a charitable or cause-related marketing campaign
 - Rebranding or refreshing store/company image
+`,
 
-  promptTemplate: ({ indicators, exampleRoleplays, scenarioTypes, exampleScenarios }) => {
+ promptTemplate: ({ indicators, exampleRoleplays, scenarioTypes, exampleScenarios }) => {
     return `
  You are generating a realistic, creative DECA AAM (Apparel and Accessories Marketing) roleplay scenario.
 
