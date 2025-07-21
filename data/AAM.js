@@ -235,16 +235,17 @@ Scenarios must reflect realistic apparel and accessories marketing workplace set
 ⬇️ Use the following performance indicators as the foundation for your prompt:  
 - ${indicators.join('\n- ')}
 
-⬇️ Choose the most appropriate scenario type (from this list) to match these indicators:
-${scenarioTypes.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+And use this: 
+${AAM.scenarioRange}
+
+
 
 ⬇️ Example official DECA AAM scenarios (do NOT copy, for format only):
 ${exampleRoleplays[0]}
 
 ${exampleRoleplays[1]}
 
-⬇️ Additional creative example scenarios (do NOT copy, for inspiration only):
-${exampleScenarios.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+
 
 Now generate a new scenario using this paragraph structure:
 
