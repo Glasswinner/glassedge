@@ -237,6 +237,7 @@ Paragraph 5: What the Student Must Do
 Clearly state the student's task: what they need to recommend, create, evaluate, or decide. This is the call to action.
 
 Paragraph 6: Roleplay Flow  
+Explain where the roleplay takes place and how it unfolds, and two scenario-appropriate questions the judge will ask. Required phrasing: 
 "You will present the information to the [judge] in a role-play to take place in the [judge]’s office. The [judge] will begin the role-play by asking you about [topic]. During your conversation, the [judge] will ask you two questions about your recommendations. The [judge] will thank you at the end of the meeting."
 
 SCENARIO DEPTH:  
