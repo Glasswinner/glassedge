@@ -19,6 +19,21 @@
       transform: translateY(-6px);
       box-shadow: 0 12px 30px rgba(0,0,0,0.12);
     }
+    /* Event card animation */
+    .event-scroll {
+      display: flex;
+      gap: 1.5rem;
+      animation: scroll-loop 35s linear infinite;
+      width: max-content;
+    }
+    @keyframes scroll-loop {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .event-container {
+      overflow: hidden;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -74,7 +89,7 @@
 </section>
 
 <!-- 3 CLICKABLE ROUNDED HOVER CARDS -->
-<section class="bg-white pt-20 pb-24">
+<section class="bg-white pt-32 pb-24">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-[440px]">
 
     <!-- AI Roleplays Card -->
@@ -138,40 +153,82 @@
       </div>
     </a>
 
-    <!-- Walkthrough Videos Card -->
+    <!-- Video Feedback Card -->
     <a href="roleplay.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover">
       <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex items-center rounded-t-2xl">
-        <h3 class="text-2xl font-bold text-white flex items-center gap-2">🎥 Walkthrough Videos</h3>
+        <h3 class="text-2xl font-bold text-white flex items-center gap-2">📹 Video Feedback</h3>
       </div>
       <div class="flex flex-col divide-y divide-gray-200 flex-grow">
         <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
           <div class="flex items-center gap-3">
-            <span class="bg-purple-100 p-3 rounded-lg text-lg">🏆</span>
-            <p class="text-gray-900 font-semibold text-lg">Top Competitors</p>
+            <span class="bg-purple-100 p-3 rounded-lg text-lg">📤</span>
+            <p class="text-gray-900 font-semibold text-lg">Upload Videos</p>
           </div>
-          <span class="text-base text-blue-600 font-medium">Winning runs</span>
+          <span class="text-base text-blue-600 font-medium">Instant analysis</span>
         </div>
         <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
           <div class="flex items-center gap-3">
-            <span class="bg-pink-100 p-3 rounded-lg text-lg">📹</span>
-            <p class="text-gray-900 font-semibold text-lg">Step-by-Step Guides</p>
+            <span class="bg-pink-100 p-3 rounded-lg text-lg">📈</span>
+            <p class="text-gray-900 font-semibold text-lg">AI Scoring</p>
           </div>
-          <span class="text-base text-green-600 font-medium">Learn strategies</span>
+          <span class="text-base text-green-600 font-medium">Performance metrics</span>
         </div>
         <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
           <div class="flex items-center gap-3">
-            <span class="bg-blue-100 p-3 rounded-lg text-lg">💬</span>
-            <p class="text-gray-900 font-semibold text-lg">Peer Feedback</p>
+            <span class="bg-blue-100 p-3 rounded-lg text-lg">💡</span>
+            <p class="text-gray-900 font-semibold text-lg">Personalized Feedback</p>
           </div>
-          <span class="text-base text-purple-600 font-medium">Detailed breakdowns</span>
+          <span class="text-base text-purple-600 font-medium">Judge-style review</span>
         </div>
       </div>
     </a>
 
   </div>
-  <p class="text-center text-gray-400 text-sm mt-12">
-    Built by competitors. <span class="text-purple-600 font-semibold">Trusted by schools.</span> Powered by GlassEDGE.
-  </p>
+
+</section>
+
+<!-- DECA EVENTS SECTION -->
+<section class="bg-gradient-to-b from-white to-purple-50 py-28">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">
+      Built Around <span class="text-purple-600">Every DECA Event</span>
+    </h2>
+    <p class="text-lg text-gray-600">
+      From Principles to Team Decision Making, GlassEDGE covers realistic scenarios for every cluster and event type.
+    </p>
+  </div>
+
+  <div class="event-container">
+    <div class="event-scroll">
+      <!-- Larger DECA Event Cards -->
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">PBM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">PFN</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">PHT</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">PMK</div>
+      <div class="bg-gray-100 text-gray-900 rounded-xl px-10 py-6 text-2xl font-bold">PEN</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">FTDM</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">HTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">MTDM</div>
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">BLTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">RMS</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">TTDM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">BFS</div>
+
+      <!-- Duplicate for seamless loop -->
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">PBM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">PFN</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">PHT</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">PMK</div>
+      <div class="bg-gray-100 text-gray-900 rounded-xl px-10 py-6 text-2xl font-bold">PEN</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">FTDM</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">HTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">MTDM</div>
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">BLTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">RMS</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">TTDM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">BFS</div>
+    </div>
+  </div>
 </section>
 
 </body>
