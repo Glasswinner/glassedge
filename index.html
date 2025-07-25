@@ -19,7 +19,6 @@
       transform: translateY(-6px);
       box-shadow: 0 12px 30px rgba(0,0,0,0.12);
     }
-    /* Event card animation */
     .event-scroll {
       display: flex;
       gap: 1.5rem;
@@ -61,7 +60,7 @@
   </div>
 </header>
 
-<!-- HERO CENTERED -->
+<!-- HERO -->
 <section class="pt-24 pb-28 px-4 md:px-12 xl:px-40">
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="text-6xl xl:text-7xl font-extrabold leading-tight text-gray-900 mb-6">
@@ -88,11 +87,11 @@
   </div>
 </section>
 
-<!-- 3 CLICKABLE ROUNDED HOVER CARDS -->
+<!-- CARDS -->
 <section class="bg-white pt-32 pb-24">
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-[440px]">
 
-    <!-- AI Roleplays Card -->
+    <!-- AI Roleplays -->
     <a href="roleplay.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover">
       <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex justify-between items-center rounded-t-2xl">
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">🤖 AI Roleplays</h3>
@@ -123,7 +122,7 @@
       </div>
     </a>
 
-    <!-- Written Events Card -->
+    <!-- Written Events -->
     <a href="written.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover">
       <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex items-center rounded-t-2xl">
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">📄 Written Events</h3>
@@ -153,7 +152,7 @@
       </div>
     </a>
 
-    <!-- Video Feedback Card -->
+    <!-- Video Feedback -->
     <a href="roleplay.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover">
       <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex items-center rounded-t-2xl">
         <h3 class="text-2xl font-bold text-white flex items-center gap-2">📹 Video Feedback</h3>
@@ -184,10 +183,12 @@
     </a>
 
   </div>
-
+  <p class="text-center text-gray-400 text-sm mt-12">
+    Built by competitors. <span class="text-purple-600 font-semibold">Trusted by schools.</span> Powered by GlassEDGE.
+  </p>
 </section>
 
-<!-- DECA EVENTS SECTION -->
+<!-- DECA EVENTS -->
 <section class="bg-gradient-to-b from-white to-purple-50 py-28">
   <div class="max-w-5xl mx-auto text-center mb-16">
     <h2 class="text-4xl font-extrabold text-gray-900 mb-4">
@@ -200,7 +201,6 @@
 
   <div class="event-container">
     <div class="event-scroll">
-      <!-- Larger DECA Event Cards -->
       <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">PBM</div>
       <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">PFN</div>
       <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">PHT</div>
@@ -230,6 +230,52 @@
     </div>
   </div>
 </section>
+
+<!-- ABOUT US -->
+<section class="bg-gradient-to-r from-purple-600 to-purple-800 py-24 text-center text-white">
+  <h2 class="text-5xl font-extrabold mb-6">About Us</h2>
+  <p class="max-w-3xl mx-auto text-lg leading-relaxed px-4">
+    GlassEDGE is a free, student-run platform designed to help DECA competitors prepare smarter and win more. 
+    Created by passionate competitors, it provides AI-powered roleplays, written event tools, and personalized feedback 
+    to make practice efficient and realistic. With a focus on usability, performance, and authenticity, 
+    GlassEDGE empowers students and schools to reach their peak potential — no paywalls, no logins, just preparation built for you.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#f8f4fc] py-12 border-t border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center md:text-left">
+    <div class="flex flex-col items-center md:items-start">
+      <div class="flex items-center gap-2 mb-3">
+        <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-8"/>
+        <span class="font-extrabold text-lg text-gray-900">GlassEDGE</span>
+      </div>
+      <p class="text-gray-600 text-sm max-w-xs">
+        Making DECA competition prep smarter, faster, and accessible for every high school business student.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-gray-900 mb-3">Quick Links</h4>
+      <ul class="space-y-2 text-sm text-gray-600">
+        <li><a href="roleplay.html" class="hover:underline">AI Roleplays</a></li>
+        <li><a href="written.html" class="hover:underline">Written Events</a></li>
+        <li><a href="roleplay.html" class="hover:underline">Video Feedback</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-gray-900 mb-3">Connect</h4>
+      <div class="flex gap-4 justify-center md:justify-start">
+        <a href="#" class="text-gray-500 hover:text-purple-600">🐙</a>
+        <a href="#" class="text-gray-500 hover:text-purple-600">🎮</a>
+      </div>
+    </div>
+  </div>
+  <div class="mt-8 text-center text-xs text-gray-500">
+    © 2025 GlassEDGE. Built by DECA competitors, for DECA competitors.
+  </div>
+</footer>
 
 </body>
 </html>
