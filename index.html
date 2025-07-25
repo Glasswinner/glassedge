@@ -11,16 +11,6 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(to bottom, #fdf9ff, #f8f4fc);
     }
-    .scrolling-box {
-      animation: scroll-loop 20s linear infinite;
-    }
-    @keyframes scroll-loop {
-      0% { transform: translateY(0%); }
-      100% { transform: translateY(-50%); }
-    }
-    .emoji-purple {
-      filter: hue-rotate(275deg) saturate(150%);
-    }
   </style>
 </head>
 <body class="antialiased">
@@ -48,144 +38,61 @@
   </div>
 </header>
 
-<!-- HERO + SCROLLING PILLS -->
-<section class="pt-20 pb-36 px-4 md:px-12 xl:px-40">
-  <div class="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-    <div>
-      <h1 class="text-5xl xl:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
-        Dominate the<br/>
-        Business World with<br/>
-        <span class="text-purple-600 inline-flex items-center gap-2">
-          GlassEDGE
-          <img src="glassedgenewlogo.png" alt="Logo" class="h-12"/>
-        </span>
-      </h1>
-      <p class="text-gray-600 text-lg xl:text-xl mb-6">
-        Practice real business scenarios, browse our written event gallery, and collaborate with GlassEDGE’s personalized AI coach.
-      </p>
-      <a href="#">
-        <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-md hover:opacity-90">
-          Explore Platforms →
-        </button>
-      </a>
-      <div class="flex gap-6 mt-10 text-sm xl:text-base text-gray-500">
-        <div class="flex items-center gap-2">⚙️ <span>AI-Powered</span></div>
-        <div class="flex items-center gap-2">🏆 <span>Proven Results</span></div>
-        <div class="flex items-center gap-2">💬 <span>Expert Feedback</span></div>
-      </div>
-    </div>
-    <div>
-      <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 h-[440px] overflow-hidden relative">
-        <div class="absolute inset-0 overflow-hidden px-2">
-          <div class="space-y-5 scrolling-box">
-            <div class="space-y-5">
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📄 Comprehensive written event gallery.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">✨ Written Event feedback.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🔍 Written Event Checker.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📘 Business term explanations.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🧩 Roleplay strategy analysis.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📈 Performance metric dashboards.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🧠 AI generated feedback.</div>
-            </div>
-            <div class="space-y-5">
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📄 Comprehensive written event gallery.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">✨ Written Event feedback.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🔍 Written Event Checker.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📘 Business term explanations.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🧩 Roleplay strategy analysis.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">📈 Performance metric dashboards.</div>
-              <div class="bg-purple-100 px-4 py-3 text-purple-700 font-semibold text-base flex items-center gap-2 rounded-full w-[95%] mx-auto">🧠 AI generated feedback.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- HERO (Centered) -->
+<section class="pt-24 pb-28 px-4 md:px-12 xl:px-40">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-6xl xl:text-7xl font-extrabold leading-tight text-gray-900 mb-6">
+      Dominate the<br/>
+      Business World with<br/>
+      <span class="text-purple-600 inline-flex items-center gap-2">
+        GlassEDGE
+        <img src="glassedgenewlogo.png" alt="Logo" class="h-14"/>
+      </span>
+    </h1>
+    <p class="text-gray-600 text-xl xl:text-2xl mb-8 max-w-2xl mx-auto">
+      Practice real business scenarios, browse our written event gallery, and collaborate with GlassEDGE’s personalized AI coach.
+    </p>
+    <a href="#">
+      <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-md hover:opacity-90">
+        Explore Platforms →
+      </button>
+    </a>
+    <div class="flex gap-8 justify-center mt-10 text-lg text-gray-500">
+      <div class="flex items-center gap-2">⚙️ <span>AI-Powered</span></div>
+      <div class="flex items-center gap-2">🏆 <span>Proven Results</span></div>
+      <div class="flex items-center gap-2">💬 <span>Expert Feedback</span></div>
     </div>
   </div>
 </section>
 
-<!-- FULL FEATURE GRID -->
+<!-- 3 Equal Cards -->
 <section class="bg-white py-24">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-12 gap-6 auto-rows-[480px]">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
 
-    <!-- AI Roleplays -->
-    <div class="col-span-6 bg-white rounded-xl overflow-hidden shadow-md flex flex-col">
-      <h3 class="text-xl font-semibold px-6 pt-6">AI Roleplays</h3>
-      <img src="roleplayscreenshot.png" alt="AI Roleplay screenshot" class="mt-4 object-cover w-full h-140" />
-      <div class="p-6 flex-grow flex flex-col justify-end">
-        <p class="text-sm text-gray-600 mb-4">Realistic DECA roleplays generated instantly.</p>
-        
+    <!-- Roleplays -->
+    <div class="bg-white rounded-xl overflow-hidden shadow-lg flex flex-col">
+      <img src="roleplayscreenshot.png" alt="AI Roleplays" class="object-cover w-full h-64" />
+      <div class="p-6 flex flex-col flex-grow">
+        <h3 class="text-2xl font-semibold mb-3">AI Roleplays</h3>
+        <p class="text-gray-600 text-base">Realistic DECA roleplays generated instantly.</p>
       </div>
     </div>
 
-    <!-- Video Feedback -->
-    <div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-md flex flex-col">
-      <h3 class="text-xl font-semibold px-6 pt-6">Video Feedback</h3>
-      <img src="feedbackscreenshot.png" alt="Video Feedback screenshot" class="mt-4 object-cover w-full h-128" />
-      <div class="p-6 mt-auto">
-        <p class="text-sm text-gray-600">Upload videos and get AI-based scoring.</p>
+    <!-- Written Events -->
+    <div class="bg-white rounded-xl overflow-hidden shadow-lg flex flex-col">
+      <img src="written-tools-screenshot.png" alt="Written Events" class="object-cover w-full h-64" />
+      <div class="p-6 flex flex-col flex-grow">
+        <h3 class="text-2xl font-semibold mb-3">Written Events</h3>
+        <p class="text-gray-600 text-base">Explore and edit high-scoring written event examples.</p>
       </div>
     </div>
 
-    <!-- Written Event Tools -->
-    <div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-md flex flex-col">
-      <h3 class="text-xl font-semibold px-6 pt-6">Written Event Tools</h3>
-      <img src="path/to/written-tools-screenshot.png" alt="Written Event Tools screenshot" class="mt-4 object-cover w-full h-48" />
-      <div class="p-6 mt-auto">
-        <p class="text-sm text-gray-600">Explore, edit, and export PDF examples of top DECA events.</p>
-      </div>
-    </div>
-
-    <!-- All DECA Clusters & Scenarios -->
-    <div class="col-span-6 bg-white rounded-xl overflow-hidden shadow-md flex flex-col">
-      <h3 class="text-xl font-semibold px-6 pt-6">All DECA Clusters &<br/>Realistic Scenarios</h3>
-      <div class="p-4 pt-2 flex-1 overflow-hidden">
-        <div class="h-[315px] overflow-hidden relative">
-          <div class="scrolling-box space-y-2 absolute inset-0">
-            <div class="space-y-2 text-sm font-semibold">
-              <div class="p-2 bg-yellow-100 text-yellow-900 rounded">PBM - Principles of Business Mgmt</div>
-              <div class="p-2 bg-gray-100 text-gray-900 rounded">PEN - Principles of Entrepreneurship</div>
-              <div class="p-2 bg-green-100 text-green-900 rounded">PFN - Principles of Finance</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">PHT - Principles of Hospitality</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">PMK - Principles of Marketing</div>
-              <div class="p-2 bg-yellow-100 text-yellow-900 rounded">BLTDM - Business Law & Ethics TDM</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">BTDM - Buying & Merch TDM</div>
-              <div class="p-2 bg-gray-100 text-gray-900 rounded">ETDM - Entrepreneurship TDM</div>
-              <div class="p-2 bg-green-100 text-green-900 rounded">FTDM - Financial Services TDM</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">HTDM - Hospitality Services TDM</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">MTDM - Marketing Mgmt TDM</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">STDM - Sports & Ent Marketing TDM</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">TTDM - Travel & Tourism TDM</div>
-              <div class="p-2 bg-green-100 text-green-900 rounded">ACT - Accounting Apps Series</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">AAM - Apparel & Accessories</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">ASM - Auto Services Mktg</div>
-              <div class="p-2 bg-green-100 text-green-900 rounded">BFS - Business Finance Series</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">BSM - Business Services Mktg</div>
-              <div class="p-2 bg-gray-100 text-gray-900 rounded">ENT - Entrepreneurship Series</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">FMS - Food Marketing</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">HLM - Hotel & Lodging Mgt</div>
-              <div class="p-2 bg-yellow-100 text-yellow-900 rounded">HRM - HR Management</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">MCS - Marketing Comms Series</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">QSRM - Quick Serve Resto Mgt</div>
-              <div class="p-2 bg-blue-100 text-blue-900 rounded">RFSM - Restaurant & Food Svc</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">RMS - Retail Merchandising</div>
-              <div class="p-2 bg-red-100 text-red-900 rounded">SEM - Sports & Ent Marketing</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="px-6 pb-4 mt-auto">
-        <p class="text-sm text-gray-600">
-          Finance, Hospitality, Marketing & more — Every prompt follows DECA formatting.
-        </p>
-      </div>
-    </div>
-
-    <!-- Performance Indicators -->
-    <div class="col-span-6 bg-white rounded-xl overflow-hidden shadow-md flex flex-col">
-      <h3 class="text-xl font-semibold px-6 pt-6">Performance Indicators</h3>
-      <img src="path/to/indicators-screenshot.png" alt="Performance indicators" class="mt-4 object-cover w-full h-48" />
-      <div class="p-6 mt-auto">
-        <p class="text-sm text-gray-600">Aligned to official DECA clusters. We generate with real instructional area groupings.</p>
+    <!-- Walkthrough Videos -->
+    <div class="bg-white rounded-xl overflow-hidden shadow-lg flex flex-col">
+      <img src="feedbackscreenshot.png" alt="Walkthrough Videos" class="object-cover w-full h-64" />
+      <div class="p-6 flex flex-col flex-grow">
+        <h3 class="text-2xl font-semibold mb-3">Walkthrough Videos</h3>
+        <p class="text-gray-600 text-base">Watch top competitors break down winning strategies.</p>
       </div>
     </div>
 
