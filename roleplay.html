@@ -25,7 +25,7 @@
 <body class="text-black min-h-screen flex flex-col">
 
   <!-- ✅ TOP NAV BAR -->
-  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-3 shadow-md">
+  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-2 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold tracking-tight">GlassEDGE</h1>
       <nav class="space-x-6 hidden md:flex">
@@ -39,11 +39,11 @@
   </header>
 
   <!-- ✅ MAIN SECTION WITH TITLE -->
-  <main class="flex-grow flex flex-col items-center justify-start px-6 pt-28 pb-20">
+  <main class="flex-grow flex flex-col items-center justify-start px-6 pt-40 pb-20">
     <!-- Title -->
-    <h1 class="text-7xl font-extrabold text-purple-700 mb-16 text-center">DECA Roleplay Generator</h1>
+    <h1 class="text-7xl font-extrabold text-purple-700 mb-20 text-center">DECA Roleplay Generator</h1>
 
-    <div class="flex flex-col md:flex-row gap-32 items-stretch max-w-6xl w-full justify-center mt-4">
+    <div class="flex flex-col md:flex-row gap-32 items-stretch max-w-6xl w-full justify-center mt-8">
 
       <!-- LEFT: Instruction Cards -->
       <div class="flex flex-col w-full md:w-1/2 justify-between space-y-14 scale-[1.05]">
@@ -99,10 +99,11 @@
     const eventSelect = document.getElementById('event');
     const generateBtn = document.getElementById('generate-btn');
 
+    // ✅ Event codes ONLY (initials)
     const events = {
-      principles: ['Principles of Business Management (PBM)', 'Principles of Entrepreneurship (PEN)', 'Principles of Finance (PFN)', 'Principles of Hospitality (PHT)', 'Principles of Marketing (PMK)'],
-      team: ['Business Law & Ethics TDM (BLTDM)', 'Buying & Merchandising TDM (BTDM)', 'Entrepreneurship TDM (ETDM)', 'Financial Services TDM (FTDM)', 'Hospitality Services TDM (HTDM)', 'Marketing Management TDM (MTDM)', 'Sports & Entertainment Marketing TDM (STDM)', 'Travel & Tourism TDM (TTDM)'],
-      individual: ['Accounting Applications Series (ACT)', 'Apparel & Accessories Marketing (AAM)', 'Automotive Services Marketing (ASM)', 'Business Finance Series (BFS)', 'Business Services Marketing (BSM)', 'Entrepreneurship Series (ENT)', 'Food Marketing Series (FMS)', 'Hotel & Lodging Management (HLM)', 'Human Resources Management (HRM)', 'Marketing Communications Series (MCS)', 'Quick Serve Restaurant Management (QSRM)', 'Restaurant & Food Service Management (RFSM)', 'Retail Merchandising (RMS)', 'Sports & Entertainment Marketing (SEM)']
+      principles: ['PBM', 'PEN', 'PFN', 'PHT', 'PMK'],
+      team: ['BLTDM', 'BTDM', 'ETDM', 'FTDM', 'HTDM', 'MTDM', 'STDM', 'TTDM'],
+      individual: ['ACT', 'AAM', 'ASM', 'BFS', 'BSM', 'ENT', 'FMS', 'HLM', 'HRM', 'MCS', 'QSRM', 'RFSM', 'RMS', 'SEM']
     };
 
     // Populate event dropdown when type is selected
@@ -110,10 +111,10 @@
       const selectedType = this.value;
       const options = events[selectedType] || [];
       eventSelect.innerHTML = '<option disabled selected value="">-- Select Event --</option>';
-      options.forEach(name => {
+      options.forEach(code => {
         const opt = document.createElement('option');
-        opt.value = name;
-        opt.textContent = name;
+        opt.value = code;
+        opt.textContent = code;
         eventSelect.appendChild(opt);
       });
       eventSelect.disabled = false;
@@ -131,10 +132,10 @@
       const eventCode = eventSelect.value;
       if (!eventCode) return;
 
-      // Save event code to localStorage (for future pages)
+      // Save event code to localStorage
       localStorage.setItem('selectedEvent', eventCode);
 
-      // TDM events redirect to TDM.html, others to roleplayscenario.html
+      // TDM events redirect to TDM.html
       if (eventCode.includes('TDM')) {
         window.location.href = `TDM.html?event=${encodeURIComponent(eventCode)}`;
       } else {
