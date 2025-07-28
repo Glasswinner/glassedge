@@ -312,7 +312,7 @@ Provide relevant operational, financial, or market details that frame the situat
 Paragraph 4: Imperative  
 Your team must [list the core tasks] in response to the situation. Integrate your recommendations to help the [judge role] understand [reasoning, importance, or impact]. The seven performance indicators should be woven into the narrative naturally.
 
-Paragraph 5: Roleplay Flow  
+Paragraph 5: Roleplay Flow and Two Questions given to the participants  
 You will present the information to the [manager/owner/client] (judge) in a role-play to take place in the [company/judge’s] office. The [judge role] will begin the role-play by greeting you and asking to hear your ideas. During the meeting, the [judge role] will ask you 2 questions... After you have presented your analysis and answered the [judge role]’s questions, the [judge role] will conclude the role-play by thanking you for your work.
 
 IMPORTANT:
