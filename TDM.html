@@ -13,28 +13,32 @@
     }
     .card {
       background: white;
-      border-radius: 16px;
+      border-radius: 18px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       transition: transform 0.2s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 2.5rem;
+      transform: scale(1.15);
     }
     .card:hover {
-      transform: translateY(-4px);
+      transform: scale(1.18);
     }
-    .image-placeholder {
+    .card img {
       width: 100%;
       height: 180px;
-      background: #f3f3f3;
       border-radius: 12px;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #888;
-      font-size: 1rem;
-      font-weight: 500;
+      cursor: pointer;
+      object-fit: cover;
+    }
+    .click-here {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #7e22ce;
+      cursor: pointer;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -55,42 +59,56 @@
   </header>
 
   <!-- ✅ MAIN SECTION -->
-  <main class="flex-grow flex flex-col items-center justify-start px-6 pt-32 pb-20">
+  <main class="flex-grow flex flex-col items-center justify-start px-6 pt-40 pb-20">
     <!-- Page Header -->
-    <h1 class="text-6xl font-extrabold text-purple-700 mb-16 text-center">How Team Events Work</h1>
+    <h1 class="text-6xl font-extrabold text-purple-700 mb-20 text-center">How Team Events Work</h1>
 
     <!-- Cards Container -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl w-full">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl w-full">
 
       <!-- Card 1: Create Room -->
-      <div class="card p-8">
+      <div class="card">
         <h3 class="text-3xl font-bold text-purple-700 mb-4 text-center">Create Room</h3>
-        <div class="image-placeholder">Image Placeholder</div>
+        <img src="createroom.png" alt="Create Room" onclick="createRoom()">
         <p class="text-gray-700 text-lg text-center">
           Start a new TDM session and receive a unique code. Share it with your teammate to connect in real time with live video and audio.
         </p>
+        <div class="click-here" onclick="createRoom()">Click Here</div>
       </div>
 
       <!-- Card 2: Join Room -->
-      <div class="card p-8">
+      <div class="card">
         <h3 class="text-3xl font-bold text-blue-700 mb-4 text-center">Join Room</h3>
-        <div class="image-placeholder">Image Placeholder</div>
+        <img src="joinroom.png" alt="Join Room" onclick="joinRoom()">
         <p class="text-gray-700 text-lg text-center">
           Enter a code your teammate gave you to join their session. Both of you will see the same roleplay prompt and collaborate live.
         </p>
+        <div class="click-here" onclick="joinRoom()">Click Here</div>
       </div>
 
       <!-- Card 3: Same Device -->
-      <div class="card p-8">
+      <div class="card">
         <h3 class="text-3xl font-bold text-pink-600 mb-4 text-center">Same Device</h3>
-        <div class="image-placeholder">Image Placeholder</div>
+        <img src="sameroom.png" alt="Same Device" onclick="sameDevice()">
         <p class="text-gray-700 text-lg text-center">
           If you’re in the same room, use one computer to practice together without needing a code. Perfect for in-person preparation.
         </p>
+        <div class="click-here" onclick="sameDevice()">Click Here</div>
       </div>
 
     </div>
   </main>
 
+  <script>
+    function createRoom() {
+      alert("Create Room action triggered!");
+    }
+    function joinRoom() {
+      alert("Join Room action triggered!");
+    }
+    function sameDevice() {
+      alert("Same Device action triggered!");
+    }
+  </script>
 </body>
 </html>
