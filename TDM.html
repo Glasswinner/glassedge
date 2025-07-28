@@ -100,14 +100,29 @@
   </main>
 
   <script>
+    // ✅ Get event code from URL
+    function getEventCode() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('event') || '';
+    }
+
     function createRoom() {
       alert("Create Room action triggered!");
     }
+
     function joinRoom() {
       alert("Join Room action triggered!");
     }
+
     function sameDevice() {
-      alert("Same Device action triggered!");
+      const eventCode = getEventCode();
+      if (eventCode) {
+        // Redirect straight to roleplay scenario with the event code
+        window.location.href = `roleplayscenario.html?event=${encodeURIComponent(eventCode)}`;
+      } else {
+        // Fallback: send to roleplay.html if no event code found
+        window.location.href = "roleplay.html";
+      }
     }
   </script>
 </body>
