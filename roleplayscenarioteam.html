@@ -15,6 +15,7 @@
       z-index: 50;
     }
     .purple-text { color: #7e22ce; font-weight: 600; }
+    .btn { padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; }
   </style>
 </head>
 <body class="bg-white text-gray-800 font-inter">
@@ -52,7 +53,6 @@
       <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
         Event: <span id="event-code">--</span>
       </h2>
-      <div id="prelude-block" class="mb-4"></div>
       <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
         <p class="whitespace-pre-wrap leading-relaxed text-lg hidden" id="generated-prompt"></p>
       </div>
@@ -77,6 +77,10 @@
           <video id="localVideo" autoplay playsinline muted class="w-full rounded-lg border border-gray-300"></video>
           <video id="remoteVideo" autoplay playsinline class="w-full rounded-lg border border-gray-300"></video>
         </div>
+        <div class="flex gap-3 mt-2">
+          <button id="start" class="btn bg-green-600 text-white">Start Recording</button>
+          <button id="stop" class="btn bg-red-600 text-white" disabled>Stop Recording</button>
+        </div>
         <p id="status" class="text-sm text-green-600 mt-2 hidden">Processing...</p>
       </div>
     </div>
@@ -88,13 +92,16 @@
     const waitingOverlay = document.getElementById("waiting-overlay");
     const shareCode = document.getElementById("share-code");
     const videoContainer = document.getElementById("video-container");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
 
+    // ✅ Show room code
     if (isHost && roomCode) {
       waitingOverlay.classList.remove("hidden");
       shareCode.textContent = `Share this code: ${roomCode}`;
     }
 
-    // ✅ Same Device mode
+    // ✅ Same Device adjustments
     if (isSame) {
       waitingOverlay.classList.add("hidden");
       document.getElementById("remoteVideo").remove();
@@ -103,7 +110,7 @@
       revealScenario();
     }
 
-    // ✅ Polling for host
+    // ✅ Host polling
     if (isHost && roomCode) {
       const pollStatus = async () => {
         const res = await fetch(`/api/rooms?roomCode=${roomCode}`);
@@ -118,7 +125,6 @@
       pollStatus();
     }
 
-    // ✅ Guest join triggers scenario
     if (isGuest) {
       fetch('/api/rooms', {
         method: 'POST',
@@ -131,7 +137,8 @@
       promptElement.classList.remove("hidden");
       startPrepTimer();
       initWebRTC();
-      if (!isGuest) loadPrompt();
+      if (!isGuest && !isSame) return; 
+      if (isSame) loadPrompt();
     }
 
     async function loadPrompt() {
@@ -144,21 +151,19 @@
       const prompt = data.prompt || "Failed to load prompt.";
       promptElement.textContent = prompt;
       localStorage.setItem("glassedge_prompt", prompt);
-      if (dataChannel && isHost) {
+      if (dataChannel && dataChannel.readyState === "open" && isHost) {
         dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
       }
     }
 
-    // ✅ Timer Logic
-    let seconds = 1800;
-    let prepPhase = true;
-    let timerInterval;
+    // ✅ Timer
+    let seconds = 1800, prepPhase = true, timerInterval;
     const timerDisplay = document.getElementById("timer");
     const timerLabel = document.getElementById("timer-label");
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
+      const sec = String(seconds % 60)).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) seconds--;
       else {
@@ -180,7 +185,7 @@
       timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // ✅ WebRTC + Signaling
+    // ✅ WebRTC
     const localVideo = document.getElementById("localVideo");
     const remoteVideo = document.getElementById("remoteVideo");
     let localStream, remoteStream = new MediaStream();
@@ -189,10 +194,13 @@
     async function initWebRTC() {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
+      localVideo.muted = true;
       remoteVideo.srcObject = remoteStream;
-      if (isSame) return; // Skip WebRTC in same-device mode
+      if (isSame) return;
 
-      pc = new RTCPeerConnection();
+      pc = new RTCPeerConnection({
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+      });
       localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
       pc.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
 
@@ -208,6 +216,7 @@
 
       if (isHost) {
         dataChannel = pc.createDataChannel("tdm");
+        dataChannel.onopen = () => { loadPrompt(); };
         dataChannel.onmessage = handleData;
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
@@ -258,14 +267,22 @@
         promptElement.textContent = msg.prompt;
         localStorage.setItem("glassedge_prompt", msg.prompt);
       }
-      if (msg.type === 'feedback-url') {
-        window.location.href = msg.url;
-      }
+      if (msg.type === 'feedback-url') window.location.href = msg.url;
     }
 
-    // ✅ Dual Recording + Stereo Merge
+    // ✅ Dual Recording + Buttons
     let localRecorder, remoteRecorder;
     let localChunks = [], remoteChunks = [];
+
+    startBtn.onclick = () => {
+      startRecording();
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    };
+    stopBtn.onclick = () => {
+      stopRecording();
+      stopBtn.disabled = true;
+    };
 
     function startRecording() {
       localRecorder = new MediaRecorder(localStream);
