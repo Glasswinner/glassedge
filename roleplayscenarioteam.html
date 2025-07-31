@@ -73,7 +73,7 @@
       </div>
       <div class="flex-grow flex flex-col">
         <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Live Session</h3>
-        <div class="grid grid-cols-2 gap-2 mb-2">
+        <div id="video-container" class="grid grid-cols-2 gap-2 mb-2">
           <video id="localVideo" autoplay playsinline muted class="w-full rounded-lg border border-gray-300"></video>
           <video id="remoteVideo" autoplay playsinline class="w-full rounded-lg border border-gray-300"></video>
         </div>
@@ -87,17 +87,23 @@
     const promptElement = document.getElementById("generated-prompt");
     const waitingOverlay = document.getElementById("waiting-overlay");
     const shareCode = document.getElementById("share-code");
+    const videoContainer = document.getElementById("video-container");
 
     if (isHost && roomCode) {
       waitingOverlay.classList.remove("hidden");
       shareCode.textContent = `Share this code: ${roomCode}`;
     }
 
+    // ✅ Same Device mode
     if (isSame) {
       waitingOverlay.classList.add("hidden");
+      document.getElementById("remoteVideo").remove();
+      videoContainer.classList.remove("grid-cols-2");
+      videoContainer.classList.add("grid-cols-1");
+      revealScenario();
     }
 
-    // --- Poll room status ---
+    // ✅ Polling for host
     if (isHost && roomCode) {
       const pollStatus = async () => {
         const res = await fetch(`/api/rooms?roomCode=${roomCode}`);
@@ -106,16 +112,13 @@
           if (data.status === "active") {
             waitingOverlay.classList.add("hidden");
             revealScenario();
-          } else {
-            setTimeout(pollStatus, 3000);
-          }
-        } else {
-          setTimeout(pollStatus, 3000);
-        }
+          } else setTimeout(pollStatus, 3000);
+        } else setTimeout(pollStatus, 3000);
       };
       pollStatus();
     }
 
+    // ✅ Guest join triggers scenario
     if (isGuest) {
       fetch('/api/rooms', {
         method: 'POST',
@@ -124,19 +127,14 @@
       }).then(() => revealScenario());
     }
 
-    if (isSame) revealScenario();
-
-    // --- Reveal Scenario ---
     function revealScenario() {
       promptElement.classList.remove("hidden");
-      loadPrompt();
       startPrepTimer();
       initWebRTC();
+      if (!isGuest) loadPrompt();
     }
 
-    // --- Load Prompt (Host generates, sends to Guest via Data Channel) ---
     async function loadPrompt() {
-      if (isGuest) return; // Guest waits for host to send scenario
       const res = await fetch('/api/generatePrompt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -146,11 +144,13 @@
       const prompt = data.prompt || "Failed to load prompt.";
       promptElement.textContent = prompt;
       localStorage.setItem("glassedge_prompt", prompt);
-      if (dataChannel) dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+      if (dataChannel && isHost) {
+        dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+      }
     }
 
-    // --- Timer Logic ---
-    let seconds = 1800; // 30 min prep
+    // ✅ Timer Logic
+    let seconds = 1800;
     let prepPhase = true;
     let timerInterval;
     const timerDisplay = document.getElementById("timer");
@@ -158,7 +158,7 @@
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) seconds--;
       else {
@@ -180,7 +180,7 @@
       timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // --- WebRTC Setup ---
+    // ✅ WebRTC + Signaling
     const localVideo = document.getElementById("localVideo");
     const remoteVideo = document.getElementById("remoteVideo");
     let localStream, remoteStream = new MediaStream();
@@ -190,6 +190,7 @@
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
       remoteVideo.srcObject = remoteStream;
+      if (isSame) return; // Skip WebRTC in same-device mode
 
       pc = new RTCPeerConnection();
       localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
@@ -262,7 +263,7 @@
       }
     }
 
-    // --- Dual Recording + Merge ---
+    // ✅ Dual Recording + Stereo Merge
     let localRecorder, remoteRecorder;
     let localChunks = [], remoteChunks = [];
 
@@ -271,45 +272,50 @@
       localRecorder.ondataavailable = e => localChunks.push(e.data);
       localRecorder.start();
 
-      remoteRecorder = new MediaRecorder(remoteStream);
-      remoteRecorder.ondataavailable = e => remoteChunks.push(e.data);
-      remoteRecorder.start();
+      if (!isSame) {
+        remoteRecorder = new MediaRecorder(remoteStream);
+        remoteRecorder.ondataavailable = e => remoteChunks.push(e.data);
+        remoteRecorder.start();
+      }
     }
 
     async function stopRecording() {
       localRecorder.stop();
-      remoteRecorder.stop();
+      if (!isSame) remoteRecorder.stop();
       document.getElementById("status").classList.remove("hidden");
       mergeAndUpload();
     }
 
     async function mergeAndUpload() {
       const localBlob = new Blob(localChunks, { type: 'audio/webm' });
-      const remoteBlob = new Blob(remoteChunks, { type: 'audio/webm' });
+      let combinedBlob = localBlob;
 
-      const localBuf = await localBlob.arrayBuffer();
-      const remoteBuf = await remoteBlob.arrayBuffer();
+      if (!isSame) {
+        const remoteBlob = new Blob(remoteChunks, { type: 'audio/webm' });
+        const localBuf = await localBlob.arrayBuffer();
+        const remoteBuf = await remoteBlob.arrayBuffer();
 
-      const audioCtx = new OfflineAudioContext(2, 44100 * 60 * 20, 44100);
-      const localAudio = await audioCtx.decodeAudioData(localBuf);
-      const remoteAudio = await audioCtx.decodeAudioData(remoteBuf);
+        const audioCtx = new OfflineAudioContext(2, 44100 * 60 * 20, 44100);
+        const localAudio = await audioCtx.decodeAudioData(localBuf);
+        const remoteAudio = await audioCtx.decodeAudioData(remoteBuf);
 
-      const localSource = audioCtx.createBufferSource();
-      localSource.buffer = localAudio;
-      const remoteSource = audioCtx.createBufferSource();
-      remoteSource.buffer = remoteAudio;
+        const localSource = audioCtx.createBufferSource();
+        localSource.buffer = localAudio;
+        const remoteSource = audioCtx.createBufferSource();
+        remoteSource.buffer = remoteAudio;
 
-      const merger = audioCtx.createChannelMerger(2);
-      localSource.connect(merger, 0, 0);
-      remoteSource.connect(merger, 0, 1);
-      merger.connect(audioCtx.destination);
+        const merger = audioCtx.createChannelMerger(2);
+        localSource.connect(merger, 0, 0);
+        remoteSource.connect(merger, 0, 1);
+        merger.connect(audioCtx.destination);
 
-      localSource.start();
-      remoteSource.start();
+        localSource.start();
+        remoteSource.start();
 
-      const rendered = await audioCtx.startRendering();
-      const wavBuffer = audioBufferToWav(rendered);
-      const combinedBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+        const rendered = await audioCtx.startRendering();
+        const wavBuffer = audioBufferToWav(rendered);
+        combinedBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+      }
 
       if (isHost || isSame) {
         const formData = new FormData();
@@ -341,7 +347,7 @@
         });
         const grade = await gradeRes.json();
         const feedbackURL = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
-        if (dataChannel) dataChannel.send(JSON.stringify({ type: 'feedback-url', url: feedbackURL }));
+        if (dataChannel && isHost) dataChannel.send(JSON.stringify({ type: 'feedback-url', url: feedbackURL }));
         window.location.href = feedbackURL;
       }
     }
