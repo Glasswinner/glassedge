@@ -3,121 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roleplay Scenario | GlassEDGE</title>
+  <title>Team Roleplay Scenario | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    window.urlParams = new URLSearchParams(window.location.search);
-    window.eventCode = urlParams.get("event") || "PFN";
-  </script>
-  <script type="module">
-    // --- Markdown Table to HTML Conversion Function ---
-    function markdownTableToHTML(text) {
-      const tableRegex = /((?:\|.+\|[\r\n]+)+)/g;
-      return text.replace(tableRegex, (table) => {
-        const rows = table.trim().split('\n').filter(r => r.trim());
-        // Remove alignment row if present (|---|---| style)
-        const filteredRows = rows.filter(r => !/^(\|\s*:?-+:?\s*)+\|?$/.test(r.trim()));
-        if (filteredRows.length === 0) return table; // No valid rows
-        // Build HTML rows
-        const htmlRows = filteredRows.map((row, i) => {
-          const cells = row.split('|').slice(1, -1).map(c => c.trim());
-          if (i === 0) {
-            return '<tr>' + cells.map(cell => `<th class="px-3 py-2 border">${cell}</th>`).join('') + '</tr>';
-          }
-          return '<tr>' + cells.map(cell => `<td class="px-3 py-2 border">${cell}</td>`).join('') + '</tr>';
-        });
-        return `<table class="my-4 border border-gray-300 rounded-lg text-sm w-auto bg-white shadow">${htmlRows.join('')}</table>`;
-      });
-    }
-
-    import PFNBank from '/roleplaybanks/PFNroleplaybank.js';
-    import PBMBank from '/roleplaybanks/PBMroleplaybank.js';
-    import BFSBank from '/roleplaybanks/BFSroleplaybank.js';
-
-    const roleplayBanks = { PFN: PFNBank, PBM: PBMBank, BFS: BFSBank };
-    document.getElementById("event-code").textContent = window.eventCode;
-
-    async function fetchWithTimeout(url, options = {}, timeout = 120000) {
-      return Promise.race([
-        fetch(url, options),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), timeout))
-      ]);
-    }
-
-    async function fetchPromptWithFallback() {
-      const promptElement = document.getElementById("generated-prompt");
-      const preludeElement = document.getElementById("prelude-block");
-      const noticeElement = document.getElementById("loading-notice");
-      const skills = [
-        "- Critical Thinking – Reason effectively and use systems thinking.",
-        "- Communication – Communicate clearly.",
-        "- Creativity and Innovation – Show evidence of creativity."
-      ];
-
-      // Button DOM for indicators (for later use)
-      const showBtn = document.getElementById("show-indicators-btn");
-      const indicatorsDiv = document.getElementById("indicators-list");
-
-      const handlePrompt = ({ prompt, indicators }) => {
-        promptElement.innerHTML = markdownTableToHTML(prompt);
-        window.currentIndicators = indicators;
-        localStorage.setItem("glassedge_prompt", prompt);
-        preludeElement.innerHTML = `
-          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
-        `;
-        noticeElement.classList.add("hidden");
-        startPrepTimer();
-        // Show the button after prompt loads
-        showBtn.classList.remove("hidden");
-        indicatorsDiv.classList.add("hidden");
-        showBtn.classList.add("animate-fadeIn");
-      };
-
-      try {
-        const res = await fetchWithTimeout('/api/generatePrompt', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventCode: window.eventCode })
-        });
-
-        const data = await res.json();
-        if (res.ok && data.prompt) return handlePrompt(data);
-      } catch {}
-
-      // Fallback
-      const fallback = roleplayBanks[window.eventCode];
-      if (fallback?.length) {
-        const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
-        promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
-        window.currentIndicators = ["No AI indicators found."];
-        localStorage.setItem("glassedge_prompt", fallbackPrompt);
-        preludeElement.innerHTML = `
-          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
-        `;
-        noticeElement.classList.add("hidden");
-        startPrepTimer();
-        showBtn.classList.remove("hidden");
-        indicatorsDiv.classList.add("hidden");
-        showBtn.classList.add("animate-fadeIn");
-      } else {
-        promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
-      }
-    }
-
-    fetchPromptWithFallback();
-  </script>
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to   { opacity: 1; transform: none;}
+    body { font-family: 'Inter', sans-serif; }
+    .waiting-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.95);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 50;
     }
-    .animate-fadeIn { animation: fadeIn 0.6s cubic-bezier(.4,0,.2,1) 1; }
+    .purple-text { color: #7e22ce; font-weight: 600; }
   </style>
 </head>
 <body class="bg-white text-gray-800 font-inter">
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventCode = urlParams.get("event") || "PFN";
+    const roomCode = urlParams.get("room") || null;
+    const mode = urlParams.get("mode") || "same";
+    const isHost = mode === "host";
+    const isGuest = mode === "guest";
+    const isSame = mode === "same";
+  </script>
+
   <!-- Header -->
   <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -133,198 +43,349 @@
         <a href="written.html" class="hover:underline">Written Event Gallery</a>
         <a href="#" class="hover:underline">About Us</a>
       </nav>
-      <div>
-        <a href="start.html">
-          <button class="bg-white text-purple-600 font-semibold text-sm px-4 py-2 rounded-full shadow-md hover:opacity-90">
-            Get Started →
-          </button>
-        </a>
-      </div>
     </div>
   </header>
 
-  <div class="flex h-[calc(100vh-64px)] overflow-hidden">
+  <div class="flex h-[calc(100vh-64px)] relative">
     <!-- Left Column -->
     <div class="w-2/3 p-8 overflow-y-auto bg-white">
-      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
+      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
+        Event: <span id="event-code">--</span>
+      </h2>
       <div id="prelude-block" class="mb-4"></div>
-      <p id="loading-notice" class="text-sm text-gray-500 italic mb-2">⚠️ Response may take up to 2 minutes to generate, please be patient.</p>
       <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
-        <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
+        <p class="whitespace-pre-wrap leading-relaxed text-lg hidden" id="generated-prompt"></p>
       </div>
-
-      <!-- PERFORMANCE INDICATOR REVEAL BUTTON + BOX -->
-      <div id="show-indicators-section" class="mt-24 text-center">
-        <button id="show-indicators-btn"
-          class="hidden bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-2xl shadow-xl font-semibold text-base transition-all hover:scale-105"
-        >
-          Can't see your performance indicators? Click here to view them.
-        </button>
-        <div id="indicators-list" class="hidden mt-6 bg-[#f2f2f2] p-6 rounded-xl shadow-xl text-left max-w-xl mx-auto text-gray-900"></div>
-      </div>
-      <script>
-        // Indicator reveal logic
-        document.addEventListener("DOMContentLoaded", function() {
-          const showBtn = document.getElementById("show-indicators-btn");
-          const listDiv = document.getElementById("indicators-list");
-          showBtn.onclick = function() {
-            let indicators = window.currentIndicators || [];
-            if (Array.isArray(indicators) && indicators.length > 0 && indicators[0] !== "No AI indicators found.") {
-              listDiv.innerHTML = `
-                <strong class="block mb-2 text-lg">Performance Indicators for this scenario:</strong>
-                <ul class="list-disc pl-5 mt-2">
-                  ${indicators.map(i => `<li>${i}</li>`).join('')}
-                </ul>
-              `;
-            } else {
-              listDiv.innerHTML = `<em>Sorry, no indicators are available for this scenario.</em>`;
-            }
-            listDiv.classList.remove("hidden");
-            showBtn.classList.add("hidden");
-          };
-        });
-      </script>
-      <!-- END PERFORMANCE INDICATOR ADDITION -->
     </div>
 
     <!-- Right Column -->
-    <div class="w-1/3 flex flex-col justify-between p-6 border-l border-gray-200 bg-gray-50">
-      <div class="mb-4 text-right">
+    <div class="w-1/3 flex flex-col justify-between p-6 border-l border-gray-200 bg-gray-50 relative">
+      <div id="waiting-overlay" class="waiting-overlay hidden">
+        <div class="text-center">
+          <p id="share-code" class="purple-text text-xl mb-4"></p>
+          <p class="purple-text text-lg">Waiting for second participant to arrive...</p>
+        </div>
+      </div>
+
+      <div>
         <h3 id="timer-label" class="text-xl font-semibold text-purple-600 mb-2">⏱️ Prep Timer</h3>
-        <div id="timer" class="text-3xl font-bold text-gray-900">10:00</div>
+        <div id="timer" class="text-3xl font-bold text-gray-900">30:00</div>
       </div>
       <div class="flex-grow flex flex-col">
-        <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Your Response</h3>
-        <video id="camera" autoplay playsinline muted class="w-full rounded-lg mb-2 border border-gray-300"></video>
-        <div class="flex gap-3 mt-2">
-          <button id="start" class="bg-green-600 text-white px-4 py-2 rounded-md">Start</button>
-          <button id="stop" class="bg-red-600 text-white px-4 py-2 rounded-md" disabled>Stop</button>
+        <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Live Session</h3>
+        <div class="grid grid-cols-2 gap-2 mb-2">
+          <video id="localVideo" autoplay playsinline muted class="w-full rounded-lg border border-gray-300"></video>
+          <video id="remoteVideo" autoplay playsinline class="w-full rounded-lg border border-gray-300"></video>
         </div>
         <p id="status" class="text-sm text-green-600 mt-2 hidden">Processing...</p>
-      </div>
-      <div class="text-center mt-6">
-        <a href="index.html" class="text-purple-600 hover:underline">← Return to Home</a>
       </div>
     </div>
   </div>
 
-  <!-- Timer & Recording Logic -->
-  <script>
+  <script type="module">
+    document.getElementById("event-code").textContent = eventCode;
+    const promptElement = document.getElementById("generated-prompt");
+    const waitingOverlay = document.getElementById("waiting-overlay");
+    const shareCode = document.getElementById("share-code");
+
+    if (isHost && roomCode) {
+      waitingOverlay.classList.remove("hidden");
+      shareCode.textContent = `Share this code: ${roomCode}`;
+    }
+
+    if (isSame) {
+      waitingOverlay.classList.add("hidden");
+    }
+
+    // --- Poll room status ---
+    if (isHost && roomCode) {
+      const pollStatus = async () => {
+        const res = await fetch(`/api/rooms?roomCode=${roomCode}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status === "active") {
+            waitingOverlay.classList.add("hidden");
+            revealScenario();
+          } else {
+            setTimeout(pollStatus, 3000);
+          }
+        } else {
+          setTimeout(pollStatus, 3000);
+        }
+      };
+      pollStatus();
+    }
+
+    if (isGuest) {
+      fetch('/api/rooms', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ action: 'join-room', roomCode })
+      }).then(() => revealScenario());
+    }
+
+    if (isSame) revealScenario();
+
+    // --- Reveal Scenario ---
+    function revealScenario() {
+      promptElement.classList.remove("hidden");
+      loadPrompt();
+      startPrepTimer();
+      initWebRTC();
+    }
+
+    // --- Load Prompt (Host generates, sends to Guest via Data Channel) ---
+    async function loadPrompt() {
+      if (isGuest) return; // Guest waits for host to send scenario
+      const res = await fetch('/api/generatePrompt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventCode })
+      });
+      const data = await res.json();
+      const prompt = data.prompt || "Failed to load prompt.";
+      promptElement.textContent = prompt;
+      localStorage.setItem("glassedge_prompt", prompt);
+      if (dataChannel) dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+    }
+
+    // --- Timer Logic ---
+    let seconds = 1800; // 30 min prep
+    let prepPhase = true;
+    let timerInterval;
     const timerDisplay = document.getElementById("timer");
     const timerLabel = document.getElementById("timer-label");
-    const startBtn = document.getElementById("start");
-    const stopBtn = document.getElementById("stop");
-    const status = document.getElementById("status");
-    const camera = document.getElementById("camera");
-
-    let seconds = 600;
-    let timerInterval;
-    let prepPhase = true;
-    let mediaRecorder;
-    let chunks = [];
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
+      const sec = String(seconds % 60)).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
+      if (seconds > 0) seconds--;
+      else {
+        clearInterval(timerInterval);
+        if (prepPhase) {
+          startRoleplayTimer();
+          startRecording();
+        } else stopRecording();
+      }
+    }
+    function startPrepTimer() {
+      seconds = 1800; prepPhase = true;
+      timerLabel.textContent = "⏱️ Prep Timer";
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+    function startRoleplayTimer() {
+      seconds = 900; prepPhase = false;
+      timerLabel.textContent = "⏱️ Roleplay Timer";
+      timerInterval = setInterval(updateTimer, 1000);
+    }
 
-      if (seconds <= 60) timerDisplay.classList.add("text-red-500");
-      if (seconds > 0) return seconds--;
+    // --- WebRTC Setup ---
+    const localVideo = document.getElementById("localVideo");
+    const remoteVideo = document.getElementById("remoteVideo");
+    let localStream, remoteStream = new MediaStream();
+    let pc, dataChannel;
 
-      clearInterval(timerInterval);
-      if (prepPhase) {
-        startBtn.click();
-        startRoleplayTimer();
-      } else {
-        if (mediaRecorder?.state === "recording") handleStopRecording();
+    async function initWebRTC() {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localVideo.srcObject = localStream;
+      remoteVideo.srcObject = remoteStream;
+
+      pc = new RTCPeerConnection();
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+      pc.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
+
+      pc.onicecandidate = e => {
+        if (e.candidate) {
+          fetch('/api/signal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ roomCode, type: 'candidate', data: e.candidate })
+          });
+        }
+      };
+
+      if (isHost) {
+        dataChannel = pc.createDataChannel("tdm");
+        dataChannel.onmessage = handleData;
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        await fetch('/api/signal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ roomCode, type: 'offer', data: offer })
+        });
+        pollSignal();
+      }
+
+      if (isGuest) {
+        pc.ondatachannel = e => {
+          dataChannel = e.channel;
+          dataChannel.onmessage = handleData;
+        };
+        pollSignal();
       }
     }
 
-    function startPrepTimer() {
-      seconds = 600;
-      prepPhase = true;
-      timerLabel.textContent = "⏱️ Prep Timer";
-      timerDisplay.classList.remove("text-red-500");
-      timerInterval = setInterval(updateTimer, 1000);
+    async function pollSignal() {
+      const res = await fetch(`/api/signal?roomCode=${roomCode}`);
+      const { messages } = await res.json();
+      for (const msg of messages) {
+        if (msg.type === 'offer' && isGuest) {
+          await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+          const answer = await pc.createAnswer();
+          await pc.setLocalDescription(answer);
+          await fetch('/api/signal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ roomCode, type: 'answer', data: answer })
+          });
+        }
+        if (msg.type === 'answer' && isHost) {
+          await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+        }
+        if (msg.type === 'candidate') {
+          try { await pc.addIceCandidate(new RTCIceCandidate(msg.data)); } catch {}
+        }
+      }
+      setTimeout(pollSignal, 2000);
     }
 
-    function startRoleplayTimer() {
-      seconds = 600;
-      prepPhase = false;
-      timerLabel.textContent = "⏱️ Roleplay Timer";
-      timerDisplay.classList.remove("text-red-500");
-      timerInterval = setInterval(updateTimer, 1000);
+    function handleData(e) {
+      const msg = JSON.parse(e.data);
+      if (msg.type === 'scenario' && isGuest) {
+        promptElement.textContent = msg.prompt;
+        localStorage.setItem("glassedge_prompt", msg.prompt);
+      }
+      if (msg.type === 'feedback-url') {
+        window.location.href = msg.url;
+      }
     }
 
-    function handleStopRecording() {
-      mediaRecorder.stop();
-      startBtn.disabled = false;
-      startBtn.classList.remove("opacity-50", "cursor-not-allowed");
-      stopBtn.disabled = true;
+    // --- Dual Recording + Merge ---
+    let localRecorder, remoteRecorder;
+    let localChunks = [], remoteChunks = [];
+
+    function startRecording() {
+      localRecorder = new MediaRecorder(localStream);
+      localRecorder.ondataavailable = e => localChunks.push(e.data);
+      localRecorder.start();
+
+      remoteRecorder = new MediaRecorder(remoteStream);
+      remoteRecorder.ondataavailable = e => remoteChunks.push(e.data);
+      remoteRecorder.start();
     }
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-      camera.srcObject = stream;
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = e => chunks.push(e.data);
-      mediaRecorder.onstop = async () => {
-        const blob = new Blob(chunks, { type: 'video/mp4' });
-        status.textContent = "☁️ Uploading to Cloudinary...";
-        status.classList.remove("hidden");
+    async function stopRecording() {
+      localRecorder.stop();
+      remoteRecorder.stop();
+      document.getElementById("status").classList.remove("hidden");
+      mergeAndUpload();
+    }
 
+    async function mergeAndUpload() {
+      const localBlob = new Blob(localChunks, { type: 'audio/webm' });
+      const remoteBlob = new Blob(remoteChunks, { type: 'audio/webm' });
+
+      const localBuf = await localBlob.arrayBuffer();
+      const remoteBuf = await remoteBlob.arrayBuffer();
+
+      const audioCtx = new OfflineAudioContext(2, 44100 * 60 * 20, 44100);
+      const localAudio = await audioCtx.decodeAudioData(localBuf);
+      const remoteAudio = await audioCtx.decodeAudioData(remoteBuf);
+
+      const localSource = audioCtx.createBufferSource();
+      localSource.buffer = localAudio;
+      const remoteSource = audioCtx.createBufferSource();
+      remoteSource.buffer = remoteAudio;
+
+      const merger = audioCtx.createChannelMerger(2);
+      localSource.connect(merger, 0, 0);
+      remoteSource.connect(merger, 0, 1);
+      merger.connect(audioCtx.destination);
+
+      localSource.start();
+      remoteSource.start();
+
+      const rendered = await audioCtx.startRendering();
+      const wavBuffer = audioBufferToWav(rendered);
+      const combinedBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+
+      if (isHost || isSame) {
         const formData = new FormData();
-        formData.append("file", blob);
+        formData.append("file", combinedBlob);
         formData.append("upload_preset", "glassuploadbetter");
 
-        let cloudUrl = "";
-        try {
-          const res = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
-            method: "POST",
-            body: formData
-          });
-          const data = await res.json();
-          cloudUrl = data.secure_url;
-        } catch {
-          status.textContent = "❌ Cloud upload failed.";
-          return;
+        const cloudRes = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
+          method: "POST",
+          body: formData
+        });
+        const cloudData = await cloudRes.json();
+        const cloudUrl = cloudData.secure_url;
+
+        const transcriptRes = await fetch('/api/transcriptbackend', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: cloudUrl })
+        });
+        const { transcript } = await transcriptRes.json();
+
+        const gradeRes = await fetch('/api/grade', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            transcript,
+            eventCode,
+            prompt: localStorage.getItem("glassedge_prompt")
+          })
+        });
+        const grade = await gradeRes.json();
+        const feedbackURL = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
+        if (dataChannel) dataChannel.send(JSON.stringify({ type: 'feedback-url', url: feedbackURL }));
+        window.location.href = feedbackURL;
+      }
+    }
+
+    function audioBufferToWav(buffer) {
+      const numOfChan = buffer.numberOfChannels;
+      const length = buffer.length * numOfChan * 2 + 44;
+      const bufferArr = new ArrayBuffer(length);
+      const view = new DataView(bufferArr);
+      const channels = [];
+      let sample, offset = 0, pos = 0;
+
+      function setUint16(data) { view.setUint16(pos, data, true); pos += 2; }
+      function setUint32(data) { view.setUint32(pos, data, true); pos += 4; }
+
+      setUint32(0x46464952);
+      setUint32(length - 8);
+      setUint32(0x45564157);
+
+      setUint32(0x20746d66);
+      setUint32(16);
+      setUint16(1);
+      setUint16(numOfChan);
+      setUint32(buffer.sampleRate);
+      setUint32(buffer.sampleRate * numOfChan * 2);
+      setUint16(numOfChan * 2);
+      setUint16(16);
+
+      setUint32(0x61746164);
+      setUint32(length - pos - 4);
+
+      for (let i = 0; i < buffer.numberOfChannels; i++)
+        channels.push(buffer.getChannelData(i));
+
+      while (pos < length) {
+        for (let i = 0; i < numOfChan; i++) {
+          sample = Math.max(-1, Math.min(1, channels[i][offset]));
+          view.setInt16(pos, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+          pos += 2;
         }
-
-        status.textContent = "🔊 Transcribing with Deepgram...";
-        try {
-          const transcriptRes = await fetch('/api/transcriptbackend', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: cloudUrl })
-          });
-
-          const { transcript = "No transcript available." } = await transcriptRes.json();
-          status.textContent = "🧠 Grading...";
-          const prompt = localStorage.getItem("glassedge_prompt");
-          const gradeRes = await fetch('/api/grade', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ transcript, eventCode: window.eventCode, prompt })
-          });
-
-          const grade = await gradeRes.json();
-          window.location.href = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
-        } catch {
-          status.textContent = "❌ Transcription or grading failed.";
-        }
-      };
-
-      startBtn.onclick = () => {
-        chunks = [];
-        mediaRecorder.start();
-        startBtn.disabled = true;
-        startBtn.classList.add("opacity-50", "cursor-not-allowed");
-        stopBtn.disabled = false;
-      };
-
-      stopBtn.onclick = handleStopRecording;
-    }).catch(err => {
-      alert("Camera access denied or not available: " + err.message);
-    });
+        offset++;
+      }
+      return bufferArr;
+    }
   </script>
 </body>
 </html>
