@@ -9,6 +9,7 @@
   <script>
     window.urlParams = new URLSearchParams(window.location.search);
     window.eventCode = urlParams.get("event") || "PFN";
+    window.isTDM = urlParams.get("tdm") === "true"; // ✅ detect TDM mode
   </script>
   <script type="module">
     // --- Markdown Table to HTML Conversion Function ---
@@ -16,10 +17,8 @@
       const tableRegex = /((?:\|.+\|[\r\n]+)+)/g;
       return text.replace(tableRegex, (table) => {
         const rows = table.trim().split('\n').filter(r => r.trim());
-        // Remove alignment row if present (|---|---| style)
         const filteredRows = rows.filter(r => !/^(\|\s*:?-+:?\s*)+\|?$/.test(r.trim()));
-        if (filteredRows.length === 0) return table; // No valid rows
-        // Build HTML rows
+        if (filteredRows.length === 0) return table;
         const htmlRows = filteredRows.map((row, i) => {
           const cells = row.split('|').slice(1, -1).map(c => c.trim());
           if (i === 0) {
@@ -55,7 +54,6 @@
         "- Creativity and Innovation – Show evidence of creativity."
       ];
 
-      // Button DOM for indicators (for later use)
       const showBtn = document.getElementById("show-indicators-btn");
       const indicatorsDiv = document.getElementById("indicators-list");
 
@@ -69,7 +67,6 @@
         `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
-        // Show the button after prompt loads
         showBtn.classList.remove("hidden");
         indicatorsDiv.classList.add("hidden");
         showBtn.classList.add("animate-fadeIn");
@@ -86,7 +83,6 @@
         if (res.ok && data.prompt) return handlePrompt(data);
       } catch {}
 
-      // Fallback
       const fallback = roleplayBanks[window.eventCode];
       if (fallback?.length) {
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
@@ -163,7 +159,6 @@
         <div id="indicators-list" class="hidden mt-6 bg-[#f2f2f2] p-6 rounded-xl shadow-xl text-left max-w-xl mx-auto text-gray-900"></div>
       </div>
       <script>
-        // Indicator reveal logic
         document.addEventListener("DOMContentLoaded", function() {
           const showBtn = document.getElementById("show-indicators-btn");
           const listDiv = document.getElementById("indicators-list");
@@ -184,7 +179,6 @@
           };
         });
       </script>
-      <!-- END PERFORMANCE INDICATOR ADDITION -->
     </div>
 
     <!-- Right Column -->
@@ -217,7 +211,11 @@
     const status = document.getElementById("status");
     const camera = document.getElementById("camera");
 
-    let seconds = 600;
+    // ✅ Use TDM-specific durations if in TDM mode
+    let prepDuration = window.isTDM ? 1800 : 600;
+    let roleplayDuration = window.isTDM ? 900 : 600;
+
+    let seconds = prepDuration;
     let timerInterval;
     let prepPhase = true;
     let mediaRecorder;
@@ -241,7 +239,7 @@
     }
 
     function startPrepTimer() {
-      seconds = 600;
+      seconds = prepDuration;
       prepPhase = true;
       timerLabel.textContent = "⏱️ Prep Timer";
       timerDisplay.classList.remove("text-red-500");
@@ -249,7 +247,7 @@
     }
 
     function startRoleplayTimer() {
-      seconds = 600;
+      seconds = roleplayDuration;
       prepPhase = false;
       timerLabel.textContent = "⏱️ Roleplay Timer";
       timerDisplay.classList.remove("text-red-500");
