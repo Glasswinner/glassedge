@@ -106,21 +106,52 @@
       return params.get('event') || '';
     }
 
-    function createRoom() {
-      alert("Create Room action triggered!");
+    async function createRoom() {
+      try {
+        const res = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'make-room' })
+        });
+        const data = await res.json();
+        if (res.ok && data.roomCode) {
+          const eventCode = getEventCode();
+          window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&room=${data.roomCode}&mode=host`;
+        } else {
+          alert("❌ Failed to create room: " + (data.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert("❌ Network error creating room: " + err.message);
+      }
     }
 
-    function joinRoom() {
-      alert("Join Room action triggered!");
+    async function joinRoom() {
+      const code = prompt("Enter the room code:");
+      if (!code) return;
+
+      try {
+        const res = await fetch('/api/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'join-room', roomCode: code.trim().toUpperCase() })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'ok') {
+          const eventCode = getEventCode();
+          window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&room=${code.trim().toUpperCase()}&mode=guest`;
+        } else {
+          alert("❌ Failed to join room: " + (data.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert("❌ Network error joining room: " + err.message);
+      }
     }
 
     function sameDevice() {
       const eventCode = getEventCode();
       if (eventCode) {
-        // Redirect straight to roleplay scenario with the event code
-        window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}`;
+        window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&mode=same`;
       } else {
-        // Fallback: send to roleplay.html if no event code found
         window.location.href = "roleplay.html";
       }
     }
