@@ -95,25 +95,19 @@
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
 
-    // ✅ Same Device adjustments immediately
+    // ✅ Same Device: remove remote video before anything else
     if (isSame) {
       document.getElementById("remoteVideo").remove();
       videoContainer.classList.remove("grid-cols-2");
       videoContainer.classList.add("grid-cols-1");
     }
 
-    // ✅ Show room code for host
     if (isHost && roomCode) {
       waitingOverlay.classList.remove("hidden");
       shareCode.textContent = `Share this code: ${roomCode}`;
     }
 
-    function revealScenario() {
-      promptElement.classList.remove("hidden");
-      startPrepTimer();
-      if (isSame) loadPrompt(); 
-    }
-
+    // ✅ Prompt generation
     async function loadPrompt() {
       const res = await fetch('/api/generatePrompt', {
         method: 'POST',
@@ -123,10 +117,16 @@
       const data = await res.json();
       const prompt = data.prompt || "Failed to load prompt.";
       promptElement.textContent = prompt;
+      promptElement.classList.remove("hidden");
       localStorage.setItem("glassedge_prompt", prompt);
       if (dataChannel && dataChannel.readyState === "open" && isHost) {
         dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
       }
+    }
+
+    function revealScenario() {
+      promptElement.classList.remove("hidden");
+      startPrepTimer();
     }
 
     // ✅ Timer
@@ -156,6 +156,8 @@
       seconds = 900; prepPhase = false;
       timerLabel.textContent = "⏱️ Roleplay Timer";
       timerInterval = setInterval(updateTimer, 1000);
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
     }
 
     // ✅ WebRTC
@@ -170,7 +172,11 @@
       localVideo.srcObject = localStream;
       localVideo.muted = true;
 
-      if (isSame) { revealScenario(); return; }
+      if (isSame) {
+        await loadPrompt();
+        revealScenario();
+        return;
+      }
 
       remoteVideo.srcObject = remoteStream;
       pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
@@ -208,6 +214,11 @@
           revealScenario();
         };
         pollSignal();
+        await fetch('/api/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'join-room', roomCode })
+        });
       }
     }
 
@@ -250,7 +261,7 @@
       if (msg.type === 'feedback-url') window.location.href = msg.url;
     }
 
-    // ✅ Recording
+    // ✅ Dual Recording
     let localRecorder, remoteRecorder;
     let localChunks = [], remoteChunks = [];
 
@@ -284,34 +295,39 @@
     }
 
     async function mergeAndUpload() {
-      const localBlob = new Blob(localChunks, { type: 'audio/webm' });
-      let combinedBlob = localBlob;
-
-      if (!isSame) {
+      let combinedBlob;
+      if (isSame) {
+        combinedBlob = new Blob(localChunks, { type: 'audio/webm' });
+      } else {
+        const localBlob = new Blob(localChunks, { type: 'audio/webm' });
         const remoteBlob = new Blob(remoteChunks, { type: 'audio/webm' });
-        const localBuf = await localBlob.arrayBuffer();
-        const remoteBuf = await remoteBlob.arrayBuffer();
+        combinedBlob = localBlob; // fallback if merge fails
 
-        const audioCtx = new OfflineAudioContext(2, 44100 * 60 * 20, 44100);
-        const localAudio = await audioCtx.decodeAudioData(localBuf);
-        const remoteAudio = await audioCtx.decodeAudioData(remoteBuf);
+        try {
+          const localBuf = await localBlob.arrayBuffer();
+          const remoteBuf = await remoteBlob.arrayBuffer();
 
-        const localSource = audioCtx.createBufferSource();
-        localSource.buffer = localAudio;
-        const remoteSource = audioCtx.createBufferSource();
-        remoteSource.buffer = remoteAudio;
+          const audioCtx = new OfflineAudioContext(2, 44100 * 60 * 20, 44100);
+          const localAudio = await audioCtx.decodeAudioData(localBuf);
+          const remoteAudio = await audioCtx.decodeAudioData(remoteBuf);
 
-        const merger = audioCtx.createChannelMerger(2);
-        localSource.connect(merger, 0, 0);
-        remoteSource.connect(merger, 0, 1);
-        merger.connect(audioCtx.destination);
+          const localSource = audioCtx.createBufferSource();
+          localSource.buffer = localAudio;
+          const remoteSource = audioCtx.createBufferSource();
+          remoteSource.buffer = remoteAudio;
 
-        localSource.start();
-        remoteSource.start();
+          const merger = audioCtx.createChannelMerger(2);
+          localSource.connect(merger, 0, 0);
+          remoteSource.connect(merger, 0, 1);
+          merger.connect(audioCtx.destination);
 
-        const rendered = await audioCtx.startRendering();
-        const wavBuffer = audioBufferToWav(rendered);
-        combinedBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+          localSource.start();
+          remoteSource.start();
+
+          const rendered = await audioCtx.startRendering();
+          const wavBuffer = audioBufferToWav(rendered);
+          combinedBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+        } catch {}
       }
 
       if (isHost || isSame) {
@@ -390,7 +406,6 @@
       return bufferArr;
     }
 
-    // ✅ Start WebRTC/init immediately
     initWebRTC();
   </script>
 </body>
