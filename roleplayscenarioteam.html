@@ -95,50 +95,23 @@
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
 
-    // ✅ Show room code
+    // ✅ Same Device adjustments immediately
+    if (isSame) {
+      document.getElementById("remoteVideo").remove();
+      videoContainer.classList.remove("grid-cols-2");
+      videoContainer.classList.add("grid-cols-1");
+    }
+
+    // ✅ Show room code for host
     if (isHost && roomCode) {
       waitingOverlay.classList.remove("hidden");
       shareCode.textContent = `Share this code: ${roomCode}`;
     }
 
-    // ✅ Same Device adjustments
-    if (isSame) {
-      waitingOverlay.classList.add("hidden");
-      document.getElementById("remoteVideo").remove();
-      videoContainer.classList.remove("grid-cols-2");
-      videoContainer.classList.add("grid-cols-1");
-      revealScenario();
-    }
-
-    // ✅ Host polling
-    if (isHost && roomCode) {
-      const pollStatus = async () => {
-        const res = await fetch(`/api/rooms?roomCode=${roomCode}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.status === "active") {
-            waitingOverlay.classList.add("hidden");
-            revealScenario();
-          } else setTimeout(pollStatus, 3000);
-        } else setTimeout(pollStatus, 3000);
-      };
-      pollStatus();
-    }
-
-    if (isGuest) {
-      fetch('/api/rooms', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ action: 'join-room', roomCode })
-      }).then(() => revealScenario());
-    }
-
     function revealScenario() {
       promptElement.classList.remove("hidden");
       startPrepTimer();
-      initWebRTC();
-      if (!isGuest && !isSame) return; 
-      if (isSame) loadPrompt();
+      if (isSame) loadPrompt(); 
     }
 
     async function loadPrompt() {
@@ -163,7 +136,7 @@
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) seconds--;
       else {
@@ -190,17 +163,17 @@
     const remoteVideo = document.getElementById("remoteVideo");
     let localStream, remoteStream = new MediaStream();
     let pc, dataChannel;
+    let candidateBuffer = [];
 
     async function initWebRTC() {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
       localVideo.muted = true;
-      remoteVideo.srcObject = remoteStream;
-      if (isSame) return;
 
-      pc = new RTCPeerConnection({
-        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
-      });
+      if (isSame) { revealScenario(); return; }
+
+      remoteVideo.srcObject = remoteStream;
+      pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
       localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
       pc.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
 
@@ -216,7 +189,7 @@
 
       if (isHost) {
         dataChannel = pc.createDataChannel("tdm");
-        dataChannel.onopen = () => { loadPrompt(); };
+        dataChannel.onopen = () => { loadPrompt(); revealScenario(); };
         dataChannel.onmessage = handleData;
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
@@ -232,6 +205,7 @@
         pc.ondatachannel = e => {
           dataChannel = e.channel;
           dataChannel.onmessage = handleData;
+          revealScenario();
         };
         pollSignal();
       }
@@ -250,12 +224,17 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ roomCode, type: 'answer', data: answer })
           });
+          candidateBuffer.forEach(c => pc.addIceCandidate(new RTCIceCandidate(c)));
+          candidateBuffer = [];
         }
         if (msg.type === 'answer' && isHost) {
           await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+          candidateBuffer.forEach(c => pc.addIceCandidate(new RTCIceCandidate(c)));
+          candidateBuffer = [];
         }
         if (msg.type === 'candidate') {
-          try { await pc.addIceCandidate(new RTCIceCandidate(msg.data)); } catch {}
+          if (pc.remoteDescription) await pc.addIceCandidate(new RTCIceCandidate(msg.data));
+          else candidateBuffer.push(msg.data);
         }
       }
       setTimeout(pollSignal, 2000);
@@ -263,14 +242,15 @@
 
     function handleData(e) {
       const msg = JSON.parse(e.data);
-      if (msg.type === 'scenario' && isGuest) {
+      if (msg.type === 'scenario') {
         promptElement.textContent = msg.prompt;
+        promptElement.classList.remove("hidden");
         localStorage.setItem("glassedge_prompt", msg.prompt);
       }
       if (msg.type === 'feedback-url') window.location.href = msg.url;
     }
 
-    // ✅ Dual Recording + Buttons
+    // ✅ Recording
     let localRecorder, remoteRecorder;
     let localChunks = [], remoteChunks = [];
 
@@ -409,6 +389,9 @@
       }
       return bufferArr;
     }
+
+    // ✅ Start WebRTC/init immediately
+    initWebRTC();
   </script>
 </body>
 </html>
