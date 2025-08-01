@@ -9,25 +9,46 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #0b0e1a 75%, #1e1446);
-      color: white;
+      background-color: #f9f8ff;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center px-6 py-10">
-  <h1 class="text-4xl font-bold mb-6">Written Event Example</h1>
+<body class="text-gray-900 min-h-screen flex flex-col overflow-y-auto">
 
-  <div class="w-full max-w-6xl mb-6">
-    <iframe id="pdf-frame" class="w-full h-[90vh] rounded-lg border-2 border-purple-500 shadow-lg" frameborder="0"></iframe>
-  </div>
+  <!-- 🔹 NAVIGATION BAR (Matches Written.html) -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold tracking-tight">GlassEDGE</h1>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="roleplay.html" class="hover:underline">Roleplays</a>
+        <a href="walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+        <a href="written.html" class="hover:underline">Written Event Gallery</a>
+        <a href="index.html" class="hover:underline">About Us</a>
+      </nav>
+      <a href="#" class="bg-white text-purple-600 px-4 py-2 rounded font-semibold shadow hover:bg-gray-100">Get Started →</a>
+    </div>
+  </header>
 
-  <a href="index.html" class="text-blue-400 hover:underline text-lg mt-4">&larr; Return to Home</a>
+  <!-- 🔹 MAIN SECTION -->
+  <main class="flex flex-col items-center px-6 py-20 max-w-7xl mx-auto w-full">
+    <h1 class="text-5xl font-extrabold text-purple-700 mb-12 text-center">Written Event Example</h1>
 
+    <div class="w-full max-w-6xl shadow-lg rounded-lg overflow-hidden border border-purple-200">
+      <iframe
+        id="pdf-frame"
+        class="w-full h-[90vh] bg-white"
+        frameborder="0">
+      </iframe>
+    </div>
+
+    <a href="written.html" class="text-blue-600 hover:underline text-base mt-8">&larr; Return to Event Selection</a>
+  </main>
+
+  <!-- 🔹 ERROR HANDLING + LOADING SCRIPT -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const eventCode = params.get("event");
     const filePath = eventCode ? `/data/${eventCode}1.pdf` : null;
-
     const iframe = document.getElementById('pdf-frame');
 
     if (filePath) {
@@ -45,11 +66,10 @@
     }
 
     function showError() {
-      document.body.innerHTML += `
-        <div class="text-red-400 mt-6 text-center text-xl">
-          ⚠️ No example found for this event.
-        </div>
-      `;
+      const msg = document.createElement('div');
+      msg.className = 'text-red-500 mt-10 text-lg text-center font-semibold';
+      msg.innerHTML = '⚠️ No example found for this event.';
+      document.querySelector('main').appendChild(msg);
     }
   </script>
 </body>
