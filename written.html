@@ -1,4 +1,3 @@
-<!-- written.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,27 +15,42 @@
     .glow {
       text-shadow: 0 0 12px #a855f7;
     }
-    .scroll-box {
-      animation: scrollUp 18s linear infinite;
-    }
-    @keyframes scrollUp {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-50%); }
-    }
-    .event-border {
-      border: 2px solid rgba(168, 85, 247, 0.4);
+    .card {
       border-radius: 12px;
-      padding: 12px;
+      padding: 16px;
+      background-color: #1c1f2e;
+      border: 2px solid rgba(168, 85, 247, 0.4);
     }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center px-4 py-12">
-  <div class="flex flex-col md:flex-row items-start md:items-center justify-center w-full max-w-7xl scale-[1.15]">
-    <!-- Left Section -->
-    <div class="w-full md:w-1/2 mb-12 md:mb-0 md:pr-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 glow">Choose your written event:</h1>
+  <div class="flex flex-col md:flex-row items-start md:items-start justify-center w-full max-w-7xl scale-[1.15] gap-12">
+    
+    <!-- Left Info Section -->
+    <div class="w-full md:w-1/2 space-y-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 glow">DECA Written Events</h1>
 
-      <div class="w-full mb-6">
+      <div class="card">
+        <h2 class="text-xl font-bold text-purple-400 mb-2">1. Choose</h2>
+        <p>Select your DECA written event category and sub-event to view real past projects and examples.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="text-xl font-bold text-blue-400 mb-2">2. Review</h2>
+        <p>Explore sample PDFs and presentation materials that scored highly at competition. Use them to guide your project.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="text-xl font-bold text-pink-400 mb-2">3. Create</h2>
+        <p>Start building your own written entry with confidence using our examples and DECA-aligned resources.</p>
+      </div>
+    </div>
+
+    <!-- Right Form Section -->
+    <div class="w-full md:w-1/2 space-y-6">
+      <h2 class="text-3xl font-bold glow mb-4">Choose your written event:</h2>
+
+      <div>
         <label for="event-type" class="block mb-2 text-lg font-semibold">Select event category:</label>
         <select id="event-type" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md">
           <option disabled selected value="">-- Select Event Type --</option>
@@ -47,44 +61,16 @@
         </select>
       </div>
 
-      <div id="event-container" class="w-full mb-6 hidden">
+      <div id="event-container" class="w-full hidden">
         <label for="event" class="block mb-2 text-lg font-semibold">Select sub-event:</label>
         <select id="event" class="w-full bg-gray-800 border border-gray-600 p-3 rounded-md"></select>
       </div>
 
-      <button id="view-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
+      <button id="view-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg glow" disabled>
         View Examples
       </button>
 
-      <a href="index.html" class="block mt-6 text-blue-400 hover:underline">&larr; Return to Home</a>
-    </div>
-
-    <!-- Right Scrolling Section -->
-    <div class="w-full md:w-1/2 max-h-[360px] overflow-hidden relative event-border">
-      <div class="scroll-box space-y-4">
-        <div class="space-y-4">
-          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">PMBS – Business Solutions</div>
-          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">PMCD – Career Development</div>
-          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">PMCA – Community Awareness</div>
-          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">PMCG – Community Giving</div>
-          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">PMFL – Financial Literacy</div>
-          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">PMSP – Sales Project</div>
-          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">EFB – Franchise Plan</div>
-          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">EBG – Business Growth</div>
-          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">EIB – Innovation Plan</div>
-          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">EIP – Independent Plan</div>
-          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">IBP – International Plan</div>
-          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">ESB – Startup Plan</div>
-          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">IMCE – Marketing Campaign: Event</div>
-          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">IMCP – Marketing Campaign: Product</div>
-          <div class="p-4 rounded-lg bg-yellow-600 text-white font-bold shadow">IMCS – Marketing Campaign: Service</div>
-          <div class="p-4 rounded-lg bg-pink-600 text-white font-bold shadow">BSOR – Business Services OR</div>
-          <div class="p-4 rounded-lg bg-green-600 text-white font-bold shadow">BMOR – Mgmt/Admin OR</div>
-          <div class="p-4 rounded-lg bg-red-600 text-white font-bold shadow">FOR – Finance OR</div>
-          <div class="p-4 rounded-lg bg-blue-600 text-white font-bold shadow">HTOR – Hospitality/Tourism OR</div>
-          <div class="p-4 rounded-lg bg-purple-600 text-white font-bold shadow">SEOR – Sports/Ent Marketing OR</div>
-        </div>
-      </div>
+      <a href="index.html" class="block mt-6 text-purple-400 hover:underline">&larr; Return to Home</a>
     </div>
   </div>
 
