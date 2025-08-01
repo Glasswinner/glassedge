@@ -2,30 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Choose Written Event | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: #f9f8ff;
-    }
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      transition: transform 0.2s ease;
+      background-color: #f9f8ff;
     }
     .card:hover {
       transform: translateY(-4px);
     }
   </style>
 </head>
-<body class="text-black min-h-screen flex flex-col overflow-y-auto">
+<body class="text-gray-900 min-h-screen flex flex-col overflow-y-auto">
 
-  <!-- ✅ TOP NAV BAR -->
-  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-2 shadow-md">
+  <!-- 🔹 NAVIGATION BAR -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold tracking-tight">GlassEDGE</h1>
       <nav class="space-x-6 hidden md:flex">
@@ -38,30 +32,29 @@
     </div>
   </header>
 
-  <!-- ✅ MAIN SECTION WITH TITLE -->
+  <!-- 🔹 MAIN SECTION -->
   <main class="flex-grow flex flex-col items-center justify-start px-6 pt-40 pb-20">
-    <!-- Title -->
     <h1 class="text-7xl font-extrabold text-purple-700 mb-20 text-center">DECA Written Event Generator</h1>
 
     <div class="flex flex-col md:flex-row gap-32 items-stretch max-w-6xl w-full justify-center mt-8">
 
-      <!-- LEFT: Instruction Cards -->
+      <!-- LEFT: Steps -->
       <div class="flex flex-col w-full md:w-1/2 justify-between space-y-14 scale-[1.05]">
-        <div class="card p-8 border-l-4 border-purple-600 flex-1">
+        <div class="card p-8 border-l-4 border-purple-600 bg-white rounded-lg shadow">
           <h3 class="text-3xl font-bold text-purple-700 mb-3">1. Select</h3>
           <p class="text-gray-700 text-lg">Choose your written event category and sub-event. We’ll show examples that match actual competition formats.</p>
         </div>
-        <div class="card p-8 border-l-4 border-blue-600 flex-1">
+        <div class="card p-8 border-l-4 border-blue-600 bg-white rounded-lg shadow">
           <h3 class="text-3xl font-bold text-blue-700 mb-3">2. Review</h3>
           <p class="text-gray-700 text-lg">Browse award-winning samples with written projects and presentation guides that align with DECA rubrics.</p>
         </div>
-        <div class="card p-8 border-l-4 border-pink-500 flex-1">
+        <div class="card p-8 border-l-4 border-pink-500 bg-white rounded-lg shadow">
           <h3 class="text-3xl font-bold text-pink-600 mb-3">3. Create</h3>
           <p class="text-gray-700 text-lg">Use our resources to develop your own competitive written event — start strong and stay on track.</p>
         </div>
       </div>
 
-      <!-- RIGHT: Event Generator -->
+      <!-- RIGHT: Dropdowns -->
       <div class="flex flex-col w-full md:w-1/2 justify-between space-y-8 scale-[1.05]">
         <h2 class="text-5xl font-extrabold text-purple-700 tracking-tight">Choose Your Event</h2>
 
@@ -81,15 +74,17 @@
           </select>
         </div>
 
-        <button id="view-btn" class="w-full bg-purple-600 text-white p-5 rounded font-semibold text-xl hover:bg-purple-700" disabled>View Examples</button>
+        <button id="view-btn" class="w-full bg-purple-600 text-white p-5 rounded font-semibold text-xl hover:bg-purple-700" disabled>
+          View Examples
+        </button>
 
-        <a href="index.html" class="block text-sm text-blue-600 hover:underline">← Return to Home</a>
+        <a href="index.html" class="block text-sm text-blue-600 hover:underline mt-4">&larr; Return to Home</a>
       </div>
 
     </div>
   </main>
 
-  <!-- ✅ SCRIPT FOR DROPDOWN -->
+  <!-- 🔹 SCRIPT -->
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventSelect = document.getElementById('event');
@@ -105,6 +100,7 @@
     eventTypeSelect.addEventListener('change', function () {
       const selectedType = this.value;
       const options = events[selectedType] || [];
+
       eventSelect.innerHTML = '<option disabled selected value="">-- Select Sub-Event --</option>';
       options.forEach(code => {
         const opt = document.createElement('option');
@@ -112,6 +108,7 @@
         opt.textContent = code;
         eventSelect.appendChild(opt);
       });
+
       eventSelect.disabled = false;
       eventSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
       viewBtn.disabled = true;
@@ -124,7 +121,7 @@
     viewBtn.addEventListener('click', function () {
       const eventCode = eventSelect.value;
       if (!eventCode) return;
-      window.location.href = `roleplay.html?event=${encodeURIComponent(eventCode)}`;
+      window.location.href = `writtenview.html?event=${encodeURIComponent(eventCode)}`;
     });
   </script>
 </body>
