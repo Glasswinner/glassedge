@@ -15,7 +15,7 @@
 </head>
 <body class="text-gray-900 min-h-screen flex flex-col overflow-y-auto">
 
-  <!-- 🔹 NAVIGATION BAR (Matches Written.html) -->
+  <!-- 🔹 NAVIGATION BAR -->
   <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold tracking-tight">GlassEDGE</h1>
@@ -31,8 +31,19 @@
 
   <!-- 🔹 MAIN SECTION -->
   <main class="flex flex-col items-center px-6 py-20 max-w-7xl mx-auto w-full">
-    <h1 class="text-5xl font-extrabold text-purple-700 mb-12 text-center">Written Event Example</h1>
+    <h1 class="text-5xl font-extrabold text-purple-700 mb-6 text-center" id="page-title">Written Event Example</h1>
 
+    <!-- Buttons for version selection -->
+    <div class="mb-10">
+      <label class="block mb-2 text-lg font-semibold text-gray-800 text-center">Choose which example to view:</label>
+      <div class="flex justify-center gap-4">
+        <button class="version-btn bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded font-semibold" data-index="1">1st Place</button>
+        <button class="version-btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-semibold" data-index="2">2nd Place</button>
+        <button class="version-btn bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded font-semibold" data-index="3">3rd Place</button>
+      </div>
+    </div>
+
+    <!-- PDF Viewer -->
     <div class="w-full max-w-6xl shadow-lg rounded-lg overflow-hidden border border-purple-200">
       <iframe
         id="pdf-frame"
@@ -44,33 +55,49 @@
     <a href="written.html" class="text-blue-600 hover:underline text-base mt-8">&larr; Return to Event Selection</a>
   </main>
 
-  <!-- 🔹 ERROR HANDLING + LOADING SCRIPT -->
+  <!-- 🔹 SCRIPT -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const eventCode = params.get("event");
-    const filePath = eventCode ? `/data/${eventCode}1.pdf` : null;
     const iframe = document.getElementById('pdf-frame');
+    const pageTitle = document.getElementById('page-title');
 
-    if (filePath) {
-      fetch(filePath, { method: 'HEAD' })
-        .then(res => {
-          if (res.ok) {
-            iframe.src = filePath;
-          } else {
-            showError();
-          }
-        })
-        .catch(showError);
+    function loadPDF(index) {
+      if (!eventCode) return;
+
+      const filePath = `/data/${eventCode} ${index}.pdf`;
+
+      fetch(filePath, { method: 'HEAD' }).then(res => {
+        if (res.ok) {
+          iframe.src = filePath;
+        } else {
+          showError();
+        }
+      }).catch(showError);
+    }
+
+    function showError() {
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'text-red-500 mt-6 text-center text-lg font-semibold';
+      errorMsg.textContent = '⚠️ No example found for this version of the event.';
+      document.querySelector('main').appendChild(errorMsg);
+    }
+
+    // Load 1st place by default
+    if (eventCode) {
+      pageTitle.textContent = `${eventCode} Written Event Examples`;
+      loadPDF(1);
     } else {
       showError();
     }
 
-    function showError() {
-      const msg = document.createElement('div');
-      msg.className = 'text-red-500 mt-10 text-lg text-center font-semibold';
-      msg.innerHTML = '⚠️ No example found for this event.';
-      document.querySelector('main').appendChild(msg);
-    }
+    // Handle button clicks
+    document.querySelectorAll('.version-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = btn.getAttribute('data-index');
+        loadPDF(index);
+      });
+    });
   </script>
 </body>
 </html>
