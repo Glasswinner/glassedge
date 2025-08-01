@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DECA Written Events | GlassEDGE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <title>DECA Written Event Generator | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: 'Inter', sans-serif;
     }
+    html, body {
+      height: 100%;
+      overflow-y: auto;
+    }
   </style>
 </head>
-<body class="bg-[#f6f5fc] text-gray-900 overflow-y-scroll min-h-screen">
+<body class="bg-[#f6f5fc] text-gray-900">
 
-  <!-- TOP NAV -->
+  <!-- TOP NAVIGATION -->
   <header class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-md">
     <div class="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
       <div class="text-xl font-extrabold">GlassEDGE</div>
@@ -29,37 +33,35 @@
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="max-w-[1200px] mx-auto px-6 py-[72px]">
+  <main class="w-full flex justify-center px-4">
+    <div class="max-w-[1200px] w-full flex flex-col lg:flex-row gap-[72px] py-[72px] min-h-screen">
 
-    <!-- Full Width Section Title -->
-    <h1 class="text-[40px] md:text-[48px] font-extrabold text-purple-700 mb-16 text-center lg:text-left">DECA Written Event Generator</h1>
+      <!-- LEFT: STEPS -->
+      <div class="flex flex-col w-full lg:w-1/2 gap-[48px]">
+        <h1 class="text-[40px] font-extrabold text-[#7e22ce] leading-tight">DECA Written Event Generator</h1>
 
-    <div class="flex flex-col lg:flex-row gap-[80px]">
-
-      <!-- LEFT: STEP CARDS -->
-      <div class="flex flex-col w-full lg:w-1/2 gap-[60px]">
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
-          <h2 class="text-xl font-bold text-purple-600 mb-2">1. Select</h2>
-          <p class="text-sm text-gray-700">Choose your DECA written event type and specific event. Our generator tailors examples to match real competition formats.</p>
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+          <h2 class="text-xl font-bold text-purple-700 mb-2">1. Select</h2>
+          <p class="text-sm text-gray-700">Choose your DECA written event type and specific event. Our generator tailors examples to match real competition.</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
           <h2 class="text-xl font-bold text-blue-600 mb-2">2. Review</h2>
           <p class="text-sm text-gray-700">Access real, high-scoring project samples and get inspiration on format, layout, and rubric alignment.</p>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-pink-500">
+        <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
           <h2 class="text-xl font-bold text-pink-600 mb-2">3. Create</h2>
           <p class="text-sm text-gray-700">Use what you’ve learned to craft your own polished written entry with confidence.</p>
         </div>
       </div>
 
       <!-- RIGHT: FORM -->
-      <div class="w-full lg:w-1/2 space-y-8">
-        <h2 class="text-3xl font-extrabold text-purple-700">Choose Your Event</h2>
+      <div class="w-full lg:w-1/2 flex flex-col gap-6">
+        <h2 class="text-[28px] font-extrabold text-[#7e22ce]">Choose Your Event</h2>
 
         <div>
-          <label for="event-type" class="block mb-2 text-base font-semibold">Select event type:</label>
+          <label for="event-type" class="block mb-2 text-sm font-semibold">Select event type:</label>
           <select id="event-type" class="w-full bg-white border border-gray-300 p-3 rounded-md text-sm">
             <option disabled selected value="">-- Select Event Type --</option>
             <option value="project">Project Management</option>
@@ -70,21 +72,21 @@
         </div>
 
         <div id="event-container" class="hidden">
-          <label for="event" class="block mb-2 text-base font-semibold">Select sub-event:</label>
+          <label for="event" class="block mb-2 text-sm font-semibold">Select sub-event:</label>
           <select id="event" class="w-full bg-white border border-gray-300 p-3 rounded-md text-sm"></select>
         </div>
 
-        <button id="view-btn" disabled class="w-full bg-purple-600 text-white py-3 px-6 rounded-md font-bold text-sm hover:bg-purple-700 disabled:opacity-50 transition">
+        <button id="view-btn" disabled class="bg-[#7e22ce] hover:bg-[#6b21a8] text-white font-semibold text-sm py-3 px-6 rounded-md transition disabled:opacity-50 w-full">
           View Examples
         </button>
 
-        <a href="index.html" class="text-blue-600 hover:underline text-sm block mt-2">&larr; Return to Home</a>
+        <a href="index.html" class="text-sm text-blue-600 hover:underline mt-2">&larr; Return to Home</a>
       </div>
 
     </div>
   </main>
 
-  <!-- JS LOGIC -->
+  <!-- SCRIPT -->
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventContainer = document.getElementById('event-container');
