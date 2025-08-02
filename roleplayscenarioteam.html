@@ -3,257 +3,269 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Team Roleplay Scenario | GlassEDGE</title>
+  <title>Team Decision Making Scenario | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@daily-co/daily-js"></script>
+  <script>
+    window.urlParams = new URLSearchParams(window.location.search);
+    window.eventCode = urlParams.get("event") || "PFN";
+    window.roomCode = urlParams.get("room") || "";
+    window.mode = urlParams.get("mode") || "guest";
+  </script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .waiting-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.95);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 50;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to   { opacity: 1; transform: none;}
     }
-    #debug-box {
-      position: fixed; bottom: 0; left: 0;
-      background: rgba(0,0,0,0.8); color: lime; font-size: 12px;
-      padding: 8px; max-height: 250px; overflow-y: auto; width: 100%;
-      font-family: monospace; z-index: 1000;
-    }
-    video { width: 100%; background: #000; margin-bottom: 8px; }
+    .animate-fadeIn { animation: fadeIn 0.6s ease 1; }
   </style>
 </head>
 <body class="bg-white text-gray-800 font-inter">
-
-<div id="debug-box">DEBUG OUTPUT:<br></div>
-<script>
-function dbg(msg) {
-  console.log(msg);
-  const box = document.getElementById('debug-box');
-  box.innerHTML += msg + "<br>";
-}
-dbg("DEBUG: script loaded");
-
-const urlParams = new URLSearchParams(window.location.search);
-const eventCode = urlParams.get("event") || "PFN";
-const roomCode = urlParams.get("room") || null;
-const mode = urlParams.get("mode") || "same";
-const isHost = mode === "host";
-const isGuest = mode === "guest";
-const isSame = mode === "same";
-const API_BASE = window.location.origin;
-dbg(`DEBUG: Vars -> eventCode=${eventCode}, roomCode=${roomCode}, mode=${mode}, API_BASE=${API_BASE}`);
-</script>
-
-<header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50 shadow-md">
-  <div class="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
-    <span class="text-lg font-semibold">GlassEDGE</span>
-  </div>
-</header>
-
-<div class="flex h-[calc(100vh-64px)] relative">
-  <div class="w-2/3 p-8">
-    <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
-      Event: <span id="event-code">--</span>
-    </h2>
-    <div class="bg-[#f2f2f2] p-6 rounded-xl">
-      <p id="generated-prompt" class="hidden"></p>
-    </div>
-  </div>
-  <div class="w-1/3 p-6 border-l border-gray-200 bg-gray-50 relative">
-    <div id="waiting-overlay" class="waiting-overlay hidden">
-      <div class="text-center">
-        <p id="share-code" class="text-xl mb-4"></p>
-        <p>Waiting for second participant to arrive...</p>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <span class="text-lg font-semibold flex items-center">
+          GlassEDGE
+          <img src="glassedgenewlogo.png" alt="GlassEDGE Logo" class="h-6 ml-2" />
+        </span>
+      </div>
+      <div class="text-sm font-medium">
+        <span class="bg-white text-purple-600 px-3 py-1 rounded-full font-semibold">
+          Room Code: <span id="room-display">---</span>
+        </span>
       </div>
     </div>
-    <video id="localVideo" autoplay playsinline muted></video>
-    <video id="remoteVideo" autoplay playsinline></video>
+  </header>
+
+  <div class="flex h-[calc(100vh-64px)] overflow-hidden">
+    <!-- Left Column -->
+    <div class="w-2/3 p-8 overflow-y-auto bg-white">
+      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
+        Event: <span id="event-code">--</span>
+      </h2>
+
+      <!-- Timer -->
+      <div class="mb-4">
+        <h3 id="timer-label" class="text-lg font-semibold text-purple-600 mb-1">⏱️ Prep Timer</h3>
+        <div id="timer" class="text-3xl font-bold text-gray-900">30:00</div>
+      </div>
+
+      <p id="loading-notice" class="text-sm text-gray-500 italic mb-2">⚠️ Waiting for host to reveal the prompt...</p>
+
+      <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[60vh] overflow-y-auto">
+        <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Your DECA prompt will appear here...</p>
+      </div>
+
+      <div id="show-indicators" class="mt-8 hidden">
+        <h3 class="text-lg font-semibold mb-2 text-purple-600">Performance Indicators</h3>
+        <ul id="indicators-list" class="list-disc pl-6 text-gray-800"></ul>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="w-1/3 flex flex-col p-6 border-l border-gray-200 bg-gray-50">
+      <div class="flex-grow flex flex-col">
+        <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Live Video</h3>
+        <div id="video-section" class="w-full bg-black rounded-lg flex items-center justify-center h-64 text-white">
+          <span id="waiting-label" class="text-center text-lg">Waiting for second participant...</span>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-3">
+        <button id="reveal-prompt-btn" class="bg-purple-600 text-white px-4 py-2 rounded-md w-full hidden">Reveal Prompt</button>
+        <button id="start-roleplay-btn" class="bg-green-600 text-white px-4 py-2 rounded-md w-full hidden">Start Roleplay Early</button>
+        <button id="stop-recording-btn" class="bg-red-600 text-white px-4 py-2 rounded-md w-full hidden">Stop & Submit</button>
+        <p id="status" class="text-sm text-green-600 hidden mt-2">Processing...</p>
+      </div>
+    </div>
   </div>
-</div>
 
-<script type="module">
-dbg("DEBUG: module script started");
-document.getElementById("event-code").textContent = eventCode;
+  <script type="module">
+    document.getElementById("event-code").textContent = window.eventCode;
+    document.getElementById("room-display").textContent = window.roomCode;
 
-const promptElement = document.getElementById("generated-prompt");
-const waitingOverlay = document.getElementById("waiting-overlay");
-const shareCode = document.getElementById("share-code");
-const localVideo = document.getElementById("localVideo");
-const remoteVideo = document.getElementById("remoteVideo");
+    const timerDisplay = document.getElementById("timer");
+    const timerLabel = document.getElementById("timer-label");
+    const revealBtn = document.getElementById("reveal-prompt-btn");
+    const startRoleplayBtn = document.getElementById("start-roleplay-btn");
+    const stopBtn = document.getElementById("stop-recording-btn");
+    const status = document.getElementById("status");
 
-if (isHost && roomCode) {
-  waitingOverlay.classList.remove("hidden");
-  shareCode.textContent = `Share this code: ${roomCode}`;
-  dbg("DEBUG: Host waiting overlay shown");
-}
+    let seconds = 1800;
+    let prepPhase = true;
+    let timerInterval;
+    let mediaRecorder;
+    let chunks = [];
 
-// 🔧 Debug wrapper
-async function debugFetch(url, options) {
-  dbg(`FETCH -> ${url}`);
-  if (options) dbg(`FETCH OPTIONS: ${JSON.stringify(options)}`);
-  const res = await fetch(url, options);
-  const text = await res.text();
-  dbg(`FETCH RESPONSE STATUS: ${res.status}`);
-  dbg(`FETCH RESPONSE BODY: ${text}`);
-  try {
-    return JSON.parse(text);
-  } catch {
-    return {};
-  }
-}
+    function updateTimer() {
+      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${min}:${sec}`;
+      if (seconds > 0) {
+        seconds--;
+      } else {
+        clearInterval(timerInterval);
+        if (prepPhase) beginRoleplayPhase();
+        else finishRecording();
+      }
+    }
 
-let pc, dataChannel;
-let candidateQueue = [];
-const remoteStream = new MediaStream();
+    function syncStartPrep() {
+      clearInterval(timerInterval);
+      seconds = 1800;
+      prepPhase = true;
+      timerLabel.textContent = "⏱️ Prep Timer";
+      timerDisplay.classList.remove("text-red-500");
+      timerInterval = setInterval(updateTimer, 1000);
+    }
 
-async function loadPrompt() {
-  try {
-    dbg("DEBUG: Fetching prompt");
-    const res = await debugFetch(`${API_BASE}/api/generatePrompt`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ eventCode })
+    function beginRoleplayPhase() {
+      prepPhase = false;
+      seconds = 900;
+      timerLabel.textContent = "⏱️ Roleplay Timer";
+      timerDisplay.classList.add("text-red-500");
+      startRecording();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function startRecording() {
+      mediaRecorder.start();
+      startRoleplayBtn.classList.add("hidden");
+      stopBtn.classList.remove("hidden");
+    }
+
+    function finishRecording() {
+      mediaRecorder.stop();
+      stopBtn.disabled = true;
+      status.textContent = "☁️ Uploading...";
+      status.classList.remove("hidden");
+    }
+
+    // ✅ Daily Video Setup
+    const videoSection = document.getElementById("video-section");
+    const waitingLabel = document.getElementById("waiting-label");
+
+    const callFrame = window.DailyIframe.createFrame(videoSection, {
+      url: `https://glassedgetdm.daily.co/${window.roomCode}`,
+      showLeaveButton: true,
+      iframeStyle: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        border: '0',
+        borderRadius: '8px'
+      }
     });
-    const prompt = res.prompt || "Failed to load prompt.";
-    promptElement.textContent = prompt;
-    promptElement.classList.remove("hidden");
-    dbg("DEBUG: Prompt loaded -> " + prompt.slice(0,60));
 
-    if (isHost && dataChannel) {
-      const send = () => {
-        dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
-        dbg("DEBUG: Host sent prompt via data channel");
-      };
-      if (dataChannel.readyState === "open") send();
-      else dataChannel.onopen = send;
-    }
-  } catch (err) {
-    dbg("ERROR: loadPrompt failed -> " + err.message);
-  }
-}
+    callFrame.join();
 
-async function initWebRTC() {
-  try {
-    dbg(`DEBUG: initWebRTC() fired. isHost=${isHost} isGuest=${isGuest}`);
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    localVideo.srcObject = stream;
-    localVideo.muted = true;
+    callFrame.on('participant-joined', () => {
+      if (waitingLabel) waitingLabel.style.display = "none";
+    });
 
-    pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
-    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+    // ✅ Recording setup
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = async () => {
+        const blob = new Blob(chunks, { type: 'video/mp4' });
 
-    pc.ontrack = e => {
-      dbg("DEBUG: Remote track received");
-      e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
-      remoteVideo.srcObject = remoteStream;
-    };
+        const formData = new FormData();
+        formData.append("file", blob);
+        formData.append("upload_preset", "glassuploadbetter");
 
-    pc.onicecandidate = e => {
-      if (e.candidate) {
-        dbg("DEBUG: Sending ICE candidate");
-        debugFetch(`${API_BASE}/api/signal`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ roomCode, type: 'candidate', data: e.candidate })
-        });
-      }
-    };
-
-    pc.onconnectionstatechange = () => {
-      dbg("DEBUG: Connection state -> " + pc.connectionState);
-      if (pc.connectionState === "connected") {
-        dbg("DEBUG: Peer connection established");
-        waitingOverlay.classList.add("hidden");
-        if (isHost) loadPrompt();
-      }
-    };
-
-    if (isHost) {
-      dataChannel = pc.createDataChannel("tdm");
-      dataChannel.onmessage = e => {
-        const msg = JSON.parse(e.data);
-        if (msg.type === 'scenario') {
-          promptElement.textContent = msg.prompt;
-          promptElement.classList.remove("hidden");
-          dbg("DEBUG: Host received prompt via data channel");
+        let cloudUrl = "";
+        try {
+          const res = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
+            method: "POST",
+            body: formData
+          });
+          const data = await res.json();
+          cloudUrl = data.secure_url;
+        } catch {
+          status.textContent = "❌ Upload failed.";
+          return;
         }
-      };
-      dbg("DEBUG: Host creating offer");
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      await debugFetch(`${API_BASE}/api/signal`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roomCode, type: 'offer', data: offer })
-      });
-    }
 
-    if (isGuest) {
-      pc.ondatachannel = e => {
-        dataChannel = e.channel;
-        dataChannel.onmessage = e => {
-          const msg = JSON.parse(e.data);
-          if (msg.type === 'scenario') {
-            promptElement.textContent = msg.prompt;
-            promptElement.classList.remove("hidden");
-            dbg("DEBUG: Guest received prompt via data channel");
-          }
-        };
-      };
-      dbg("DEBUG: Guest joining room");
-      await debugFetch(`${API_BASE}/api/rooms`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'join-room', roomCode })
-      });
-    }
-
-    pollSignal();
-
-  } catch (err) {
-    dbg("ERROR: initWebRTC crashed -> " + err.message);
-  }
-}
-
-async function pollSignal() {
-  try {
-    const res = await debugFetch(`${API_BASE}/api/signal?roomCode=${roomCode}`);
-    const { messages } = res;
-
-    for (const msg of messages || []) {
-      if (msg.type === 'offer' && isGuest) {
-        dbg("DEBUG: Guest received offer");
-        await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
-        dbg("DEBUG: Guest set remote description");
-        const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
-        dbg("DEBUG: Guest created answer");
-        await debugFetch(`${API_BASE}/api/signal`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ roomCode, type: 'answer', data: answer })
+        status.textContent = "🔊 Transcribing...";
+        const transcriptRes = await fetch('/api/transcriptbackend', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: cloudUrl })
         });
-      }
-      if (msg.type === 'answer' && isHost) {
-        dbg("DEBUG: Host received answer");
-        await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
-        dbg("DEBUG: Host set remote description");
-      }
-      if (msg.type === 'candidate') {
-        dbg("DEBUG: ICE candidate received");
-        if (pc.remoteDescription && pc.remoteDescription.type) {
-          await pc.addIceCandidate(new RTCIceCandidate(msg.data));
-        } else {
-          dbg("DEBUG: Candidate queued until remoteDescription set");
-          candidateQueue.push(msg.data);
-        }
-      }
+
+        const { transcript = "No transcript." } = await transcriptRes.json();
+        status.textContent = "🧠 Grading...";
+
+        const gradeRes = await fetch('/api/grade', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ transcript, eventCode: window.eventCode })
+        });
+
+        const grade = await gradeRes.json();
+        await fetch(`/api/delete-room?roomName=${window.roomCode}`, { method: 'DELETE' });
+
+        window.location.href = `/feedback.html?event=${window.eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
+      };
+    });
+
+    // ✅ Host controls
+    if (window.mode === "host") {
+      revealBtn.classList.remove("hidden");
+      revealBtn.onclick = async () => {
+        const res = await fetch('/api/generatePrompt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ eventCode: window.eventCode })
+        });
+        const data = await res.json();
+
+        callFrame.sendAppMessage({ type: "prompt", prompt: data.prompt, indicators: data.indicators });
+        callFrame.sendAppMessage({ type: "start-prep" });
+
+        document.getElementById("generated-prompt").textContent = data.prompt;
+        document.getElementById("show-indicators").classList.remove("hidden");
+        document.getElementById("indicators-list").innerHTML = data.indicators.map(i => `<li>${i}</li>`).join('');
+        revealBtn.classList.add("hidden");
+        startRoleplayBtn.classList.remove("hidden");
+
+        syncStartPrep();
+      };
     }
-  } catch (err) {
-    dbg("ERROR: pollSignal -> " + err.message);
-  }
-  setTimeout(pollSignal, 2000);
-}
 
-initWebRTC();
-</script>
+    // ✅ Guest receives prompt + timer sync
+    callFrame.on('app-message', e => {
+      const { type, prompt, indicators } = e.data;
 
+      if (type === "prompt") {
+        document.getElementById("generated-prompt").textContent = prompt;
+        document.getElementById("show-indicators").classList.remove("hidden");
+        document.getElementById("indicators-list").innerHTML = indicators.map(i => `<li>${i}</li>`).join('');
+      }
+
+      if (type === "start-prep") {
+        syncStartPrep();
+      }
+    });
+
+    startRoleplayBtn.onclick = () => {
+      clearInterval(timerInterval);
+      beginRoleplayPhase();
+      callFrame.sendAppMessage({ type: "start-roleplay" });
+    };
+
+    // ✅ Guest auto-start roleplay on sync
+    callFrame.on('app-message', e => {
+      if (e.data.type === "start-roleplay") {
+        clearInterval(timerInterval);
+        beginRoleplayPhase();
+      }
+    });
+
+    stopBtn.onclick = finishRecording;
+  </script>
 </body>
 </html>
