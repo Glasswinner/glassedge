@@ -100,14 +100,22 @@ async function loadPrompt() {
     promptElement.textContent = prompt;
     promptElement.classList.remove("hidden");
     dbg("DEBUG: Prompt loaded -> " + prompt.slice(0,60));
+    // ✅ Send to host via data channel
+    if (dataChannel && dataChannel.readyState === "open" && isGuest) {
+      dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+      dbg("DEBUG: Guest sent prompt to host via data channel");
+    }
   } catch (err) {
     dbg("ERROR: loadPrompt failed -> " + err.message);
   }
 }
 
+let pc, dataChannel;
+const remoteStream = new MediaStream();
+
 async function initWebRTC() {
   try {
-    dbg(`DEBUG: initWebRTC() fired. isHost=${isHost} isGuest=${isGuest} isSame=${isSame}`);
+    dbg(`DEBUG: initWebRTC() fired. isHost=${isHost} isGuest=${isGuest}`);
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     localVideo.srcObject = stream;
 
@@ -117,35 +125,99 @@ async function initWebRTC() {
       return;
     }
 
+    pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+    pc.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
+    remoteVideo.srcObject = remoteStream;
+
+    pc.onicecandidate = e => {
+      if (e.candidate) {
+        fetch(`${API_BASE}/api/signal`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ roomCode, type: 'candidate', data: e.candidate })
+        });
+      }
+    };
+
     if (isHost) {
-      dbg("DEBUG: Host mode - room already created, skipping join call");
+      dataChannel = pc.createDataChannel("tdm");
+      dataChannel.onmessage = e => {
+        const msg = JSON.parse(e.data);
+        if (msg.type === 'scenario') {
+          promptElement.textContent = msg.prompt;
+          promptElement.classList.remove("hidden");
+          dbg("DEBUG: Host received prompt via data channel");
+        }
+      };
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      dbg("DEBUG: Host created offer");
+      await fetch(`${API_BASE}/api/signal`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roomCode, type: 'offer', data: offer })
+      });
     }
 
     if (isGuest) {
-      dbg("DEBUG: Guest joining room " + roomCode);
-      const res = await fetch(`${API_BASE}/api/rooms`, {
+      pc.ondatachannel = e => {
+        dataChannel = e.channel;
+        dataChannel.onmessage = e => {
+          const msg = JSON.parse(e.data);
+          if (msg.type === 'scenario') {
+            promptElement.textContent = msg.prompt;
+            promptElement.classList.remove("hidden");
+            dbg("DEBUG: Guest received prompt via data channel");
+          }
+        };
+      };
+      dbg("DEBUG: Guest joining room");
+      await fetch(`${API_BASE}/api/rooms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'join-room', roomCode })
       });
-      dbg("DEBUG: Guest join-room status " + res.status);
-      const json = await res.json();
-      dbg("DEBUG: join-room response -> " + JSON.stringify(json));
-      if (json.status === 'ok') {
-        dbg("DEBUG: Guest joined successfully, loading prompt");
-        await loadPrompt();
-      }
     }
+
+    pollSignal();
+    if (isGuest) await loadPrompt(); // ✅ guest triggers prompt fetch
+
   } catch (err) {
     dbg("ERROR: initWebRTC crashed -> " + err.message);
   }
 }
 
-try {
-  initWebRTC();
-} catch (err) {
-  dbg("ERROR: initWebRTC top-level -> " + err.message);
+async function pollSignal() {
+  try {
+    const res = await fetch(`${API_BASE}/api/signal?roomCode=${roomCode}`);
+    const { messages } = await res.json();
+    for (const msg of messages) {
+      if (msg.type === 'offer' && isGuest) {
+        dbg("DEBUG: Guest received offer");
+        await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        dbg("DEBUG: Guest created answer");
+        await fetch(`${API_BASE}/api/signal`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ roomCode, type: 'answer', data: answer })
+        });
+      }
+      if (msg.type === 'answer' && isHost) {
+        dbg("DEBUG: Host received answer");
+        await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+      }
+      if (msg.type === 'candidate') {
+        dbg("DEBUG: ICE candidate received");
+        await pc.addIceCandidate(new RTCIceCandidate(msg.data));
+      }
+    }
+  } catch (err) {
+    dbg("ERROR: pollSignal -> " + err.message);
+  }
+  setTimeout(pollSignal, 2000);
 }
+
+initWebRTC();
 </script>
 
 </body>
