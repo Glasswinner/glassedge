@@ -25,14 +25,12 @@
 <body class="bg-white text-gray-800 font-inter">
 
 <div id="debug-box">DEBUG OUTPUT:<br></div>
-
 <script>
 function dbg(msg) {
   console.log(msg);
   const box = document.getElementById('debug-box');
   box.innerHTML += msg + "<br>";
 }
-
 dbg("DEBUG: script loaded");
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -43,7 +41,6 @@ const isHost = mode === "host";
 const isGuest = mode === "guest";
 const isSame = mode === "same";
 const API_BASE = window.location.origin;
-
 dbg(`DEBUG: Vars -> eventCode=${eventCode}, roomCode=${roomCode}, mode=${mode}, API_BASE=${API_BASE}`);
 </script>
 
@@ -110,7 +107,7 @@ async function loadPrompt() {
 
 async function initWebRTC() {
   try {
-    dbg("DEBUG: initWebRTC() fired. isHost=" + isHost + " isGuest=" + isGuest + " isSame=" + isSame);
+    dbg(`DEBUG: initWebRTC() fired. isHost=${isHost} isGuest=${isGuest} isSame=${isSame}`);
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     localVideo.srcObject = stream;
 
@@ -120,15 +117,25 @@ async function initWebRTC() {
       return;
     }
 
-    dbg("DEBUG: Starting signaling fetch");
-    const res = await fetch(`${API_BASE}/api/rooms`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: isHost ? 'make-room' : 'join-room', roomCode })
-    });
-    dbg("DEBUG: /api/rooms returned " + res.status);
-    const json = await res.json();
-    dbg("DEBUG: /api/rooms response -> " + JSON.stringify(json));
+    if (isHost) {
+      dbg("DEBUG: Host mode - room already created, skipping join call");
+    }
+
+    if (isGuest) {
+      dbg("DEBUG: Guest joining room " + roomCode);
+      const res = await fetch(`${API_BASE}/api/rooms`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'join-room', roomCode })
+      });
+      dbg("DEBUG: Guest join-room status " + res.status);
+      const json = await res.json();
+      dbg("DEBUG: join-room response -> " + JSON.stringify(json));
+      if (json.status === 'ok') {
+        dbg("DEBUG: Guest joined successfully, loading prompt");
+        await loadPrompt();
+      }
+    }
   } catch (err) {
     dbg("ERROR: initWebRTC crashed -> " + err.message);
   }
