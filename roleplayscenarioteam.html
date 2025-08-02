@@ -89,6 +89,7 @@ if (isHost && roomCode) {
 }
 
 let pc, dataChannel;
+let candidateQueue = [];
 const remoteStream = new MediaStream();
 
 async function loadPrompt() {
@@ -147,6 +148,15 @@ async function initWebRTC() {
       }
     };
 
+    pc.onconnectionstatechange = () => {
+      dbg("DEBUG: Connection state -> " + pc.connectionState);
+      if (pc.connectionState === "connected") {
+        dbg("DEBUG: Peer connection established");
+        waitingOverlay.classList.add("hidden");
+        if (isHost) loadPrompt();
+      }
+    };
+
     if (isHost) {
       dataChannel = pc.createDataChannel("tdm");
       dataChannel.onmessage = e => {
@@ -200,6 +210,7 @@ async function pollSignal() {
       if (msg.type === 'offer' && isGuest) {
         dbg("DEBUG: Guest received offer");
         await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+        dbg("DEBUG: Guest set remote description");
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         dbg("DEBUG: Guest created answer");
@@ -207,23 +218,29 @@ async function pollSignal() {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ roomCode, type: 'answer', data: answer })
         });
+        for (const c of candidateQueue) {
+          await pc.addIceCandidate(new RTCIceCandidate(c));
+        }
+        candidateQueue = [];
+        dbg("DEBUG: Guest flushed queued ICE candidates");
       }
       if (msg.type === 'answer' && isHost) {
         dbg("DEBUG: Host received answer");
         await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
-        if (waitingOverlay && !waitingOverlay.classList.contains("hidden")) {
-          waitingOverlay.classList.add("hidden");
-          dbg("DEBUG: Guest joined, hiding waiting overlay");
-          await loadPrompt(); // ✅ load prompt only when guest arrives
+        dbg("DEBUG: Host set remote description");
+        for (const c of candidateQueue) {
+          await pc.addIceCandidate(new RTCIceCandidate(c));
         }
+        candidateQueue = [];
+        dbg("DEBUG: Host flushed queued ICE candidates");
       }
       if (msg.type === 'candidate') {
         dbg("DEBUG: ICE candidate received");
-        if (pc.remoteDescription) {
+        if (pc.remoteDescription && pc.remoteDescription.type) {
           await pc.addIceCandidate(new RTCIceCandidate(msg.data));
         } else {
-          dbg("DEBUG: Queued ICE until remoteDescription set");
-          setTimeout(() => pc.addIceCandidate(new RTCIceCandidate(msg.data)), 300);
+          dbg("DEBUG: Candidate queued until remoteDescription set");
+          candidateQueue.push(msg.data);
         }
       }
     }
