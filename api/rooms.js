@@ -1,9 +1,7 @@
 // /api/rooms.js
 
-// 🔹 In-memory store (replace with DB/Redis later)
 let rooms = {};
 
-// 🔹 Helper: Generate secure random room codes
 function generateRoomCode(length = 6) {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code = '';
@@ -21,8 +19,8 @@ export default async function handler(req, res) {
     if (action === 'make-room') {
       const newCode = generateRoomCode();
       rooms[newCode] = {
-        status: 'waiting',
-        users: [],
+        status: 'waiting',    // Always start as waiting
+        users: [],            // Track users
         createdAt: Date.now()
       };
       return res.status(200).json({ roomCode: newCode });
@@ -35,19 +33,21 @@ export default async function handler(req, res) {
       }
 
       const room = rooms[roomCode];
-      if (room.status !== 'waiting') {
+
+      // Allow only the first guest to join and flip to active
+      if (room.status === 'active') {
         return res.status(400).json({ error: 'Room already active or full' });
       }
 
-      // Activate room
       room.status = 'active';
+      room.users.push('guest');
       return res.status(200).json({ status: 'ok' });
     }
 
     return res.status(400).json({ error: 'Invalid action' });
   }
 
-  // ✅ GET route to check room status
+  // ✅ GET: check room status
   if (req.method === 'GET') {
     const { roomCode } = req.query;
     if (roomCode) {
@@ -58,7 +58,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ status: room.status });
     }
 
-    // Optional: list all rooms for debugging
     return res.status(200).json({ rooms });
   }
 
