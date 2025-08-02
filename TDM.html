@@ -100,7 +100,8 @@
   </main>
 
   <script>
-    // ✅ Get event code from URL
+    const API_BASE = window.location.origin;
+
     function getEventCode() {
       const params = new URLSearchParams(window.location.search);
       return params.get('event') || '';
@@ -108,7 +109,7 @@
 
     async function createRoom() {
       try {
-        const res = await fetch('/api/rooms', {
+        const res = await fetch(`${API_BASE}/api/rooms`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'make-room' })
@@ -130,7 +131,7 @@
       if (!code) return;
 
       try {
-        const res = await fetch('/api/rooms', {
+        const res = await fetch(`${API_BASE}/api/rooms`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'join-room', roomCode: code.trim().toUpperCase() })
@@ -149,7 +150,6 @@
 
     function sameDevice() {
       const eventCode = getEventCode();
-      // ✅ Redirect to single-device roleplay page with TDM timer flag
       window.location.href = `roleplayscenario.html?event=${encodeURIComponent(eventCode)}&tdm=true`;
     }
   </script>
