@@ -151,8 +151,8 @@ async function initWebRTC() {
     pc.onconnectionstatechange = () => {
       dbg("DEBUG: Connection state -> " + pc.connectionState);
       if (pc.connectionState === "connected") {
-        dbg("DEBUG: Peer connection established");
         waitingOverlay.classList.add("hidden");
+        dbg("DEBUG: Peer connection established, hiding overlay");
         if (isHost) loadPrompt();
       }
     };
@@ -197,6 +197,8 @@ async function initWebRTC() {
     }
 
     pollSignal();
+    if (isHost) pollRoomStatus(); // ✅ check guestJoined state
+
   } catch (err) {
     dbg("ERROR: initWebRTC crashed -> " + err.message);
   }
@@ -210,7 +212,6 @@ async function pollSignal() {
       if (msg.type === 'offer' && isGuest) {
         dbg("DEBUG: Guest received offer");
         await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
-        dbg("DEBUG: Guest set remote description");
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         dbg("DEBUG: Guest created answer");
@@ -222,17 +223,14 @@ async function pollSignal() {
           await pc.addIceCandidate(new RTCIceCandidate(c));
         }
         candidateQueue = [];
-        dbg("DEBUG: Guest flushed queued ICE candidates");
       }
       if (msg.type === 'answer' && isHost) {
         dbg("DEBUG: Host received answer");
         await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
-        dbg("DEBUG: Host set remote description");
         for (const c of candidateQueue) {
           await pc.addIceCandidate(new RTCIceCandidate(c));
         }
         candidateQueue = [];
-        dbg("DEBUG: Host flushed queued ICE candidates");
       }
       if (msg.type === 'candidate') {
         dbg("DEBUG: ICE candidate received");
@@ -248,6 +246,20 @@ async function pollSignal() {
     dbg("ERROR: pollSignal -> " + err.message);
   }
   setTimeout(pollSignal, 2000);
+}
+
+async function pollRoomStatus() {
+  try {
+    const res = await fetch(`${API_BASE}/api/rooms?roomCode=${roomCode}`);
+    const data = await res.json();
+    if (data.room && data.room.guestJoined && !waitingOverlay.classList.contains("hidden")) {
+      waitingOverlay.classList.add("hidden");
+      dbg("DEBUG: Guest joined detected via room status, hiding overlay");
+    }
+  } catch (err) {
+    dbg("ERROR: pollRoomStatus -> " + err.message);
+  }
+  setTimeout(pollRoomStatus, 2000);
 }
 
 initWebRTC();
