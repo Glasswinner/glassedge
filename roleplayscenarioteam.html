@@ -20,6 +20,7 @@
       padding: 8px; max-height: 200px; overflow-y: auto; width: 100%;
       font-family: monospace; z-index: 1000;
     }
+    video { width: 100%; background: #000; margin-bottom: 8px; }
   </style>
 </head>
 <body class="bg-white text-gray-800 font-inter">
@@ -87,6 +88,9 @@ if (isHost && roomCode) {
   dbg("DEBUG: Host waiting overlay shown");
 }
 
+let pc, dataChannel;
+const remoteStream = new MediaStream();
+
 async function loadPrompt() {
   try {
     dbg("DEBUG: Fetching prompt");
@@ -94,32 +98,24 @@ async function loadPrompt() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ eventCode })
     });
-    dbg("DEBUG: Prompt fetch status " + res.status);
     const data = await res.json();
     const prompt = data.prompt || "Failed to load prompt.";
     promptElement.textContent = prompt;
     promptElement.classList.remove("hidden");
     dbg("DEBUG: Prompt loaded -> " + prompt.slice(0,60));
 
-    // ✅ Host sends to guest after channel is open
     if (isHost && dataChannel) {
-      if (dataChannel.readyState === "open") {
+      const send = () => {
         dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
         dbg("DEBUG: Host sent prompt via data channel");
-      } else {
-        dataChannel.onopen = () => {
-          dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
-          dbg("DEBUG: Host sent prompt via data channel (onopen)");
-        };
-      }
+      };
+      if (dataChannel.readyState === "open") send();
+      else dataChannel.onopen = send;
     }
   } catch (err) {
     dbg("ERROR: loadPrompt failed -> " + err.message);
   }
 }
-
-let pc, dataChannel;
-const remoteStream = new MediaStream();
 
 async function initWebRTC() {
   try {
@@ -191,10 +187,6 @@ async function initWebRTC() {
     }
 
     pollSignal();
-
-    // ✅ Only host fetches prompt now
-    if (isHost) await loadPrompt();
-
   } catch (err) {
     dbg("ERROR: initWebRTC crashed -> " + err.message);
   }
@@ -222,11 +214,17 @@ async function pollSignal() {
         if (waitingOverlay && !waitingOverlay.classList.contains("hidden")) {
           waitingOverlay.classList.add("hidden");
           dbg("DEBUG: Guest joined, hiding waiting overlay");
+          await loadPrompt(); // ✅ load prompt only when guest arrives
         }
       }
       if (msg.type === 'candidate') {
         dbg("DEBUG: ICE candidate received");
-        await pc.addIceCandidate(new RTCIceCandidate(msg.data));
+        if (pc.remoteDescription) {
+          await pc.addIceCandidate(new RTCIceCandidate(msg.data));
+        } else {
+          dbg("DEBUG: Queued ICE until remoteDescription set");
+          setTimeout(() => pc.addIceCandidate(new RTCIceCandidate(msg.data)), 300);
+        }
       }
     }
   } catch (err) {
