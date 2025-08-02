@@ -100,10 +100,18 @@ async function loadPrompt() {
     promptElement.textContent = prompt;
     promptElement.classList.remove("hidden");
     dbg("DEBUG: Prompt loaded -> " + prompt.slice(0,60));
-    // ✅ Send to host via data channel
-    if (dataChannel && dataChannel.readyState === "open" && isGuest) {
-      dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
-      dbg("DEBUG: Guest sent prompt to host via data channel");
+
+    // ✅ Host sends to guest after channel is open
+    if (isHost && dataChannel) {
+      if (dataChannel.readyState === "open") {
+        dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+        dbg("DEBUG: Host sent prompt via data channel");
+      } else {
+        dataChannel.onopen = () => {
+          dataChannel.send(JSON.stringify({ type: 'scenario', prompt }));
+          dbg("DEBUG: Host sent prompt via data channel (onopen)");
+        };
+      }
     }
   } catch (err) {
     dbg("ERROR: loadPrompt failed -> " + err.message);
@@ -118,6 +126,7 @@ async function initWebRTC() {
     dbg(`DEBUG: initWebRTC() fired. isHost=${isHost} isGuest=${isGuest}`);
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     localVideo.srcObject = stream;
+    localVideo.muted = true;
 
     if (isSame) {
       dbg("DEBUG: Same device mode - loading prompt");
@@ -127,8 +136,11 @@ async function initWebRTC() {
 
     pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
     stream.getTracks().forEach(track => pc.addTrack(track, stream));
-    pc.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
-    remoteVideo.srcObject = remoteStream;
+    pc.ontrack = e => {
+      dbg("DEBUG: Remote track received");
+      e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
+      remoteVideo.srcObject = remoteStream;
+    };
 
     pc.onicecandidate = e => {
       if (e.candidate) {
@@ -179,7 +191,9 @@ async function initWebRTC() {
     }
 
     pollSignal();
-    if (isGuest) await loadPrompt(); // ✅ guest triggers prompt fetch
+
+    // ✅ Only host fetches prompt now
+    if (isHost) await loadPrompt();
 
   } catch (err) {
     dbg("ERROR: initWebRTC crashed -> " + err.message);
@@ -205,6 +219,10 @@ async function pollSignal() {
       if (msg.type === 'answer' && isHost) {
         dbg("DEBUG: Host received answer");
         await pc.setRemoteDescription(new RTCSessionDescription(msg.data));
+        if (waitingOverlay && !waitingOverlay.classList.contains("hidden")) {
+          waitingOverlay.classList.add("hidden");
+          dbg("DEBUG: Guest joined, hiding waiting overlay");
+        }
       }
       if (msg.type === 'candidate') {
         dbg("DEBUG: ICE candidate received");
