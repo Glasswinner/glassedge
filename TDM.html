@@ -149,11 +149,8 @@
 
     function sameDevice() {
       const eventCode = getEventCode();
-      if (eventCode) {
-        window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&mode=same`;
-      } else {
-        window.location.href = "roleplay.html";
-      }
+      // ✅ Redirect to single-device roleplay page with TDM timer flag
+      window.location.href = `roleplayscenario.html?event=${encodeURIComponent(eventCode)}&tdm=true`;
     }
   </script>
 </body>
