@@ -1,5 +1,3 @@
-// /api/rooms.js
-
 let rooms = {};
 
 function generateRoomCode(length = 6) {
@@ -19,8 +17,8 @@ export default async function handler(req, res) {
     if (action === 'make-room') {
       const newCode = generateRoomCode();
       rooms[newCode] = {
-        status: 'waiting',    // Always start as waiting
-        users: [],            // Track users
+        status: 'waiting',
+        users: [],
         createdAt: Date.now()
       };
       return res.status(200).json({ roomCode: newCode });
@@ -33,12 +31,7 @@ export default async function handler(req, res) {
       }
 
       const room = rooms[roomCode];
-
-      // Allow only the first guest to join and flip to active
-      if (room.status === 'active') {
-        return res.status(400).json({ error: 'Room already active or full' });
-      }
-
+      // 🔥 Removed the "already active or full" check
       room.status = 'active';
       room.users.push('guest');
       return res.status(200).json({ status: 'ok' });
@@ -47,14 +40,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid action' });
   }
 
-  // ✅ GET: check room status
   if (req.method === 'GET') {
     const { roomCode } = req.query;
     if (roomCode) {
       const room = rooms[roomCode];
-      if (!room) {
-        return res.status(404).json({ error: 'Room not found' });
-      }
+      if (!room) return res.status(404).json({ error: 'Room not found' });
       return res.status(200).json({ status: room.status });
     }
 
