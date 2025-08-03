@@ -6,11 +6,12 @@
   <title>Team Decision Making Scenario | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@daily-co/daily-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@100mslive/hms-video@latest"></script>
   <script>
     window.urlParams = new URLSearchParams(window.location.search);
     window.eventCode = urlParams.get("event") || "PFN";
-    window.roomCode = urlParams.get("room") || "";
+    window.roomId = urlParams.get("room_id") || "";
+    window.roomCode = urlParams.get("code") || "";
     window.mode = urlParams.get("mode") || "guest";
   </script>
   <style>
@@ -101,7 +102,7 @@
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
+      const sec = String(seconds % 60)).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) {
         seconds--;
@@ -143,78 +144,43 @@
       status.classList.remove("hidden");
     }
 
-    // ✅ Daily Video Setup
-    const videoSection = document.getElementById("video-section");
-    const waitingLabel = document.getElementById("waiting-label");
+    // ✅ Get token to join 100ms room
+    async function joinHMS(role) {
+      const tokenRes = await fetch('/api/create-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room_id: window.roomId, role })
+      });
+      const { token } = await tokenRes.json();
 
-    const callFrame = window.DailyIframe.createFrame(videoSection, {
-      url: `https://glassedgetdm.daily.co/${window.roomCode}`,
-      showLeaveButton: true,
-      iframeStyle: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        border: '0',
-        borderRadius: '8px'
-      }
-    });
+      const hms = new HMSReactiveStore();
+      const actions = hms.getActions();
 
-    callFrame.join();
+      await actions.join({
+        authToken: token,
+        userName: role === 'host' ? 'Host' : 'Guest'
+      });
 
-    callFrame.on('participant-joined', () => {
-      if (waitingLabel) waitingLabel.style.display = "none";
-    });
+      const videoSection = document.getElementById("video-section");
+      videoSection.innerHTML = "";
+      const hmsView = document.createElement("div");
+      hmsView.style.width = "100%";
+      hmsView.style.height = "100%";
+      videoSection.appendChild(hmsView);
 
-    // ✅ Recording setup
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = e => chunks.push(e.data);
-      mediaRecorder.onstop = async () => {
-        const blob = new Blob(chunks, { type: 'video/mp4' });
+      actions.attachVideo(hmsView);
+    }
 
-        const formData = new FormData();
-        formData.append("file", blob);
-        formData.append("upload_preset", "glassuploadbetter");
-
-        let cloudUrl = "";
-        try {
-          const res = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
-            method: "POST",
-            body: formData
-          });
-          const data = await res.json();
-          cloudUrl = data.secure_url;
-        } catch {
-          status.textContent = "❌ Upload failed.";
-          return;
-        }
-
-        status.textContent = "🔊 Transcribing...";
-        const transcriptRes = await fetch('/api/transcriptbackend', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: cloudUrl })
-        });
-
-        const { transcript = "No transcript." } = await transcriptRes.json();
-        status.textContent = "🧠 Grading...";
-
-        const gradeRes = await fetch('/api/grade', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ transcript, eventCode: window.eventCode })
-        });
-
-        const grade = await gradeRes.json();
-        await fetch(`/api/delete-room?roomName=${window.roomCode}`, { method: 'DELETE' });
-
-        window.location.href = `/feedback.html?event=${window.eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
-      };
-    });
-
-    // ✅ Host controls
+    // ✅ Determine role and join
     if (window.mode === "host") {
+      joinHMS('host');
       revealBtn.classList.remove("hidden");
+    } else {
+      joinHMS('guest');
+    }
+
+    // ✅ Host reveal prompt
+    if (window.mode === "host") {
       revealBtn.onclick = async () => {
         const res = await fetch('/api/generatePrompt', {
           method: 'POST',
@@ -223,47 +189,22 @@
         });
         const data = await res.json();
 
-        callFrame.sendAppMessage({ type: "prompt", prompt: data.prompt, indicators: data.indicators });
-        callFrame.sendAppMessage({ type: "start-prep" });
-
+        // send prompt to guest
+        // in 100ms we can use data channel
+        // placeholder for message sync
         document.getElementById("generated-prompt").textContent = data.prompt;
         document.getElementById("show-indicators").classList.remove("hidden");
         document.getElementById("indicators-list").innerHTML = data.indicators.map(i => `<li>${i}</li>`).join('');
         revealBtn.classList.add("hidden");
         startRoleplayBtn.classList.remove("hidden");
-
         syncStartPrep();
       };
     }
 
-    // ✅ Guest receives prompt + timer sync
-    callFrame.on('app-message', e => {
-      const { type, prompt, indicators } = e.data;
-
-      if (type === "prompt") {
-        document.getElementById("generated-prompt").textContent = prompt;
-        document.getElementById("show-indicators").classList.remove("hidden");
-        document.getElementById("indicators-list").innerHTML = indicators.map(i => `<li>${i}</li>`).join('');
-      }
-
-      if (type === "start-prep") {
-        syncStartPrep();
-      }
-    });
-
     startRoleplayBtn.onclick = () => {
       clearInterval(timerInterval);
       beginRoleplayPhase();
-      callFrame.sendAppMessage({ type: "start-roleplay" });
     };
-
-    // ✅ Guest auto-start roleplay on sync
-    callFrame.on('app-message', e => {
-      if (e.data.type === "start-roleplay") {
-        clearInterval(timerInterval);
-        beginRoleplayPhase();
-      }
-    });
 
     stopBtn.onclick = finishRecording;
   </script>
