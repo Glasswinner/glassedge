@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TDM Video Test | GlassEDGE</title>
+  <title>TDM Video Debug | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Load BOTH UMD scripts in correct order -->
+  <!-- ✅ Load BOTH 100ms UMD scripts -->
   <script src="https://unpkg.com/@100mslive/hms-video/dist/hms-video.umd.min.js"></script>
   <script src="https://unpkg.com/@100mslive/hms-video-store/dist/hms-video-store.umd.min.js"></script>
 
   <script>
-    // ✅ Get URL params
     const params = new URLSearchParams(window.location.search);
     window.roomId = params.get("room_id") || "";
     window.roomCode = params.get("code") || "";
@@ -29,7 +28,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
   <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Test</h1>
+    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Debug</h1>
     <p class="mb-2 text-gray-700">Room Code: <span id="room-display"></span></p>
 
     <!-- ✅ Video container -->
@@ -39,52 +38,68 @@
   <script>
     document.getElementById("room-display").textContent = window.roomCode;
 
-    async function joinHMS(role) {
-      // ✅ Get token from backend
-      const tokenRes = await fetch('/api/create-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ room_id: window.roomId, role })
-      });
-      const { token } = await tokenRes.json();
+    window.onload = async function() {
+      console.log("DEBUG: HMSReactiveStore available?", typeof HMSReactiveStore);
 
-      // ✅ Setup HMS Reactive Store
-      const hms = new HMSReactiveStore.HMSReactiveStore();
-      const store = hms.getStore();
-      const actions = hms.getActions();
+      if (typeof HMSReactiveStore === "undefined") {
+        alert("❌ HMSReactiveStore not loaded. CDN issue.");
+        return;
+      }
 
-      // ✅ Join room
-      await actions.join({
-        authToken: token,
-        userName: role === 'host' ? 'Host' : 'Guest'
-      });
+      async function joinHMS(role) {
+        console.log("DEBUG: Joining as", role, "with room_id:", window.roomId);
 
-      // ✅ Render peers (local + remote)
-      store.subscribe(() => {
-        const peers = store.getState().peers;
-        const container = document.getElementById("video-section");
-        container.innerHTML = "";
-
-        peers.forEach(peer => {
-          const videoEl = document.createElement("video");
-          videoEl.autoplay = true;
-          videoEl.playsInline = true;
-          videoEl.muted = peer.isLocal; // mute self
-          container.appendChild(videoEl);
-
-          if (peer.videoTrack) {
-            actions.attachVideo(peer.videoTrack, videoEl);
-          }
+        const tokenRes = await fetch('/api/create-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ room_id: window.roomId, role })
         });
-      });
-    }
 
-    // ✅ Decide role based on URL
-    if (window.mode === "host") {
-      joinHMS('host');
-    } else {
-      joinHMS('guest');
-    }
+        const data = await tokenRes.json();
+        if (!data.token) {
+          console.error("DEBUG: No token returned", data);
+          alert("❌ Failed to get token");
+          return;
+        }
+
+        const hms = new HMSReactiveStore.HMSReactiveStore();
+        const store = hms.getStore();
+        const actions = hms.getActions();
+
+        await actions.join({
+          authToken: data.token,
+          userName: role === 'host' ? 'Host' : 'Guest'
+        });
+
+        console.log("DEBUG: Joined room. Subscribing to peers...");
+
+        store.subscribe(() => {
+          const peers = store.getState().peers;
+          console.log("DEBUG: Peers updated:", peers);
+
+          const container = document.getElementById("video-section");
+          container.innerHTML = "";
+
+          peers.forEach(peer => {
+            const videoEl = document.createElement("video");
+            videoEl.autoplay = true;
+            videoEl.playsInline = true;
+            videoEl.muted = peer.isLocal;
+            container.appendChild(videoEl);
+
+            if (peer.videoTrack) {
+              actions.attachVideo(peer.videoTrack, videoEl);
+            }
+          });
+        });
+      }
+
+      if (window.mode === "host") {
+        joinHMS('host');
+      } else {
+        joinHMS('guest');
+      }
+    };
   </script>
 </body>
 </html>
