@@ -8,12 +8,11 @@ export default async function handler(req, res) {
   try {
     const shortCode = "TDM-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    // ✅ Add jti: unique ID per token
     const payload = {
       access_key: process.env.HMS_key,
       type: "management",
       version: 2,
-      jti: Math.random().toString(36).substring(2) + Date.now() // unique ID
+      jti: Math.random().toString(36).substring(2) + Date.now()
     };
 
     const managementToken = jwt.sign(payload, process.env.ms_key, {
@@ -31,8 +30,7 @@ export default async function handler(req, res) {
         name: shortCode,
         description: 'GlassEDGE TDM Session',
         template_id: process.env.template_key,
-        region: 'us',
-        max_peers: 2
+        region: 'us'
       })
     });
 
