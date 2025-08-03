@@ -114,10 +114,11 @@
           headers: { 'Content-Type': 'application/json' }
         });
         const data = await res.json();
-        if (res.ok && data.name) {
+
+        if (res.ok && data.room_id && data.room_code) {
           const eventCode = getEventCode();
-          const roomCode = data.name; // use Daily's room name as the code
-          window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&room=${roomCode}&mode=host`;
+          window.location.href =
+            `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&room_id=${data.room_id}&code=${data.room_code}&mode=host`;
         } else {
           alert("❌ Failed to create room: " + (data.error || 'Unknown error'));
         }
@@ -130,7 +131,9 @@
       const code = prompt("Enter the room code:");
       if (!code) return;
       const eventCode = getEventCode();
-      window.location.href = `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&room=${code.trim()}&mode=guest`;
+      // We only have room_code here; token endpoint will resolve room_id by code
+      window.location.href =
+        `roleplayscenarioteam.html?event=${encodeURIComponent(eventCode)}&code=${code.trim()}&mode=guest`;
     }
 
     function sameDevice() {
