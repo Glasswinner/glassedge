@@ -7,9 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Load BOTH 100ms UMD scripts -->
-  <script src="https://unpkg.com/@100mslive/hms-video/dist/hms-video.umd.min.js"></script>
-  <script src="https://unpkg.com/@100mslive/hms-video-store/dist/hms-video-store.umd.min.js"></script>
+  <!-- ✅ Load BOTH 100ms UMD scripts (v2 CDN) -->
+  <script src="https://cdn.100ms.live/sdk/v2/hms-video.umd.min.js"></script>
+  <script src="https://cdn.100ms.live/sdk/v2/hms-video-store.umd.min.js"></script>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -42,7 +42,7 @@
       console.log("DEBUG: HMSReactiveStore available?", typeof HMSReactiveStore);
 
       if (typeof HMSReactiveStore === "undefined") {
-        alert("❌ HMSReactiveStore not loaded. CDN issue.");
+        alert("❌ HMSReactiveStore not loaded. Check CDN URLs.");
         return;
       }
 
