@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TDM Video Debug | GlassEDGE</title>
+  <title>TDM Video Test | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Pinned jsDelivr CDN versions (stable) -->
-  <script src="https://cdn.jsdelivr.net/npm/@100mslive/hms-video@0.8.10/dist/hms-video.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@100mslive/hms-video-store@0.8.10/dist/hms-video-store.umd.min.js"></script>
+  <!-- ✅ Load local 100ms UMD scripts -->
+  <script src="/hms-video.umd.min.js"></script>
+  <script src="/hms-video-store.umd.min.js"></script>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -28,7 +28,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
   <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Debug</h1>
+    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Test</h1>
     <p class="mb-2 text-gray-700">Room Code: <span id="room-display"></span></p>
 
     <!-- ✅ Video container -->
@@ -42,13 +42,11 @@
       console.log("DEBUG: HMSReactiveStore available?", typeof HMSReactiveStore);
 
       if (typeof HMSReactiveStore === "undefined") {
-        alert("❌ HMSReactiveStore not loaded. Check pinned CDN URLs.");
+        alert("❌ HMSReactiveStore not loaded. Check local JS paths.");
         return;
       }
 
       async function joinHMS(role) {
-        console.log("DEBUG: Joining as", role, "with room_id:", window.roomId);
-
         const tokenRes = await fetch('/api/create-token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -57,8 +55,8 @@
 
         const data = await tokenRes.json();
         if (!data.token) {
-          console.error("DEBUG: No token returned", data);
-          alert("❌ Failed to get token");
+          alert("❌ No token returned");
+          console.error(data);
           return;
         }
 
@@ -71,11 +69,12 @@
           userName: role === 'host' ? 'Host' : 'Guest'
         });
 
-        console.log("DEBUG: Joined room. Subscribing to peers...");
+        console.log("✅ Joined 100ms room as", role);
 
+        // ✅ Subscribe to peers and render video
         store.subscribe(() => {
           const peers = store.getState().peers;
-          console.log("DEBUG: Peers updated:", peers);
+          console.log("DEBUG: Peers:", peers);
 
           const container = document.getElementById("video-section");
           container.innerHTML = "";
