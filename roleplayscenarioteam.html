@@ -1,119 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TDM Video Debug | GlassEDGE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- ✅ Use local 100ms UMD scripts -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TDM 100ms Test | GlassEDGE</title>
   <script src="/hms-video.umd.min.js"></script>
   <script src="/hms-video-store.umd.min.js"></script>
+  <style>
+    video { width: 100%; border-radius: 8px; background: black; }
+  </style>
+</head>
+<body>
+  <h1>TDM Video Debug</h1>
+  <div id="video-section"></div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    window.roomId = params.get("room_id") || "";
-    window.roomCode = params.get("code") || "";
-    window.mode = params.get("mode") || "guest";
-  </script>
+    const roomId = params.get("room_id");
+    const role = params.get("mode") === "host" ? "host" : "guest";
 
-  <style>
-    video {
-      width: 100%;
-      border-radius: 8px;
-      background: black;
+    async function joinHMS() {
+      const tokenRes = await fetch('/api/create-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room_id: roomId, role })
+      });
+      const { token } = await tokenRes.json();
+      console.log("Token received", token);
+
+      const hms = new HMSReactiveStore.HMSReactiveStore();
+      const store = hms.getStore();
+      const actions = hms.getActions();
+
+      await actions.join({ authToken: token, userName: role });
+
+      // ✅ NEW: Force local camera/mic ON like Quickstart
+      await actions.setLocalMediaSettings({ audio: true, video: true });
+
+      store.subscribe(() => {
+        const peers = store.getState().peers;
+        console.log("Peers:", peers);
+
+        const container = document.getElementById("video-section");
+        container.innerHTML = "";
+
+        peers.forEach(peer => {
+          const videoEl = document.createElement("video");
+          videoEl.autoplay = true;
+          videoEl.playsInline = true;
+          videoEl.muted = peer.isLocal;
+          container.appendChild(videoEl);
+
+          if (peer.videoTrack) {
+            actions.attachVideo(peer.videoTrack, videoEl);
+          }
+        });
+      });
     }
-  </style>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
-  <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Debug</h1>
-    <p class="mb-2 text-gray-700">Room Code: <span id="room-display"></span></p>
 
-    <!-- ✅ Video container -->
-    <div id="video-section" class="grid grid-cols-2 gap-4 mt-4"></div>
-  </div>
-
-  <script>
-    document.getElementById("room-display").textContent = window.roomCode;
-
-    window.onload = async function() {
-      console.log("DEBUG: HMSReactiveStore available?", typeof HMSReactiveStore);
-
-      if (typeof HMSReactiveStore === "undefined") {
-        alert("❌ HMSReactiveStore not loaded. Check local JS paths.");
-        return;
-      }
-
-      async function joinHMS(role) {
-        console.log("DEBUG: Joining as", role, "Room ID:", window.roomId);
-
-        const tokenRes = await fetch('/api/create-token', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ room_id: window.roomId, role })
-        });
-
-        const data = await tokenRes.json();
-        if (!data.token) {
-          console.error("❌ No token returned", data);
-          alert("❌ Failed to get token");
-          return;
-        }
-
-        const hms = new HMSReactiveStore.HMSReactiveStore();
-        const store = hms.getStore();
-        const actions = hms.getActions();
-
-        await actions.join({
-          authToken: data.token,
-          userName: role === 'host' ? 'Host' : 'Guest'
-        });
-
-        console.log("✅ Joined 100ms room as", role);
-
-        // ✅ Subscribe to peers and log tracks
-        store.subscribe(() => {
-          const peers = store.getState().peers;
-          console.log("DEBUG: Current peers:", peers);
-
-          const container = document.getElementById("video-section");
-          container.innerHTML = "";
-
-          peers.forEach(peer => {
-            console.log(`Peer: ${peer.name}, isLocal: ${peer.isLocal}, videoTrack:`, peer.videoTrack);
-
-            const wrapper = document.createElement("div");
-            wrapper.className = "flex flex-col items-center";
-
-            const videoEl = document.createElement("video");
-            videoEl.autoplay = true;
-            videoEl.playsInline = true;
-            videoEl.muted = peer.isLocal;
-
-            wrapper.appendChild(videoEl);
-
-            if (peer.videoTrack) {
-              actions.attachVideo(peer.videoTrack, videoEl);
-            } else {
-              const label = document.createElement("p");
-              label.textContent = "No video track for " + (peer.name || "Unnamed");
-              label.className = "text-red-600 text-xs mt-1";
-              wrapper.appendChild(label);
-            }
-
-            container.appendChild(wrapper);
-          });
-        });
-      }
-
-      if (window.mode === "host") {
-        joinHMS('host');
-      } else {
-        joinHMS('guest');
-      }
-    };
+    joinHMS();
   </script>
 </body>
 </html>
