@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Use correct 100ms library -->
-  <script src="https://unpkg.com/@100mslive/hms-video@latest/dist/hms-video.min.js"></script>
+  <!-- ✅ Correct 100ms Reactive Store library -->
+  <script src="https://cdn.jsdelivr.net/npm/@100mslive/hms-video-store@latest/dist/hms-video-store.min.js"></script>
 
   <script>
     window.urlParams = new URLSearchParams(window.location.search);
@@ -106,7 +106,7 @@
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');  <!-- ✅ fixed extra ) -->
+      const sec = String(seconds % 60).padStart(2, '0');  /* ✅ fixed syntax */
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) {
         seconds--;
@@ -136,16 +136,20 @@
     }
 
     function startRecording() {
-      mediaRecorder.start();
-      startRoleplayBtn.classList.add("hidden");
-      stopBtn.classList.remove("hidden");
+      if (mediaRecorder) {
+        mediaRecorder.start();
+        startRoleplayBtn.classList.add("hidden");
+        stopBtn.classList.remove("hidden");
+      }
     }
 
     function finishRecording() {
-      mediaRecorder.stop();
-      stopBtn.disabled = true;
-      status.textContent = "☁️ Uploading...";
-      status.classList.remove("hidden");
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+        stopBtn.disabled = true;
+        status.textContent = "☁️ Uploading...";
+        status.classList.remove("hidden");
+      }
     }
 
     async function joinHMS(role) {
@@ -156,7 +160,7 @@
       });
       const { token } = await tokenRes.json();
 
-      const hms = new window.HMSReactiveStore();
+      const hms = new window.HMSReactiveStore.HMSReactiveStore(); /* ✅ correct constructor */
       const actions = hms.getActions();
 
       await actions.join({
