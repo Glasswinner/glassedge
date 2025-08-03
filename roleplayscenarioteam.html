@@ -34,9 +34,9 @@
 
       await actions.join({ authToken: token, userName: role });
 
-      // ✅ Use older API to enable camera + mic
-      await actions.setLocalAudioEnabled(true);
-      await actions.setLocalVideoEnabled(true);
+      // ✅ Use legacy methods to enable mic/camera
+      await actions.setAudioSettings({ enabled: true });
+      await actions.setVideoSettings({ enabled: true });
 
       store.subscribe(() => {
         const peers = store.getState().peers;
