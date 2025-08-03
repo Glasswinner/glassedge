@@ -6,7 +6,10 @@
   <title>Team Decision Making Scenario | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@100mslive/hms-video@latest"></script>
+
+  <!-- ✅ Use correct 100ms library -->
+  <script src="https://unpkg.com/@100mslive/hms-video@latest/dist/hms-video.min.js"></script>
+
   <script>
     window.urlParams = new URLSearchParams(window.location.search);
     window.eventCode = urlParams.get("event") || "PFN";
@@ -14,10 +17,11 @@
     window.roomCode = urlParams.get("code") || "";
     window.mode = urlParams.get("mode") || "guest";
   </script>
+
   <style>
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to   { opacity: 1; transform: none;}
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
     }
     .animate-fadeIn { animation: fadeIn 0.6s ease 1; }
   </style>
@@ -83,7 +87,7 @@
     </div>
   </div>
 
-  <script type="module">
+  <script>
     document.getElementById("event-code").textContent = window.eventCode;
     document.getElementById("room-display").textContent = window.roomCode;
 
@@ -102,7 +106,7 @@
 
     function updateTimer() {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');  <!-- ✅ fixed extra ) -->
       timerDisplay.textContent = `${min}:${sec}`;
       if (seconds > 0) {
         seconds--;
@@ -144,7 +148,6 @@
       status.classList.remove("hidden");
     }
 
-    // ✅ Get token to join 100ms room
     async function joinHMS(role) {
       const tokenRes = await fetch('/api/create-token', {
         method: 'POST',
@@ -153,7 +156,7 @@
       });
       const { token } = await tokenRes.json();
 
-      const hms = new HMSReactiveStore();
+      const hms = new window.HMSReactiveStore();
       const actions = hms.getActions();
 
       await actions.join({
@@ -171,7 +174,6 @@
       actions.attachVideo(hmsView);
     }
 
-    // ✅ Determine role and join
     if (window.mode === "host") {
       joinHMS('host');
       revealBtn.classList.remove("hidden");
@@ -179,7 +181,6 @@
       joinHMS('guest');
     }
 
-    // ✅ Host reveal prompt
     if (window.mode === "host") {
       revealBtn.onclick = async () => {
         const res = await fetch('/api/generatePrompt', {
@@ -189,9 +190,6 @@
         });
         const data = await res.json();
 
-        // send prompt to guest
-        // in 100ms we can use data channel
-        // placeholder for message sync
         document.getElementById("generated-prompt").textContent = data.prompt;
         document.getElementById("show-indicators").classList.remove("hidden");
         document.getElementById("indicators-list").innerHTML = data.indicators.map(i => `<li>${i}</li>`).join('');
