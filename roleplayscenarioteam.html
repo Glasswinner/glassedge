@@ -34,8 +34,9 @@
 
       await actions.join({ authToken: token, userName: role });
 
-      // ✅ NEW: Force local camera/mic ON like Quickstart
-      await actions.setLocalMediaSettings({ audio: true, video: true });
+      // ✅ Use older API to enable camera + mic
+      await actions.setLocalAudioEnabled(true);
+      await actions.setLocalVideoEnabled(true);
 
       store.subscribe(() => {
         const peers = store.getState().peers;
