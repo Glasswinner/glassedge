@@ -6,14 +6,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Create a short TDM room code
     const shortCode = "TDM-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    // ✅ Generate Management Token using your ms_key
+    // ✅ Add jti: unique ID per token
     const payload = {
-      access_key: process.env.HMS_key, // App Access Key
-      type: "management",              // required for room creation
-      version: 2
+      access_key: process.env.HMS_key,
+      type: "management",
+      version: 2,
+      jti: Math.random().toString(36).substring(2) + Date.now() // unique ID
     };
 
     const managementToken = jwt.sign(payload, process.env.ms_key, {
@@ -21,7 +21,6 @@ export default async function handler(req, res) {
       expiresIn: '10m'
     });
 
-    // ✅ Call 100ms API to create room
     const response = await fetch('https://api.100ms.live/v2/rooms', {
       method: 'POST',
       headers: {
@@ -37,12 +36,14 @@ export default async function handler(req, res) {
       })
     });
 
+    const raw = await response.text();
+
     if (!response.ok) {
-      const errText = await response.text();
-      return res.status(response.status).json({ error: errText });
+      console.error("100ms error:", raw);
+      return res.status(response.status).json({ error: raw });
     }
 
-    const roomData = await response.json();
+    const roomData = JSON.parse(raw);
 
     return res.status(200).json({
       room_id: roomData.id,
