@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TDM Video Test | GlassEDGE</title>
+  <title>TDM Video Debug | GlassEDGE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- ✅ Load local 100ms UMD scripts -->
+  <!-- ✅ Use local 100ms UMD scripts -->
   <script src="/hms-video.umd.min.js"></script>
   <script src="/hms-video-store.umd.min.js"></script>
 
@@ -28,7 +28,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
   <div class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl">
-    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Test</h1>
+    <h1 class="text-2xl font-bold text-purple-700 mb-2">TDM Video Debug</h1>
     <p class="mb-2 text-gray-700">Room Code: <span id="room-display"></span></p>
 
     <!-- ✅ Video container -->
@@ -47,6 +47,8 @@
       }
 
       async function joinHMS(role) {
+        console.log("DEBUG: Joining as", role, "Room ID:", window.roomId);
+
         const tokenRes = await fetch('/api/create-token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -55,8 +57,8 @@
 
         const data = await tokenRes.json();
         if (!data.token) {
-          alert("❌ No token returned");
-          console.error(data);
+          console.error("❌ No token returned", data);
+          alert("❌ Failed to get token");
           return;
         }
 
@@ -71,24 +73,37 @@
 
         console.log("✅ Joined 100ms room as", role);
 
-        // ✅ Subscribe to peers and render video
+        // ✅ Subscribe to peers and log tracks
         store.subscribe(() => {
           const peers = store.getState().peers;
-          console.log("DEBUG: Peers:", peers);
+          console.log("DEBUG: Current peers:", peers);
 
           const container = document.getElementById("video-section");
           container.innerHTML = "";
 
           peers.forEach(peer => {
+            console.log(`Peer: ${peer.name}, isLocal: ${peer.isLocal}, videoTrack:`, peer.videoTrack);
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "flex flex-col items-center";
+
             const videoEl = document.createElement("video");
             videoEl.autoplay = true;
             videoEl.playsInline = true;
             videoEl.muted = peer.isLocal;
-            container.appendChild(videoEl);
+
+            wrapper.appendChild(videoEl);
 
             if (peer.videoTrack) {
               actions.attachVideo(peer.videoTrack, videoEl);
+            } else {
+              const label = document.createElement("p");
+              label.textContent = "No video track for " + (peer.name || "Unnamed");
+              label.className = "text-red-600 text-xs mt-1";
+              wrapper.appendChild(label);
             }
+
+            container.appendChild(wrapper);
           });
         });
       }
