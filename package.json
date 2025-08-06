@@ -6,9 +6,8 @@
     "process": "process/browser"
   },
   "scripts": {
-    "start": "parcel tdm.html --port $PORT",
-    "dev": "parcel tdm.html --port $PORT",
-    "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
+    "dev":   "parcel *.html --port $PORT",
+    "build": "bash vercel-build.sh"
   },
   "dependencies": {
     "@100mslive/hms-video-store": "^0.12.35",
