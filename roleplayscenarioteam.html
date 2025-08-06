@@ -1,65 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TDM 100ms Test | GlassEDGE</title>
-  <script src="/hms-video.umd.min.js"></script>
-  <script src="/hms-video-store.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Decision Making Session | GlassEDGE</title>
+
+  <!-- Google Font -->
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" 
+    rel="stylesheet"
+  />
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    video { width: 100%; border-radius: 8px; background: black; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9f8ff;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(to right, #7c3aed, #ec4899);
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    #video-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+    video {
+      width: 300px;
+      border-radius: 8px;
+      background: black;
+    }
   </style>
 </head>
 <body>
-  <h1>TDM Video Debug</h1>
-  <div id="video-section"></div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const roomId = params.get("room_id");
-    const role = params.get("mode") === "host" ? "host" : "guest";
+  <!-- Header -->
+  <header>
+    <h1 class="text-2xl font-bold">GlassEDGE TDM Session</h1>
+  </header>
 
-    async function joinHMS() {
-      const tokenRes = await fetch('/api/create-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ room_id: roomId, role })
-      });
-      const { token } = await tokenRes.json();
-      console.log("Token received", token);
+  <!-- Video Container -->
+  <main>
+    <div id="video-section"></div>
+  </main>
 
-      const hms = new HMSReactiveStore.HMSReactiveStore();
-      const store = hms.getStore();
-      const actions = hms.getActions();
-
-      await actions.join({ authToken: token, userName: role });
-
-      // ✅ Use legacy methods to enable mic/camera
-      await actions.setAudioSettings({ enabled: true });
-      await actions.setVideoSettings({ enabled: true });
-
-      store.subscribe(() => {
-        const peers = store.getState().peers;
-        console.log("Peers:", peers);
-
-        const container = document.getElementById("video-section");
-        container.innerHTML = "";
-
-        peers.forEach(peer => {
-          const videoEl = document.createElement("video");
-          videoEl.autoplay = true;
-          videoEl.playsInline = true;
-          videoEl.muted = peer.isLocal;
-          container.appendChild(videoEl);
-
-          if (peer.videoTrack) {
-            actions.attachVideo(peer.videoTrack, videoEl);
-          }
-        });
-      });
-    }
-
-    joinHMS();
-  </script>
+  <!-- ES Module entrypoint for 100ms logic -->
+  <script type="module" src="./src/roleplay-team.js"></script>
 </body>
 </html>
