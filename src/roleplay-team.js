@@ -6,99 +6,106 @@ const params = new URLSearchParams(window.location.search);
 const roomId = params.get("room_id");
 const mode   = params.get("mode") === "host" ? "host" : "guest";
 
+// 1️⃣ Fetches an auth token for this room and role
 async function getAuthToken() {
-  const res = await fetch('/api/create-token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ room_id: roomId, role: mode })
+  const res = await fetch("/api/create-token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ room_id: roomId, role: mode }),
   });
   const { token } = await res.json();
   return token;
 }
 
+// 2️⃣ Main initializer
 async function initVideoSession() {
   const hms     = new HMSReactiveStore();
   const actions = hms.getActions();
   const store   = hms.getStore();
-  const token   = await getAuthToken();
 
+  // 3️⃣ Register subscriber **before** join
+  store.subscribe(renderPeers);
+
+  // 4️⃣ Trigger initial callback so we render existing peers (your local peer!)
+  hms.triggerOnSubscribe();
+
+  // 5️⃣ Now join and publish your tracks
+  const token = await getAuthToken();
   await actions.join({ userName: mode, authToken: token });
-  console.log('✅ Joined room as', mode, store.getState().localPeer?.id);
-
   await actions.setAudioSettings({ enabled: true });
   await actions.setVideoSettings({ enabled: true });
-  console.log('✅ Published local audio/video');
+  console.log("✅ Joined and published as", mode);
+}
 
-  store.subscribe(() => {
-    const raw = store.getState().peers;
-    console.log('🔍 peersRaw:', raw, raw?.constructor?.name);
+// 6️⃣ Render callback
+function renderPeers() {
+  const raw = store.getState().peers;
+  console.log("🔍 peersRaw:", raw, raw?.constructor?.name);
 
-    // normalize
-    let peers = [];
-    if (Array.isArray(raw)) peers = raw;
-    else if (raw instanceof Map)   peers = Array.from(raw.values());
-    else if (raw instanceof Set)   peers = Array.from(raw);
-    else if (raw && raw[Symbol.iterator]) peers = Array.from(raw);
-    else if (raw && typeof raw === 'object') peers = Object.values(raw);
-    else return console.warn('⚠️ Unknown peers type:', raw);
-    console.log('✅ normalized peers:', peers);
+  // Normalize into a real Array
+  let peers = [];
+  if (Array.isArray(raw)) {
+    peers = raw;
+  } else if (raw instanceof Map) {
+    peers = Array.from(raw.values());
+  } else if (raw instanceof Set) {
+    peers = Array.from(raw);
+  } else if (raw && typeof raw[Symbol.iterator] === "function") {
+    peers = Array.from(raw);
+  } else if (raw && typeof raw === "object") {
+    peers = Object.values(raw);
+  } else {
+    console.warn("⚠️ Unable to normalize peersRaw:", raw);
+    return;
+  }
+  console.log("✅ normalized peers array:", peers);
 
-    const container = document.getElementById('video-section');
-    if (!container) return console.error('❌ Missing #video-section');
-    container.innerHTML = '';
+  // Grab container
+  const container = document.getElementById("video-section");
+  if (!container) {
+    console.error("❌ Missing #video-section container!");
+    return;
+  }
+  container.innerHTML = "";
 
-    if (peers.length === 0) {
-      container.textContent = '⏳ Waiting for video streams…';
-      return;
+  // Placeholder
+  if (peers.length === 0) {
+    container.textContent = "⏳ Waiting for video streams…";
+    return;
+  }
+
+  // Render each peer
+  peers.forEach((peer) => {
+    const videoEl = document.createElement("video");
+    videoEl.autoplay    = true;
+    videoEl.playsInline = true;
+    videoEl.muted       = peer.isLocal;
+
+    // Attempt SDK attach
+    let attached = false;
+    if (peer.videoTrack?.track) {
+      try {
+        actions.attachVideo(peer.videoTrack, videoEl);
+        attached = true;
+      } catch (err) {
+        console.warn("attachVideo failed:", err);
+      }
     }
 
-    peers.forEach(peer => {
-      console.group(`Peer ${peer.id}`);
-      console.log('peer.isLocal:', peer.isLocal);
-      console.log('peer.videoTrack:', peer.videoTrack);
+    // Manual fallback
+    if (!attached && peer.videoTrack?.track) {
+      videoEl.srcObject = new MediaStream([peer.videoTrack.track]);
+    }
 
-      // Try multiple ways to extract a MediaStream
-      let stream = null;
-      if (peer.videoTrack?.track) {
-        console.log('⏺ raw track:', peer.videoTrack.track);
-        stream = new MediaStream([peer.videoTrack.track]);
-      } 
-      else if (peer.videoTrack instanceof MediaStream) {
-        console.log('⏺ already MediaStream');
-        stream = peer.videoTrack;
-      } 
-      else if (peer.videoTrack?.stream instanceof MediaStream) {
-        console.log('⏺ found .stream property');
-        stream = peer.videoTrack.stream;
-      }
+    // Force playback
+    videoEl.play().catch((err) => console.warn("play() failed:", err));
 
-      if (!stream) {
-        console.warn('⚠️ No MediaStream for peer', peer.id);
-      } else {
-        console.log('🎥 Attaching MediaStream with', stream.getTracks().length, 'track(s)');
-      }
-
-      // create and style video
-      const videoEl = document.createElement('video');
-      videoEl.autoplay    = true;
-      videoEl.playsInline = true;
-      videoEl.muted       = peer.isLocal;
-      videoEl.width       = 300;
-      videoEl.height      = 200;
-      videoEl.style.objectFit = 'cover';
-
-      // attach stream & play
-      if (stream) {
-        videoEl.srcObject = stream;
-        videoEl.play()
-          .then(() => console.log('▶️ play() succeeded'))
-          .catch(err => console.warn('⏯ play() failed:', err));
-      }
-
-      container.appendChild(videoEl);
-      console.groupEnd();
-    });
+    container.appendChild(videoEl);
   });
 }
 
-initVideoSession().catch(err => console.error('Init failed:', err));
+initVideoSession().catch((err) => {
+  console.error("❌ initVideoSession failed:", err);
+  const container = document.getElementById("video-section");
+  if (container) container.textContent = "⚠️ Video init failed. See console.";
+});
