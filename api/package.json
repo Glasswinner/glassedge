@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "parcel tdm.html --port 3000",
-    "dev": "parcel tdm.html --port 3000",
+    "dev":   "parcel tdm.html --port 3000",
     "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
   },
   "dependencies": {

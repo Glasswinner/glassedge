@@ -4,6 +4,7 @@ const params = new URLSearchParams(window.location.search);
 const roomId = params.get("room_id");
 const mode   = params.get("mode") === "host" ? "host" : "guest";
 
+// Fetches an auth token for this room and role from your backend
 async function getAuthToken() {
   const res = await fetch('/api/create-token', {
     method: 'POST',
@@ -14,18 +15,19 @@ async function getAuthToken() {
   return token;
 }
 
+// Initializes the video session: join room, enable mic/cam, and render peers
 async function initVideoSession() {
   const hms     = new HMSReactiveStore();
   const actions = hms.getActions();
   const store   = hms.getStore();
   const token   = await getAuthToken();
 
-  // join the room and enable mic/cam
+  // Join the room and enable audio/video
   await actions.join({ userName: mode, authToken: token });
   await actions.setAudioSettings({ enabled: true });
   await actions.setVideoSettings({ enabled: true });
 
-  // render video tiles for peers
+  // Subscribe to store updates and render video elements for each peer
   store.subscribe(() => {
     const peers     = store.getState().peers;
     const container = document.getElementById('video-section');
@@ -33,9 +35,9 @@ async function initVideoSession() {
 
     peers.forEach(peer => {
       const videoEl = document.createElement('video');
-      videoEl.autoplay   = true;
+      videoEl.autoplay    = true;
       videoEl.playsInline = true;
-      videoEl.muted      = peer.isLocal;
+      videoEl.muted       = peer.isLocal;
       container.appendChild(videoEl);
       if (peer.videoTrack) {
         actions.attachVideo(peer.videoTrack, videoEl);
