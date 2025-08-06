@@ -41,12 +41,14 @@ main {
   justify-content: center;
   width: 100%;
   max-width: 1200px;
+  min-height: 400px; /* ensures the grid area is always visible */
 }
 
 /* Video element */
 video {
   width: 300px;
-  height: auto;
+  height: 200px;       /* fixed height for visibility */
+  object-fit: cover;   /* crop/letterbox to fill the box */
   border-radius: 8px;
-  background: #000;
+  background: #000;    /* fallback background before frames arrive */
 }
