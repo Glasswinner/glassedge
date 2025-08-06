@@ -160,11 +160,11 @@
       });
     }
   }
-})({"czpnV":[function(require,module,exports,__globalThis) {
+})({"dQiW3":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 33981;
+var HMR_SERVER_PORT = 42247;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 var HMR_USE_SSE = false;
@@ -668,6 +668,6 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"1NUc1":[function(require,module,exports,__globalThis) {
 
-},{}]},["czpnV","1NUc1"], "1NUc1", "parcelRequire86a0", {})
+},{}]},["dQiW3","1NUc1"], "1NUc1", "parcelRequire86a0", {})
 
 //# sourceMappingURL=roleplay.423dee71.js.map

@@ -1,4 +1,781 @@
-<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Roleplay Scenario | GlassEDGE</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel=stylesheet><script src=https://cdn.tailwindcss.com></script><script>window.urlParams=new URLSearchParams(window.location.search),window.eventCode=urlParams.get("event")||"PFN",window.isTDM="true"===urlParams.get("tdm");</script><script type=module>function e(e){return e.replace(/((?:\|.+\|[\r\n]+)+)/g,e=>{let n=e.trim().split("\n").filter(e=>e.trim()).filter(e=>!/^(\|\s*:?-+:?\s*)+\|?$/.test(e.trim()));if(0===n.length)return e;let t=n.map((e,n)=>{let t=e.split("|").slice(1,-1).map(e=>e.trim());return 0===n?"<tr>"+t.map(e=>`<th class="px-3 py-2 border">${e}</th>`).join("")+"</tr>":"<tr>"+t.map(e=>`<td class="px-3 py-2 border">${e}</td>`).join("")+"</tr>"});return`<table class="my-4 border border-gray-300 rounded-lg text-sm w-auto bg-white shadow">${t.join("")}</table>`})}const n={PFN:[`CAREER CLUSTER
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleplay Scenario | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>window.urlParams = new URLSearchParams(window.location.search);
+window.eventCode = urlParams.get("event") || "PFN";
+window.isTDM = urlParams.get("tdm") === "true"; // ✅ detect TDM mode
+
+</script>
+  <script>// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+(function (
+  modules,
+  entry,
+  mainEntry,
+  parcelRequireName,
+  externals,
+  distDir,
+  publicUrl,
+  devServer
+) {
+  /* eslint-disable no-undef */
+  var globalObject =
+    typeof globalThis !== 'undefined'
+      ? globalThis
+      : typeof self !== 'undefined'
+      ? self
+      : typeof window !== 'undefined'
+      ? window
+      : typeof global !== 'undefined'
+      ? global
+      : {};
+  /* eslint-enable no-undef */
+
+  // Save the require from previous bundle to this closure if any
+  var previousRequire =
+    typeof globalObject[parcelRequireName] === 'function' &&
+    globalObject[parcelRequireName];
+
+  var importMap = previousRequire.i || {};
+  var cache = previousRequire.cache || {};
+  // Do not use `require` to prevent Webpack from trying to bundle this call
+  var nodeRequire =
+    typeof module !== 'undefined' &&
+    typeof module.require === 'function' &&
+    module.require.bind(module);
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        if (externals[name]) {
+          return externals[name];
+        }
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire =
+          typeof globalObject[parcelRequireName] === 'function' &&
+          globalObject[parcelRequireName];
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error("Cannot find module '" + name + "'");
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = (cache[name] = new newRequire.Module(name));
+
+      modules[name][0].call(
+        module.exports,
+        localRequire,
+        module,
+        module.exports,
+        globalObject
+      );
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x) {
+      var res = localRequire.resolve(x);
+      return res === false ? {} : newRequire(res);
+    }
+
+    function resolve(x) {
+      var id = modules[name][1][x];
+      return id != null ? id : x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.require = nodeRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.distDir = distDir;
+  newRequire.publicUrl = publicUrl;
+  newRequire.devServer = devServer;
+  newRequire.i = importMap;
+  newRequire.register = function (id, exports) {
+    modules[id] = [
+      function (require, module) {
+        module.exports = exports;
+      },
+      {},
+    ];
+  };
+
+  // Only insert newRequire.load when it is actually used.
+  // The code in this file is linted against ES5, so dynamic import is not allowed.
+  // INSERT_LOAD_HERE
+
+  Object.defineProperty(newRequire, 'root', {
+    get: function () {
+      return globalObject[parcelRequireName];
+    },
+  });
+
+  globalObject[parcelRequireName] = newRequire;
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  if (mainEntry) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(mainEntry);
+
+    // CommonJS
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+      module.exports = mainExports;
+
+      // RequireJS
+    } else if (typeof define === 'function' && define.amd) {
+      define(function () {
+        return mainExports;
+      });
+    }
+  }
+})({"hQpjO":[function(require,module,exports,__globalThis) {
+var global = arguments[3];
+var HMR_HOST = null;
+var HMR_PORT = null;
+var HMR_SERVER_PORT = 42247;
+var HMR_SECURE = false;
+var HMR_ENV_HASH = "d6ea1d42532a7575";
+var HMR_USE_SSE = false;
+module.bundle.HMR_BUNDLE_ID = "2c5d79c056db04cb";
+"use strict";
+/* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+import type {
+  HMRAsset,
+  HMRMessage,
+} from '@parcel/reporter-dev-server/src/HMRServer.js';
+interface ParcelRequire {
+  (string): mixed;
+  cache: {|[string]: ParcelModule|};
+  hotData: {|[string]: mixed|};
+  Module: any;
+  parent: ?ParcelRequire;
+  isParcelRequire: true;
+  modules: {|[string]: [Function, {|[string]: string|}]|};
+  HMR_BUNDLE_ID: string;
+  root: ParcelRequire;
+}
+interface ParcelModule {
+  hot: {|
+    data: mixed,
+    accept(cb: (Function) => void): void,
+    dispose(cb: (mixed) => void): void,
+    // accept(deps: Array<string> | string, cb: (Function) => void): void,
+    // decline(): void,
+    _acceptCallbacks: Array<(Function) => void>,
+    _disposeCallbacks: Array<(mixed) => void>,
+  |};
+}
+interface ExtensionContext {
+  runtime: {|
+    reload(): void,
+    getURL(url: string): string;
+    getManifest(): {manifest_version: number, ...};
+  |};
+}
+declare var module: {bundle: ParcelRequire, ...};
+declare var HMR_HOST: string;
+declare var HMR_PORT: string;
+declare var HMR_SERVER_PORT: string;
+declare var HMR_ENV_HASH: string;
+declare var HMR_SECURE: boolean;
+declare var HMR_USE_SSE: boolean;
+declare var chrome: ExtensionContext;
+declare var browser: ExtensionContext;
+declare var __parcel__import__: (string) => Promise<void>;
+declare var __parcel__importScripts__: (string) => Promise<void>;
+declare var globalThis: typeof self;
+declare var ServiceWorkerGlobalScope: Object;
+*/ var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+    OldModule.call(this, moduleName);
+    this.hot = {
+        data: module.bundle.hotData[moduleName],
+        _acceptCallbacks: [],
+        _disposeCallbacks: [],
+        accept: function(fn) {
+            this._acceptCallbacks.push(fn || function() {});
+        },
+        dispose: function(fn) {
+            this._disposeCallbacks.push(fn);
+        }
+    };
+    module.bundle.hotData[moduleName] = undefined;
+}
+module.bundle.Module = Module;
+module.bundle.hotData = {};
+var checkedAssets /*: {|[string]: boolean|} */ , disposedAssets /*: {|[string]: boolean|} */ , assetsToDispose /*: Array<[ParcelRequire, string]> */ , assetsToAccept /*: Array<[ParcelRequire, string]> */ , bundleNotFound = false;
+function getHostname() {
+    return HMR_HOST || (typeof location !== 'undefined' && location.protocol.indexOf('http') === 0 ? location.hostname : 'localhost');
+}
+function getPort() {
+    return HMR_PORT || (typeof location !== 'undefined' ? location.port : HMR_SERVER_PORT);
+}
+// eslint-disable-next-line no-redeclare
+let WebSocket = globalThis.WebSocket;
+if (!WebSocket && typeof module.bundle.root === 'function') try {
+    // eslint-disable-next-line no-global-assign
+    WebSocket = module.bundle.root('ws');
+} catch  {
+// ignore.
+}
+var hostname = getHostname();
+var port = getPort();
+var protocol = HMR_SECURE || typeof location !== 'undefined' && location.protocol === 'https:' && ![
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0'
+].includes(hostname) ? 'wss' : 'ws';
+// eslint-disable-next-line no-redeclare
+var parent = module.bundle.parent;
+if (!parent || !parent.isParcelRequire) {
+    // Web extension context
+    var extCtx = typeof browser === 'undefined' ? typeof chrome === 'undefined' ? null : chrome : browser;
+    // Safari doesn't support sourceURL in error stacks.
+    // eval may also be disabled via CSP, so do a quick check.
+    var supportsSourceURL = false;
+    try {
+        (0, eval)('throw new Error("test"); //# sourceURL=test.js');
+    } catch (err) {
+        supportsSourceURL = err.stack.includes('test.js');
+    }
+    var ws;
+    if (HMR_USE_SSE) ws = new EventSource('/__parcel_hmr');
+    else try {
+        // If we're running in the dev server's node runner, listen for messages on the parent port.
+        let { workerData, parentPort } = module.bundle.root('node:worker_threads') /*: any*/ ;
+        if (workerData !== null && workerData !== void 0 && workerData.__parcel) {
+            parentPort.on('message', async (message)=>{
+                try {
+                    await handleMessage(message);
+                    parentPort.postMessage('updated');
+                } catch  {
+                    parentPort.postMessage('restart');
+                }
+            });
+            // After the bundle has finished running, notify the dev server that the HMR update is complete.
+            queueMicrotask(()=>parentPort.postMessage('ready'));
+        }
+    } catch  {
+        if (typeof WebSocket !== 'undefined') try {
+            ws = new WebSocket(protocol + '://' + hostname + (port ? ':' + port : '') + '/');
+        } catch (err) {
+            // Ignore cloudflare workers error.
+            if (err.message && !err.message.includes('Disallowed operation called within global scope')) console.error(err.message);
+        }
+    }
+    if (ws) {
+        // $FlowFixMe
+        ws.onmessage = async function(event /*: {data: string, ...} */ ) {
+            var data /*: HMRMessage */  = JSON.parse(event.data);
+            await handleMessage(data);
+        };
+        if (ws instanceof WebSocket) {
+            ws.onerror = function(e) {
+                if (e.message) console.error(e.message);
+            };
+            ws.onclose = function() {
+                console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
+            };
+        }
+    }
+}
+async function handleMessage(data /*: HMRMessage */ ) {
+    checkedAssets = {} /*: {|[string]: boolean|} */ ;
+    disposedAssets = {} /*: {|[string]: boolean|} */ ;
+    assetsToAccept = [];
+    assetsToDispose = [];
+    bundleNotFound = false;
+    if (data.type === 'reload') fullReload();
+    else if (data.type === 'update') {
+        // Remove error overlay if there is one
+        if (typeof document !== 'undefined') removeErrorOverlay();
+        let assets = data.assets;
+        // Handle HMR Update
+        let handled = assets.every((asset)=>{
+            return asset.type === 'css' || asset.type === 'js' && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
+        });
+        // Dispatch a custom event in case a bundle was not found. This might mean
+        // an asset on the server changed and we should reload the page. This event
+        // gives the client an opportunity to refresh without losing state
+        // (e.g. via React Server Components). If e.preventDefault() is not called,
+        // we will trigger a full page reload.
+        if (handled && bundleNotFound && assets.some((a)=>a.envHash !== HMR_ENV_HASH) && typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') handled = !window.dispatchEvent(new CustomEvent('parcelhmrreload', {
+            cancelable: true
+        }));
+        if (handled) {
+            console.clear();
+            // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
+            if (typeof window !== 'undefined' && typeof CustomEvent !== 'undefined') window.dispatchEvent(new CustomEvent('parcelhmraccept'));
+            await hmrApplyUpdates(assets);
+            hmrDisposeQueue();
+            // Run accept callbacks. This will also re-execute other disposed assets in topological order.
+            let processedAssets = {};
+            for(let i = 0; i < assetsToAccept.length; i++){
+                let id = assetsToAccept[i][1];
+                if (!processedAssets[id]) {
+                    hmrAccept(assetsToAccept[i][0], id);
+                    processedAssets[id] = true;
+                }
+            }
+        } else fullReload();
+    }
+    if (data.type === 'error') {
+        // Log parcel errors to console
+        for (let ansiDiagnostic of data.diagnostics.ansi){
+            let stack = ansiDiagnostic.codeframe ? ansiDiagnostic.codeframe : ansiDiagnostic.stack;
+            console.error("\uD83D\uDEA8 [parcel]: " + ansiDiagnostic.message + '\n' + stack + '\n\n' + ansiDiagnostic.hints.join('\n'));
+        }
+        if (typeof document !== 'undefined') {
+            // Render the fancy html overlay
+            removeErrorOverlay();
+            var overlay = createErrorOverlay(data.diagnostics.html);
+            // $FlowFixMe
+            document.body.appendChild(overlay);
+        }
+    }
+}
+function removeErrorOverlay() {
+    var overlay = document.getElementById(OVERLAY_ID);
+    if (overlay) {
+        overlay.remove();
+        console.log("[parcel] \u2728 Error resolved");
+    }
+}
+function createErrorOverlay(diagnostics) {
+    var overlay = document.createElement('div');
+    overlay.id = OVERLAY_ID;
+    let errorHTML = '<div style="background: black; opacity: 0.85; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; font-family: Menlo, Consolas, monospace; z-index: 9999;">';
+    for (let diagnostic of diagnostics){
+        let stack = diagnostic.frames.length ? diagnostic.frames.reduce((p, frame)=>{
+            return `${p}
+<a href="${protocol === 'wss' ? 'https' : 'http'}://${hostname}:${port}/__parcel_launch_editor?file=${encodeURIComponent(frame.location)}" style="text-decoration: underline; color: #888" onclick="fetch(this.href); return false">${frame.location}</a>
+${frame.code}`;
+        }, '') : diagnostic.stack;
+        errorHTML += `
+      <div>
+        <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
+          \u{1F6A8} ${diagnostic.message}
+        </div>
+        <pre>${stack}</pre>
+        <div>
+          ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + '</div>').join('')}
+        </div>
+        ${diagnostic.documentation ? `<div>\u{1F4DD} <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ''}
+      </div>
+    `;
+    }
+    errorHTML += '</div>';
+    overlay.innerHTML = errorHTML;
+    return overlay;
+}
+function fullReload() {
+    if (typeof location !== 'undefined' && 'reload' in location) location.reload();
+    else if (typeof extCtx !== 'undefined' && extCtx && extCtx.runtime && extCtx.runtime.reload) extCtx.runtime.reload();
+    else try {
+        let { workerData, parentPort } = module.bundle.root('node:worker_threads') /*: any*/ ;
+        if (workerData !== null && workerData !== void 0 && workerData.__parcel) parentPort.postMessage('restart');
+    } catch (err) {
+        console.error("[parcel] \u26A0\uFE0F An HMR update was not accepted. Please restart the process.");
+    }
+}
+function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
+    var modules = bundle.modules;
+    if (!modules) return [];
+    var parents = [];
+    var k, d, dep;
+    for(k in modules)for(d in modules[k][1]){
+        dep = modules[k][1][d];
+        if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) parents.push([
+            bundle,
+            k
+        ]);
+    }
+    if (bundle.parent) parents = parents.concat(getParents(bundle.parent, id));
+    return parents;
+}
+function updateLink(link) {
+    var href = link.getAttribute('href');
+    if (!href) return;
+    var newLink = link.cloneNode();
+    newLink.onload = function() {
+        if (link.parentNode !== null) // $FlowFixMe
+        link.parentNode.removeChild(link);
+    };
+    newLink.setAttribute('href', // $FlowFixMe
+    href.split('?')[0] + '?' + Date.now());
+    // $FlowFixMe
+    link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+    if (cssTimeout || typeof document === 'undefined') return;
+    cssTimeout = setTimeout(function() {
+        var links = document.querySelectorAll('link[rel="stylesheet"]');
+        for(var i = 0; i < links.length; i++){
+            // $FlowFixMe[incompatible-type]
+            var href /*: string */  = links[i].getAttribute('href');
+            var hostname = getHostname();
+            var servedFromHMRServer = hostname === 'localhost' ? new RegExp('^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):' + getPort()).test(href) : href.indexOf(hostname + ':' + getPort());
+            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
+            if (!absolute) updateLink(links[i]);
+        }
+        cssTimeout = null;
+    }, 50);
+}
+function hmrDownload(asset) {
+    if (asset.type === 'js') {
+        if (typeof document !== 'undefined') {
+            let script = document.createElement('script');
+            script.src = asset.url + '?t=' + Date.now();
+            if (asset.outputFormat === 'esmodule') script.type = 'module';
+            return new Promise((resolve, reject)=>{
+                var _document$head;
+                script.onload = ()=>resolve(script);
+                script.onerror = reject;
+                (_document$head = document.head) === null || _document$head === void 0 || _document$head.appendChild(script);
+            });
+        } else if (typeof importScripts === 'function') {
+            // Worker scripts
+            if (asset.outputFormat === 'esmodule') return import(asset.url + '?t=' + Date.now());
+            else return new Promise((resolve, reject)=>{
+                try {
+                    importScripts(asset.url + '?t=' + Date.now());
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        }
+    }
+}
+async function hmrApplyUpdates(assets) {
+    global.parcelHotUpdate = Object.create(null);
+    let scriptsToRemove;
+    try {
+        // If sourceURL comments aren't supported in eval, we need to load
+        // the update from the dev server over HTTP so that stack traces
+        // are correct in errors/logs. This is much slower than eval, so
+        // we only do it if needed (currently just Safari).
+        // https://bugs.webkit.org/show_bug.cgi?id=137297
+        // This path is also taken if a CSP disallows eval.
+        if (!supportsSourceURL) {
+            let promises = assets.map((asset)=>{
+                var _hmrDownload;
+                return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
+                    // Web extension fix
+                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3 && typeof ServiceWorkerGlobalScope != 'undefined' && global instanceof ServiceWorkerGlobalScope) {
+                        extCtx.runtime.reload();
+                        return;
+                    }
+                    throw err;
+                });
+            });
+            scriptsToRemove = await Promise.all(promises);
+        }
+        assets.forEach(function(asset) {
+            hmrApply(module.bundle.root, asset);
+        });
+    } finally{
+        delete global.parcelHotUpdate;
+        if (scriptsToRemove) scriptsToRemove.forEach((script)=>{
+            if (script) {
+                var _document$head2;
+                (_document$head2 = document.head) === null || _document$head2 === void 0 || _document$head2.removeChild(script);
+            }
+        });
+    }
+}
+function hmrApply(bundle /*: ParcelRequire */ , asset /*:  HMRAsset */ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (asset.type === 'css') reloadCSS();
+    else if (asset.type === 'js') {
+        let deps = asset.depsByBundle[bundle.HMR_BUNDLE_ID];
+        if (deps) {
+            if (modules[asset.id]) {
+                // Remove dependencies that are removed and will become orphaned.
+                // This is necessary so that if the asset is added back again, the cache is gone, and we prevent a full page reload.
+                let oldDeps = modules[asset.id][1];
+                for(let dep in oldDeps)if (!deps[dep] || deps[dep] !== oldDeps[dep]) {
+                    let id = oldDeps[dep];
+                    let parents = getParents(module.bundle.root, id);
+                    if (parents.length === 1) hmrDelete(module.bundle.root, id);
+                }
+            }
+            if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
+            // support for source maps is better with eval.
+            (0, eval)(asset.output);
+            // $FlowFixMe
+            let fn = global.parcelHotUpdate[asset.id];
+            modules[asset.id] = [
+                fn,
+                deps
+            ];
+        }
+        // Always traverse to the parent bundle, even if we already replaced the asset in this bundle.
+        // This is required in case modules are duplicated. We need to ensure all instances have the updated code.
+        if (bundle.parent) hmrApply(bundle.parent, asset);
+    }
+}
+function hmrDelete(bundle, id) {
+    let modules = bundle.modules;
+    if (!modules) return;
+    if (modules[id]) {
+        // Collect dependencies that will become orphaned when this module is deleted.
+        let deps = modules[id][1];
+        let orphans = [];
+        for(let dep in deps){
+            let parents = getParents(module.bundle.root, deps[dep]);
+            if (parents.length === 1) orphans.push(deps[dep]);
+        }
+        // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
+        delete modules[id];
+        delete bundle.cache[id];
+        // Now delete the orphans.
+        orphans.forEach((id)=>{
+            hmrDelete(module.bundle.root, id);
+        });
+    } else if (bundle.parent) hmrDelete(bundle.parent, id);
+}
+function hmrAcceptCheck(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    checkedAssets = {};
+    if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
+    // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
+    let parents = getParents(module.bundle.root, id);
+    let accepted = false;
+    while(parents.length > 0){
+        let v = parents.shift();
+        let a = hmrAcceptCheckOne(v[0], v[1], null);
+        if (a) // If this parent accepts, stop traversing upward, but still consider siblings.
+        accepted = true;
+        else if (a !== null) {
+            // Otherwise, queue the parents in the next level upward.
+            let p = getParents(module.bundle.root, v[1]);
+            if (p.length === 0) {
+                // If there are no parents, then we've reached an entry without accepting. Reload.
+                accepted = false;
+                break;
+            }
+            parents.push(...p);
+        }
+    }
+    return accepted;
+}
+function hmrAcceptCheckOne(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
+        // If we reached the root bundle without finding where the asset should go,
+        // there's nothing to do. Mark as "accepted" so we don't reload the page.
+        if (!bundle.parent) {
+            bundleNotFound = true;
+            return true;
+        }
+        return hmrAcceptCheckOne(bundle.parent, id, depsByBundle);
+    }
+    if (checkedAssets[id]) return null;
+    checkedAssets[id] = true;
+    var cached = bundle.cache[id];
+    if (!cached) return true;
+    assetsToDispose.push([
+        bundle,
+        id
+    ]);
+    if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+        assetsToAccept.push([
+            bundle,
+            id
+        ]);
+        return true;
+    }
+    return false;
+}
+function hmrDisposeQueue() {
+    // Dispose all old assets.
+    for(let i = 0; i < assetsToDispose.length; i++){
+        let id = assetsToDispose[i][1];
+        if (!disposedAssets[id]) {
+            hmrDispose(assetsToDispose[i][0], id);
+            disposedAssets[id] = true;
+        }
+    }
+    assetsToDispose = [];
+}
+function hmrDispose(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    var cached = bundle.cache[id];
+    bundle.hotData[id] = {};
+    if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
+    if (cached && cached.hot && cached.hot._disposeCallbacks.length) cached.hot._disposeCallbacks.forEach(function(cb) {
+        cb(bundle.hotData[id]);
+    });
+    delete bundle.cache[id];
+}
+function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    // Execute the module.
+    bundle(id);
+    // Run the accept callbacks in the new version of the module.
+    var cached = bundle.cache[id];
+    if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+        let assetsToAlsoAccept = [];
+        cached.hot._acceptCallbacks.forEach(function(cb) {
+            let additionalAssets = cb(function() {
+                return getParents(module.bundle.root, id);
+            });
+            if (Array.isArray(additionalAssets) && additionalAssets.length) assetsToAlsoAccept.push(...additionalAssets);
+        });
+        if (assetsToAlsoAccept.length) {
+            let handled = assetsToAlsoAccept.every(function(a) {
+                return hmrAcceptCheck(a[0], a[1]);
+            });
+            if (!handled) return fullReload();
+            hmrDisposeQueue();
+        }
+    }
+}
+
+},{}],"38lqp":[function(require,module,exports,__globalThis) {
+// --- Markdown Table to HTML Conversion Function ---
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _pfnroleplaybankJs = require("/roleplaybanks/PFNroleplaybank.js");
+var _pfnroleplaybankJsDefault = parcelHelpers.interopDefault(_pfnroleplaybankJs);
+var _pbmroleplaybankJs = require("/roleplaybanks/PBMroleplaybank.js");
+var _pbmroleplaybankJsDefault = parcelHelpers.interopDefault(_pbmroleplaybankJs);
+var _bfsroleplaybankJs = require("/roleplaybanks/BFSroleplaybank.js");
+var _bfsroleplaybankJsDefault = parcelHelpers.interopDefault(_bfsroleplaybankJs);
+function markdownTableToHTML(text) {
+    const tableRegex = /((?:\|.+\|[\r\n]+)+)/g;
+    return text.replace(tableRegex, (table)=>{
+        const rows = table.trim().split('\n').filter((r)=>r.trim());
+        const filteredRows = rows.filter((r)=>!/^(\|\s*:?-+:?\s*)+\|?$/.test(r.trim()));
+        if (filteredRows.length === 0) return table;
+        const htmlRows = filteredRows.map((row, i)=>{
+            const cells = row.split('|').slice(1, -1).map((c)=>c.trim());
+            if (i === 0) return '<tr>' + cells.map((cell)=>`<th class="px-3 py-2 border">${cell}</th>`).join('') + '</tr>';
+            return '<tr>' + cells.map((cell)=>`<td class="px-3 py-2 border">${cell}</td>`).join('') + '</tr>';
+        });
+        return `<table class="my-4 border border-gray-300 rounded-lg text-sm w-auto bg-white shadow">${htmlRows.join('')}</table>`;
+    });
+}
+const roleplayBanks = {
+    PFN: (0, _pfnroleplaybankJsDefault.default),
+    PBM: (0, _pbmroleplaybankJsDefault.default),
+    BFS: (0, _bfsroleplaybankJsDefault.default)
+};
+document.getElementById("event-code").textContent = window.eventCode;
+async function fetchWithTimeout(url, options = {}, timeout = 120000) {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject)=>setTimeout(()=>reject(new Error("timeout")), timeout))
+    ]);
+}
+async function fetchPromptWithFallback() {
+    const promptElement = document.getElementById("generated-prompt");
+    const preludeElement = document.getElementById("prelude-block");
+    const noticeElement = document.getElementById("loading-notice");
+    const skills = [
+        "- Critical Thinking \u2013 Reason effectively and use systems thinking.",
+        "- Communication \u2013 Communicate clearly.",
+        "- Creativity and Innovation \u2013 Show evidence of creativity."
+    ];
+    const showBtn = document.getElementById("show-indicators-btn");
+    const indicatorsDiv = document.getElementById("indicators-list");
+    const handlePrompt = ({ prompt, indicators })=>{
+        promptElement.innerHTML = markdownTableToHTML(prompt);
+        window.currentIndicators = indicators;
+        localStorage.setItem("glassedge_prompt", prompt);
+        preludeElement.innerHTML = `
+          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
+          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map((s)=>`<li>${s}</li>`).join('')}</ul>
+        `;
+        noticeElement.classList.add("hidden");
+        startPrepTimer();
+        showBtn.classList.remove("hidden");
+        indicatorsDiv.classList.add("hidden");
+        showBtn.classList.add("animate-fadeIn");
+    };
+    try {
+        const res = await fetchWithTimeout('/api/generatePrompt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventCode: window.eventCode
+            })
+        });
+        const data = await res.json();
+        if (res.ok && data.prompt) return handlePrompt(data);
+    } catch  {}
+    const fallback = roleplayBanks[window.eventCode];
+    if (fallback?.length) {
+        const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
+        promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
+        window.currentIndicators = [
+            "No AI indicators found."
+        ];
+        localStorage.setItem("glassedge_prompt", fallbackPrompt);
+        preludeElement.innerHTML = `
+          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
+          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map((s)=>`<li>${s}</li>`).join('')}</ul>
+        `;
+        noticeElement.classList.add("hidden");
+        startPrepTimer();
+        showBtn.classList.remove("hidden");
+        indicatorsDiv.classList.add("hidden");
+        showBtn.classList.add("animate-fadeIn");
+    } else promptElement.textContent = "\u274C Failed to generate a prompt and no fallback available.";
+}
+fetchPromptWithFallback();
+
+},{"/roleplaybanks/PFNroleplaybank.js":"6yak8","/roleplaybanks/PBMroleplaybank.js":"2Fl1p","/roleplaybanks/BFSroleplaybank.js":"9k6mW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6yak8":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const PFNBank = [
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -22,7 +799,8 @@ The internship coordinator oversees the career program and mentors students plac
 
 You must explain how students can gain relevant experience in finance, what kinds of ongoing education are valuable, and how someone might advance from entry-level to more senior roles. Include sources students can use to explore careers.
 
-You will present this to the internship coordinator at the main office. The judge will begin by asking about gaining experience in finance. They will ask two questions. The judge will thank you at the end of the roleplay.`,`CAREER CLUSTER
+You will present this to the internship coordinator at the main office. The judge will begin by asking about gaining experience in finance. They will ask two questions. The judge will thank you at the end of the roleplay.`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -46,7 +824,8 @@ The client recently received a student credit card with a low limit and wants to
 
 You must explain how credit costs work, how to avoid unnecessary debt, and how the client can build a strong credit history. Offer advice on smart usage and common mistakes.
 
-You will present this information at a scheduled consultation in the office. The client (judge) will begin by asking about managing credit. They will ask two follow-up questions. The judge will thank you after your presentation.`,`CAREER CLUSTER
+You will present this information at a scheduled consultation in the office. The client (judge) will begin by asking about managing credit. They will ask two follow-up questions. The judge will thank you after your presentation.`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -70,7 +849,8 @@ The lead analyst is preparing a report on emerging industries and needs up-to-da
 
 You must explain how technology and the internet are used in finance, how to determine if information is useful, and how to find data efficiently.
 
-You will present this during a team huddle. The lead analyst will start by asking how to gather financial data online. They\u{2019}ll ask two questions and then thank you for your input.`,`CAREER CLUSTER
+You will present this during a team huddle. The lead analyst will start by asking how to gather financial data online. They\u{2019}ll ask two questions and then thank you for your input.`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -94,7 +874,8 @@ COMMUNITY FIRST BANK specializes in personal banking for first-time account hold
 
 You must explain how to set up and maintain an account, how to interpret common financial documents, and how to stay on top of bill payments.
 
-You will present this information at the teller window. The customer will begin by asking about managing money through their bank account. They will ask two questions and thank you at the end of the roleplay.`,`CAREER CLUSTER
+You will present this information at the teller window. The customer will begin by asking about managing money through their bank account. They will ask two questions and thank you at the end of the roleplay.`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -118,7 +899,45 @@ The applicant recently graduated from college and is entering the workforce. The
 
 You must explain the basics of credit scores and reports, what factors make a borrower look creditworthy, and how to validate their credit history.
 
-You will present this during a scheduled meeting. The judge will ask you how they can improve their approval chances. After answering two questions, the judge will thank you.`],PBM:[`CAREER CLUSTER
+You will present this during a scheduled meeting. The judge will ask you how they can improve their approval chances. After answering two questions, the judge will thank you.`
+];
+exports.default = PFNBank;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"2Fl1p":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const PBMBank = [
+    `CAREER CLUSTER
 Business Management & Administration
 
 INSTRUCTIONAL AREA
@@ -142,7 +961,8 @@ The operations manager oversees cross-department efficiency. They want to ensure
 
 You must explain the differences between written and verbal communication in this context, and propose the most effective strategy.
 
-You will present this in the manager\u{2019}s office. The judge will ask about the communication plan and pose two questions. They will thank you afterward.`,`CAREER CLUSTER
+You will present this in the manager\u{2019}s office. The judge will ask about the communication plan and pose two questions. They will thank you afterward.`,
+    `CAREER CLUSTER
 Business Management & Administration
 
 INSTRUCTIONAL AREA
@@ -166,7 +986,8 @@ METRO OFFICE SUITES manages long-term professional rentals. The customer is frus
 
 You must explain how you will respond to the complaint, demonstrate empathy, and outline steps to improve their experience.
 
-The roleplay will take place in the front lobby. The judge will begin by asking how you\u{2019}ll handle the complaint. They\u{2019}ll ask two follow-up questions and then thank you.`,`CAREER CLUSTER
+The roleplay will take place in the front lobby. The judge will begin by asking how you\u{2019}ll handle the complaint. They\u{2019}ll ask two follow-up questions and then thank you.`,
+    `CAREER CLUSTER
 Business Management & Administration
 
 INSTRUCTIONAL AREA
@@ -190,7 +1011,8 @@ You assist in sourcing and ordering materials for construction. The company has 
 
 You must explain supply and demand, how competition impacts pricing, and what external factors affect the market.
 
-You will present the information in a shared office space. The judge will begin by asking about lumber price changes and then ask two questions. They will thank you.`,`CAREER CLUSTER
+You will present the information in a shared office space. The judge will begin by asking about lumber price changes and then ask two questions. They will thank you.`,
+    `CAREER CLUSTER
 Business Management & Administration
 
 INSTRUCTIONAL AREA
@@ -214,7 +1036,8 @@ BRIGHTPATH provides professional development and business coaching. Your team\u{
 
 You must help your colleague understand emotional intelligence in the workplace and how to improve team morale.
 
-You will present the information during a scheduled one-on-one check-in. The judge will ask about resolving conflict and then pose two follow-ups. They will thank you after.`,`CAREER CLUSTER
+You will present the information during a scheduled one-on-one check-in. The judge will ask about resolving conflict and then pose two follow-ups. They will thank you after.`,
+    `CAREER CLUSTER
 Business Management & Administration
 
 INSTRUCTIONAL AREA
@@ -238,7 +1061,15 @@ NEXTGEN is a fast-growing startup with an emphasis on innovation and time effici
 
 You must explain goal-setting, problem-solving, and the value of innovation. Provide examples of how time management supports these goals.
 
-The presentation will take place in the company\u{2019}s training room. The judge will start by asking how you\u{2019}d inspire new team members, then ask two questions. They will thank you when done.`],BFS:[`CAREER CLUSTER
+The presentation will take place in the company\u{2019}s training room. The judge will start by asking how you\u{2019}d inspire new team members, then ask two questions. They will thank you when done.`
+];
+exports.default = PBMBank;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9k6mW":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const BFSBank = [
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -270,7 +1101,8 @@ PERFORMANCE INDICATORS:
 - Perform budgetary cost analysis
 - Explain legal considerations for finance
 - Analyze the impact of accounts payable schedules on working capital
-- Conduct a risk assessment of an event`,`CAREER CLUSTER
+- Conduct a risk assessment of an event`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -302,7 +1134,8 @@ performance indicators:
 - Determine economic utilities created by business activities
 - Explain the concept of competition
 - Discuss external forces affecting a company\u{2019}s value
-- Explain the role of business in society`,`CAREER CLUSTER
+- Explain the role of business in society`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -334,7 +1167,8 @@ performance indicators:
 - Calculate capital investment return
 - Explain the impact of the cost of capital on capital investments
 - Identify project benefits and costs
-- Describe types of costs used in managerial accounting`,`CAREER CLUSTER
+- Describe types of costs used in managerial accounting`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -366,7 +1200,8 @@ performance indicators:
 - Explain the nature of risk management
 - Discuss the relationship between risk management and business finance
 - Explain the role of operations and compliance in risk management programs
-- Conduct a risk assessment of an event`,`CAREER CLUSTER
+- Conduct a risk assessment of an event`,
+    `CAREER CLUSTER
 Finance
 
 INSTRUCTIONAL AREA
@@ -398,31 +1233,49 @@ performance indicators:
 - Explain the use of cash budgets
 - Analyze cash budget/forecast variances
 - Describe the nature of short-term financial management
-- Describe components of a collection system`]};async function t(e,n={},a=12e4){return Promise.race([fetch(e,n),new Promise((e,n)=>setTimeout(()=>n(Error("timeout")),a))])}document.getElementById("event-code").textContent=window.eventCode,async function(){let a=document.getElementById("generated-prompt"),i=document.getElementById("prelude-block"),o=document.getElementById("loading-notice"),s=["- Critical Thinking – Reason effectively and use systems thinking.","- Communication – Communicate clearly.","- Creativity and Innovation – Show evidence of creativity."],r=document.getElementById("show-indicators-btn"),c=document.getElementById("indicators-list");try{let n=await t("/api/generatePrompt",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({eventCode:window.eventCode})}),l=await n.json();if(n.ok&&l.prompt)return(({prompt:n,indicators:t})=>{a.innerHTML=e(n),window.currentIndicators=t,localStorage.setItem("glassedge_prompt",n),i.innerHTML=`
-          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${s.map(e=>`<li>${e}</li>`).join("")}</ul>
-        `,o.classList.add("hidden"),startPrepTimer(),r.classList.remove("hidden"),c.classList.add("hidden"),r.classList.add("animate-fadeIn")})(l)}catch{}let l=n[window.eventCode];if(l?.length){let n=l[Math.floor(Math.random()*l.length)];a.innerHTML=e(n),window.currentIndicators=["No AI indicators found."],localStorage.setItem("glassedge_prompt",n),i.innerHTML=`
-          <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${s.map(e=>`<li>${e}</li>`).join("")}</ul>
-        `,o.classList.add("hidden"),startPrepTimer(),r.classList.remove("hidden"),c.classList.add("hidden"),r.classList.add("animate-fadeIn")}else a.textContent="❌ Failed to generate a prompt and no fallback available."}();</script><style>@keyframes fadeIn{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}.animate-fadeIn{animation:.6s cubic-bezier(.4,0,.2,1) fadeIn}</style><body class="bg-white font-inter text-gray-800">
-  
-  <header class="bg-gradient-to-r from-purple-600 shadow-md sticky text-white to-pink-400 top-0 z-50">
-    <div class="flex items-center justify-between max-w-screen-xl mx-auto px-6 py-4">
+- Describe components of a collection system`
+];
+exports.default = BFSBank;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hQpjO","38lqp"], "38lqp", "parcelRequire86a0", {})
+
+</script>
+  <style>@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fadeIn {
+  animation: .6s cubic-bezier(.4, 0, .2, 1) fadeIn;
+}
+</style>
+</head>
+<body class="bg-white text-gray-800 font-inter">
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center">
-        <span class="flex font-semibold items-center text-lg">
+        <span class="text-lg font-semibold flex items-center">
           GlassEDGE
-          <img src=glassedgenewlogo.715086b5.png alt="GlassEDGE Logo" class="h-6 ml-2">
+          <img src="/glassedgenewlogo.44e8dc26.png" alt="GlassEDGE Logo" class="h-6 ml-2">
         </span>
       </div>
-      <nav class="font-medium hidden md:flex space-x-6 text-sm">
-        <a href=roleplay.html class=hover:underline>Roleplays</a>
-        <a href=walkthrough.html class=hover:underline>Walkthrough Videos</a>
-        <a href=written.html class=hover:underline>Written Event Gallery</a>
-        <a href=# class=hover:underline>About Us</a>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="/roleplay.html" class="hover:underline">Roleplays</a>
+        <a href="/walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+        <a href="/written.html" class="hover:underline">Written Event Gallery</a>
+        <a href="#" class="hover:underline">About Us</a>
       </nav>
       <div>
-        <a href=start.html>
-          <button class="bg-white font-semibold hover:opacity-90 px-4 py-2 rounded-full shadow-md text-purple-600 text-sm">
+        <a href="/start.html">
+          <button class="bg-white text-purple-600 font-semibold text-sm px-4 py-2 rounded-full shadow-md hover:opacity-90">
             Get Started →
           </button>
         </a>
@@ -431,52 +1284,182 @@ performance indicators:
   </header>
 
   <div class="flex h-[calc(100vh-64px)] overflow-hidden">
-    
-    <div class="bg-white overflow-y-auto p-8 w-2/3">
-      <h2 class="font-bold mb-4 text-2xl text-purple-600 tracking-wider uppercase">Event: <span id=event-code>--</span></h2>
-      <div id=prelude-block class=mb-4></div>
-      <p id=loading-notice class="italic mb-2 text-gray-500 text-sm">⚠️ Response may take up to 2 minutes to generate, please be patient.</p>
-      <div class="bg-[#f2f2f2] border border-gray-200 max-h-[80vh] overflow-y-auto p-6 rounded-xl shadow-inner">
-        <p class="leading-relaxed text-lg whitespace-pre-wrap" id=generated-prompt>🧠 Generating your DECA prompt...</p>
+    <!-- Left Column -->
+    <div class="w-2/3 p-8 overflow-y-auto bg-white">
+      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
+      <div id="prelude-block" class="mb-4"></div>
+      <p id="loading-notice" class="text-sm text-gray-500 italic mb-2">⚠️ Response may take up to 2 minutes to generate, please be patient.</p>
+      <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
+        <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
       </div>
 
-      
-      <div id=show-indicators-section class="mt-24 text-center">
-        <button id=show-indicators-btn class="bg-gradient-to-r font-semibold from-purple-600 hidden hover:scale-105 px-6 py-3 rounded-2xl shadow-xl text-base text-white to-pink-400 transition-all">
+      <!-- PERFORMANCE INDICATOR REVEAL BUTTON + BOX -->
+      <div id="show-indicators-section" class="mt-24 text-center">
+        <button id="show-indicators-btn" class="hidden bg-gradient-to-r from-purple-600 to-pink-400 text-white px-6 py-3 rounded-2xl shadow-xl font-semibold text-base transition-all hover:scale-105">
           Can't see your performance indicators? Click here to view them.
         </button>
-        <div id=indicators-list class="bg-[#f2f2f2] hidden max-w-xl mt-6 mx-auto p-6 rounded-xl shadow-xl text-gray-900 text-left"></div>
+        <div id="indicators-list" class="hidden mt-6 bg-[#f2f2f2] p-6 rounded-xl shadow-xl text-left max-w-xl mx-auto text-gray-900"></div>
       </div>
-      <script>document.addEventListener("DOMContentLoaded",function(){let n=document.getElementById("show-indicators-btn"),t=document.getElementById("indicators-list");n.onclick=function(){let e=window.currentIndicators||[];Array.isArray(e)&&e.length>0&&"No AI indicators found."!==e[0]?t.innerHTML=`
+      <script>document.addEventListener("DOMContentLoaded", function() {
+    const showBtn = document.getElementById("show-indicators-btn");
+    const listDiv = document.getElementById("indicators-list");
+    showBtn.onclick = function() {
+        let indicators = window.currentIndicators || [];
+        if (Array.isArray(indicators) && indicators.length > 0 && indicators[0] !== "No AI indicators found.") listDiv.innerHTML = `
                 <strong class="block mb-2 text-lg">Performance Indicators for this scenario:</strong>
                 <ul class="list-disc pl-5 mt-2">
-                  ${e.map(n=>`<li>${n}</li>`).join("")}
+                  ${indicators.map((i)=>`<li>${i}</li>`).join('')}
                 </ul>
-              `:t.innerHTML="<em>Sorry, no indicators are available for this scenario.</em>",t.classList.remove("hidden"),n.classList.add("hidden")}});</script>
+              `;
+        else listDiv.innerHTML = `<em>Sorry, no indicators are available for this scenario.</em>`;
+        listDiv.classList.remove("hidden");
+        showBtn.classList.add("hidden");
+    };
+});
+
+</script>
     </div>
 
-    
-    <div class="bg-gray-50 border-gray-200 border-l flex flex-col justify-between p-6 w-1/3">
+    <!-- Right Column -->
+    <div class="w-1/3 flex flex-col justify-between p-6 border-l border-gray-200 bg-gray-50">
       <div class="mb-4 text-right">
-        <h3 id=timer-label class="font-semibold mb-2 text-purple-600 text-xl">⏱️ Prep Timer</h3>
-        <div id=timer class="font-bold text-3xl text-gray-900">10:00</div>
+        <h3 id="timer-label" class="text-xl font-semibold text-purple-600 mb-2">⏱️ Prep Timer</h3>
+        <div id="timer" class="text-3xl font-bold text-gray-900">10:00</div>
       </div>
-      <div class="flex flex-col flex-grow">
-        <h3 class="font-semibold mb-2 text-purple-600 text-xl">🗣️ Your Response</h3>
-        <video id=camera autoplay playsinline muted class="border border-gray-300 mb-2 rounded-lg w-full"></video>
+      <div class="flex-grow flex flex-col">
+        <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Your Response</h3>
+        <video id="camera" autoplay="" playsinline="" muted="" class="w-full rounded-lg mb-2 border border-gray-300"></video>
         <div class="flex gap-3 mt-2">
-          <button id=start class="bg-green-600 px-4 py-2 rounded-md text-white">Start</button>
-          <button id=stop class="bg-red-600 px-4 py-2 rounded-md text-white" disabled>Stop</button>
+          <button id="start" class="bg-green-600 text-white px-4 py-2 rounded-md">Start</button>
+          <button id="stop" class="bg-red-600 text-white px-4 py-2 rounded-md" disabled="">Stop</button>
         </div>
-        <p id=status class="hidden mt-2 text-green-600 text-sm">Processing...</p>
+        <p id="status" class="text-sm text-green-600 mt-2 hidden">Processing...</p>
       </div>
-      <div class="mt-6 text-center">
-        <a href=index.html class="hover:underline text-purple-600">← Return to Home</a>
+      <div class="text-center mt-6">
+        <a href="/index.html" class="text-purple-600 hover:underline">← Return to Home</a>
       </div>
     </div>
   </div>
 
-  
-  <script>let timerInterval,mediaRecorder,timerDisplay=document.getElementById("timer"),timerLabel=document.getElementById("timer-label"),startBtn=document.getElementById("start"),stopBtn=document.getElementById("stop"),status=document.getElementById("status"),camera=document.getElementById("camera"),prepDuration=window.isTDM?1800:600,roleplayDuration=window.isTDM?900:600,seconds=prepDuration,prepPhase=!0,chunks=[];function updateTimer(){let e=String(Math.floor(seconds/60)).padStart(2,"0"),t=String(seconds%60).padStart(2,"0");if(timerDisplay.textContent=`${e}:${t}`,seconds<=60&&timerDisplay.classList.add("text-red-500"),seconds>0)return seconds--;clearInterval(timerInterval),prepPhase?(startBtn.click(),startRoleplayTimer()):mediaRecorder?.state==="recording"&&handleStopRecording()}function startPrepTimer(){seconds=prepDuration,prepPhase=!0,timerLabel.textContent="⏱️ Prep Timer",timerDisplay.classList.remove("text-red-500"),timerInterval=setInterval(updateTimer,1e3)}function startRoleplayTimer(){seconds=roleplayDuration,prepPhase=!1,timerLabel.textContent="⏱️ Roleplay Timer",timerDisplay.classList.remove("text-red-500"),timerInterval=setInterval(updateTimer,1e3)}function handleStopRecording(){mediaRecorder.stop(),startBtn.disabled=!1,startBtn.classList.remove("opacity-50","cursor-not-allowed"),stopBtn.disabled=!0}navigator.mediaDevices.getUserMedia({video:!0,audio:!0}).then(e=>{camera.srcObject=e,(mediaRecorder=new MediaRecorder(e)).ondataavailable=e=>chunks.push(e.data),mediaRecorder.onstop=async()=>{let e=new Blob(chunks,{type:"video/mp4"});status.textContent="☁️ Uploading to Cloudinary...",status.classList.remove("hidden");let t=new FormData;t.append("file",e),t.append("upload_preset","glassuploadbetter");let a="";try{let e=await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload",{method:"POST",body:t});a=(await e.json()).secure_url}catch{status.textContent="❌ Cloud upload failed.";return}status.textContent="\uD83D\uDD0A Transcribing with Deepgram...";try{let e=await fetch("/api/transcriptbackend",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:a})}),{transcript:t="No transcript available."}=await e.json();status.textContent="\uD83E\uDDE0 Grading...";let n=localStorage.getItem("glassedge_prompt"),r=await fetch("/api/grade",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({transcript:t,eventCode:window.eventCode,prompt:n})}),o=await r.json();window.location.href=`/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(o.full)}&transcript=${encodeURIComponent(t)}`}catch{status.textContent="❌ Transcription or grading failed."}},startBtn.onclick=()=>{chunks=[],mediaRecorder.start(),startBtn.disabled=!0,startBtn.classList.add("opacity-50","cursor-not-allowed"),stopBtn.disabled=!1},stopBtn.onclick=handleStopRecording}).catch(e=>{alert("Camera access denied or not available: "+e.message)});</script>
+  <!-- Timer & Recording Logic -->
+  <script>const timerDisplay = document.getElementById("timer");
+const timerLabel = document.getElementById("timer-label");
+const startBtn = document.getElementById("start");
+const stopBtn = document.getElementById("stop");
+const status = document.getElementById("status");
+const camera = document.getElementById("camera");
+// ✅ Use TDM-specific durations if in TDM mode
+let prepDuration = window.isTDM ? 1800 : 600;
+let roleplayDuration = window.isTDM ? 900 : 600;
+let seconds = prepDuration;
+let timerInterval;
+let prepPhase = true;
+let mediaRecorder;
+let chunks = [];
+function updateTimer() {
+    const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const sec = String(seconds % 60).padStart(2, '0');
+    timerDisplay.textContent = `${min}:${sec}`;
+    if (seconds <= 60) timerDisplay.classList.add("text-red-500");
+    if (seconds > 0) return seconds--;
+    clearInterval(timerInterval);
+    if (prepPhase) {
+        startBtn.click();
+        startRoleplayTimer();
+    } else if (mediaRecorder?.state === "recording") handleStopRecording();
+}
+function startPrepTimer() {
+    seconds = prepDuration;
+    prepPhase = true;
+    timerLabel.textContent = "\u23F1\uFE0F Prep Timer";
+    timerDisplay.classList.remove("text-red-500");
+    timerInterval = setInterval(updateTimer, 1000);
+}
+function startRoleplayTimer() {
+    seconds = roleplayDuration;
+    prepPhase = false;
+    timerLabel.textContent = "\u23F1\uFE0F Roleplay Timer";
+    timerDisplay.classList.remove("text-red-500");
+    timerInterval = setInterval(updateTimer, 1000);
+}
+function handleStopRecording() {
+    mediaRecorder.stop();
+    startBtn.disabled = false;
+    startBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    stopBtn.disabled = true;
+}
+navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+}).then((stream)=>{
+    camera.srcObject = stream;
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e)=>chunks.push(e.data);
+    mediaRecorder.onstop = async ()=>{
+        const blob = new Blob(chunks, {
+            type: 'video/mp4'
+        });
+        status.textContent = "\u2601\uFE0F Uploading to Cloudinary...";
+        status.classList.remove("hidden");
+        const formData = new FormData();
+        formData.append("file", blob);
+        formData.append("upload_preset", "glassuploadbetter");
+        let cloudUrl = "";
+        try {
+            const res = await fetch("https://api.cloudinary.com/v1_1/drgawbn5b/video/upload", {
+                method: "POST",
+                body: formData
+            });
+            const data = await res.json();
+            cloudUrl = data.secure_url;
+        } catch  {
+            status.textContent = "\u274C Cloud upload failed.";
+            return;
+        }
+        status.textContent = "\uD83D\uDD0A Transcribing with Deepgram...";
+        try {
+            const transcriptRes = await fetch('/api/transcriptbackend', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: cloudUrl
+                })
+            });
+            const { transcript = "No transcript available." } = await transcriptRes.json();
+            status.textContent = "\uD83E\uDDE0 Grading...";
+            const prompt = localStorage.getItem("glassedge_prompt");
+            const gradeRes = await fetch('/api/grade', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    transcript,
+                    eventCode: window.eventCode,
+                    prompt
+                })
+            });
+            const grade = await gradeRes.json();
+            window.location.href = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
+        } catch  {
+            status.textContent = "\u274C Transcription or grading failed.";
+        }
+    };
+    startBtn.onclick = ()=>{
+        chunks = [];
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        startBtn.classList.add("opacity-50", "cursor-not-allowed");
+        stopBtn.disabled = false;
+    };
+    stopBtn.onclick = handleStopRecording;
+}).catch((err)=>{
+    alert("Camera access denied or not available: " + err.message);
+});
+
+</script>
 
 
+</body></html>

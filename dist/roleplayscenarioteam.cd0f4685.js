@@ -1,0 +1,2 @@
+store.subscribe(()=>{let e=store.getState().peers,t=[];Array.isArray(e)?t=e:e instanceof Map?t=Array.from(e.values()):e instanceof Set||e&&"function"==typeof e[Symbol.iterator]?t=Array.from(e):e&&"object"==typeof e&&(t=Object.values(e)),console.log("normalized peers array:",t);let o=document.getElementById("video-section");o.innerHTML="",t.forEach(e=>{let t=document.createElement("video");t.autoplay=!0,t.playsInline=!0,t.muted=e.isLocal,o.appendChild(t),e.videoTrack&&actions.attachVideo(e.videoTrack,t)})});
+//# sourceMappingURL=roleplayscenarioteam.cd0f4685.js.map

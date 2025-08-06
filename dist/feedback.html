@@ -1,57 +1,87 @@
-<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Roleplay Feedback | GlassEDGE</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel=stylesheet><script src=https://cdn.tailwindcss.com></script><style>body{color:#1a1a1a;background:linear-gradient(#fdf9ff,#f8f4fc);font-family:Inter,sans-serif}</style><body class=min-h-screen>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleplay Feedback | GlassEDGE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body {
+  color: #1a1a1a;
+  background: linear-gradient(#fdf9ff, #f8f4fc);
+  font-family: Inter, sans-serif;
+}
+</style>
+</head>
+<body class="min-h-screen">
 
-  
-  <header class="bg-gradient-to-r from-purple-600 sticky text-white to-pink-400 top-0 z-50">
-    <div class="flex items-center justify-between max-w-7xl mx-auto px-6 py-3">
-      
+  <!-- ✅ NAVBAR -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <!-- Left: Logo -->
       <div class="flex items-center space-x-2">
-        <img src=glassedgenewlogo.715086b5.png alt="GlassEDGE Logo" class="h-5 w-5">
-        <span class="font-bold text-lg text-white">GlassEDGE</span>
+        <img src="/glassedgenewlogo.44e8dc26.png" alt="GlassEDGE Logo" class="w-5 h-5">
+        <span class="text-white font-bold text-lg">GlassEDGE</span>
       </div>
-      
-      <nav class="font-medium hidden md:flex space-x-6 text-sm">
-        <a href=roleplayscenario.html class=hover:underline>Roleplays</a>
-        <a href=walkthrough.html class=hover:underline>Walkthrough Videos</a>
-        <a href=written.html class=hover:underline>Written Event Gallery</a>
-        <a href=index.html class=hover:underline>About Us</a>
+      <!-- Center: Navigation -->
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="/roleplayscenario.html" class="hover:underline">Roleplays</a>
+        <a href="/walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+        <a href="/written.html" class="hover:underline">Written Event Gallery</a>
+        <a href="/index.html" class="hover:underline">About Us</a>
       </nav>
-      
-      <a href=index.html#start class="bg-white font-semibold hover:bg-gray-100 px-4 py-2 rounded-full shadow text-purple-600 text-sm">
+      <!-- Right: CTA -->
+      <a href="/index.html#start" class="bg-white text-purple-600 hover:bg-gray-100 font-semibold px-4 py-2 rounded-full text-sm shadow">
         Get Started →
       </a>
     </div>
   </header>
 
-  
-  <div class="max-w-4xl mx-auto px-4 py-12 space-y-10">
-    <h1 class="font-extrabold text-3xl text-center text-purple-600">🏆 Your Roleplay Feedback</h1>
+  <!-- ✅ MAIN CONTENT -->
+  <div class="max-w-4xl mx-auto space-y-10 py-12 px-4">
+    <h1 class="text-3xl font-extrabold text-center text-purple-600">🏆 Your Roleplay Feedback</h1>
 
-    
-    <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-      <h2 class="font-semibold mb-4 text-2xl text-purple-700">📊 Score</h2>
-      <p class="font-bold text-4xl text-purple-700" id=score>--</p>
+    <!-- Score Section -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">📊 Score</h2>
+      <p class="text-4xl font-bold text-purple-700" id="score">--</p>
     </div>
 
-    
-    <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-      <h2 class="font-semibold mb-4 text-2xl text-purple-700">💬 Judge Rubric Feedback</h2>
-      <pre id=feedback class="bg-gray-100 leading-relaxed max-h-[500px] overflow-y-auto p-4 rounded-md text-gray-700 text-sm whitespace-pre-wrap">Loading...</pre>
+    <!-- Feedback Section -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">💬 Judge Rubric Feedback</h2>
+      <pre id="feedback" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[500px] overflow-y-auto">Loading...</pre>
     </div>
 
-    
-    <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-      <h2 class="font-semibold mb-4 text-2xl text-purple-700">📝 Transcript</h2>
-      <pre id=transcript class="bg-gray-100 leading-relaxed max-h-[300px] overflow-y-auto p-4 rounded-md text-gray-700 text-sm whitespace-pre-wrap">Loading...</pre>
+    <!-- Transcript Section -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">📝 Transcript</h2>
+      <pre id="transcript" class="text-sm leading-relaxed whitespace-pre-wrap text-gray-700 bg-gray-100 p-4 rounded-md max-h-[300px] overflow-y-auto">Loading...</pre>
     </div>
 
-    
-    <div class="flex gap-6 justify-center">
-      <a id=retry-link class="bg-purple-600 font-semibold hover:bg-purple-700 px-6 py-3 rounded-xl shadow text-white transition">🎥 Try Again</a>
-      <a href=index.html class="font-medium text-blue-500 text-lg underline">← Return to Home</a>
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-6">
+      <a id="retry-link" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl text-white font-semibold shadow transition">🎥 Try Again</a>
+      <a href="/index.html" class="text-blue-500 underline text-lg font-medium">← Return to Home</a>
     </div>
   </div>
 
-  
-  <script>let params=new URLSearchParams(window.location.search),rawFeedback=decodeURIComponent(params.get("feedback")||"No feedback provided."),transcript=decodeURIComponent(params.get("transcript")||"Transcript not available."),eventCode=params.get("event")||"PFN",score="--",scoreMatch=rawFeedback.match(/total score[:\s]*([0-9]{1,3})\s*\/\s*100/i);scoreMatch&&scoreMatch[1]&&(score=scoreMatch[1]),document.getElementById("score").textContent=score,document.getElementById("feedback").textContent=rawFeedback,document.getElementById("transcript").textContent=transcript;let isTDM=eventCode.toUpperCase().includes("TDM");isTDM?document.getElementById("retry-link").href=`TDM.html?event=${eventCode}`:document.getElementById("retry-link").href=`roleplayscenario.html?event=${eventCode}`;</script>
+  <!-- ✅ SCRIPT -->
+  <script>const params = new URLSearchParams(window.location.search);
+const rawFeedback = decodeURIComponent(params.get("feedback") || "No feedback provided.");
+const transcript = decodeURIComponent(params.get("transcript") || "Transcript not available.");
+const eventCode = params.get("event") || "PFN";
+// Extract score from "Total Score: 98/100"
+let score = "--";
+const scoreMatch = rawFeedback.match(/total score[:\s]*([0-9]{1,3})\s*\/\s*100/i);
+if (scoreMatch && scoreMatch[1]) score = scoreMatch[1];
+document.getElementById("score").textContent = score;
+document.getElementById("feedback").textContent = rawFeedback;
+document.getElementById("transcript").textContent = transcript;
+// ✅ Detect if it's a TDM event and change retry link
+const isTDM = eventCode.toUpperCase().includes("TDM");
+if (isTDM) document.getElementById("retry-link").href = `TDM.html?event=${eventCode}`;
+else document.getElementById("retry-link").href = `roleplayscenario.html?event=${eventCode}`;
+
+</script>
 
 
+<script src="/feedback.5e16dde1.js"></script></body></html>

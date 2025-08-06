@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f9f8ff;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+  display: flex;
+}
+
+header {
+  color: #fff;
+  background: linear-gradient(to right, #7c3aed, #ec4899);
+  padding: 1rem;
+  box-shadow: 0 2px 4px #0000001a;
+}
+
+main {
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  padding: 2rem 1rem;
+  display: flex;
+}
+
+#video-section {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+}
+
+video {
+  background: #000;
+  border-radius: 8px;
+  width: 300px;
+  height: auto;
+}
+/*# sourceMappingURL=roleplayscenarioteam.4d663569.css.map */
