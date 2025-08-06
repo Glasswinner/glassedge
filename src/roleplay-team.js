@@ -1,3 +1,5 @@
+// src/roleplay-team.js
+
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
 
 const params = new URLSearchParams(window.location.search);
@@ -29,7 +31,12 @@ async function initVideoSession() {
 
   // Subscribe to store updates and render video elements for each peer
   store.subscribe(() => {
-    const peers     = store.getState().peers;
+    const peersState = store.getState().peers;
+    // Convert peersState (Map or object) into an array
+    const peers = peersState instanceof Map
+      ? Array.from(peersState.values())
+      : Object.values(peersState);
+
     const container = document.getElementById('video-section');
     container.innerHTML = '';
 
@@ -39,6 +46,7 @@ async function initVideoSession() {
       videoEl.playsInline = true;
       videoEl.muted       = peer.isLocal;
       container.appendChild(videoEl);
+
       if (peer.videoTrack) {
         actions.attachVideo(peer.videoTrack, videoEl);
       }
