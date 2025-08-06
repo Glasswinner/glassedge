@@ -6,6 +6,7 @@ const params = new URLSearchParams(window.location.search);
 const roomId = params.get("room_id");
 const mode   = params.get("mode") === "host" ? "host" : "guest";
 
+// Fetches an auth token for this room and role
 async function getAuthToken() {
   const res = await fetch("/api/create-token", {
     method: "POST",
@@ -21,50 +22,85 @@ async function initVideoSession() {
   const actions = hms.getActions();
   const store   = hms.getStore();
 
-  // Subscribe *inside* init so `store` and `actions` are in scope
+  // Subscribe now—closure brings actions & store into scope
   store.subscribe(() => {
     const raw = store.getState().peers;
-    // … your normalization logic here …
-    const peers = normalize(raw); // assume you inline the same normalization
+
+    // Inline normalization of peersRaw into an Array
+    let peers = [];
+    if (Array.isArray(raw)) {
+      peers = raw;
+    } else if (raw instanceof Map) {
+      peers = Array.from(raw.values());
+    } else if (raw instanceof Set) {
+      peers = Array.from(raw);
+    } else if (raw && typeof raw[Symbol.iterator] === "function") {
+      peers = Array.from(raw);
+    } else if (raw && typeof raw === "object") {
+      peers = Object.values(raw);
+    } else {
+      console.warn("⚠️ Unable to normalize peersRaw:", raw);
+      return;
+    }
 
     const container = document.getElementById("video-section");
+    if (!container) {
+      console.error("❌ Missing #video-section container!");
+      return;
+    }
     container.innerHTML = "";
+
+    // Placeholder if no peers yet
     if (peers.length === 0) {
       container.textContent = "⏳ Waiting for video streams…";
       return;
     }
 
-    peers.forEach(peer => {
+    // Render each peer’s video
+    peers.forEach((peer) => {
       const videoEl = document.createElement("video");
       videoEl.autoplay    = true;
       videoEl.playsInline = true;
       videoEl.muted       = peer.isLocal;
 
-      let attached = false;
+      // Try SDK attach
+      let didAttach = false;
       if (peer.videoTrack?.track) {
         try {
           actions.attachVideo(peer.videoTrack, videoEl);
-          attached = true;
-        } catch {}
+          didAttach = true;
+        } catch (err) {
+          console.warn("attachVideo failed:", err);
+        }
       }
-      if (!attached && peer.videoTrack?.track) {
+
+      // Manual fallback
+      if (!didAttach && peer.videoTrack?.track) {
         videoEl.srcObject = new MediaStream([peer.videoTrack.track]);
       }
-      videoEl.play().catch(()=>{});
+
+      // Force playback
+      videoEl.play().catch((err) => {
+        console.warn("videoEl.play() failed:", err);
+      });
+
       container.appendChild(videoEl);
     });
   });
 
-  // Immediately trigger an initial render
+  // Immediately emit current state so we render local peer
   hms.triggerOnSubscribe();
 
-  // Then join & publish
+  // Join room and publish audio/video
   const token = await getAuthToken();
   await actions.join({ userName: mode, authToken: token });
   await actions.setAudioSettings({ enabled: true });
   await actions.setVideoSettings({ enabled: true });
+  console.log("✅ Joined as", mode);
 }
 
-initVideoSession().catch(err => {
+initVideoSession().catch((err) => {
   console.error("❌ initVideoSession failed:", err);
+  const container = document.getElementById("video-section");
+  if (container) container.textContent = "⚠️ Video init failed. Check console.";
 });
