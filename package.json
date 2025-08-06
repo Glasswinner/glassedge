@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "parcel tdm.html --port 3000",
-    "dev":   "parcel tdm.html --port 3000",
+    "start": "parcel tdm.html --port $PORT",
+    "dev":   "parcel tdm.html --port $PORT",
     "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
   },
   "dependencies": {

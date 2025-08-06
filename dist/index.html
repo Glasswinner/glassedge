@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlassEDGE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <style>body {
+  background: linear-gradient(#fdf9ff, #f8f4fc);
+  font-family: Inter, sans-serif;
+}
+
+.card-hover {
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px #0000001f;
+}
+
+.event-scroll {
+  gap: 1.5rem;
+  width: max-content;
+  animation: 35s linear infinite scroll-loop;
+  display: flex;
+}
+
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.event-container {
+  white-space: nowrap;
+  overflow: hidden;
+}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- NAVBAR -->
+<header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50">
+  <div class="max-w-screen-xl mx-auto px-6">
+    <div class="flex justify-between h-16 items-center">
+      <span class="text-2xl font-extrabold flex items-center">
+        GlassEDGE
+        <img src="/glassedgenewlogo.44e8dc26.png" alt="Logo" class="h-8 ml-2">
+      </span>
+      <nav class="hidden md:flex space-x-8 text-base font-medium">
+        <a href="/roleplay.html" class="hover:underline">Roleplays</a>
+        <a href="/walkthrough.html" class="hover:underline">Walkthrough Videos</a>
+        <a href="/written.html" class="hover:underline">Written Event Gallery</a>
+        <a href="#" class="hover:underline">About Us</a>
+      </nav>
+      <a href="/start.html">
+        <button class="bg-white text-purple-600 font-semibold text-base px-5 py-2 rounded-full shadow-md hover:opacity-90">
+          Get Started →
+        </button>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="pt-24 pb-28 px-4 md:px-12 xl:px-40">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-6xl xl:text-7xl font-extrabold leading-tight text-gray-900 mb-6">
+      Dominate the<br>
+      Business World with<br>
+      <span class="text-purple-600 inline-flex items-center gap-2">
+        GlassEDGE
+        <img src="/glassedgenewlogo.44e8dc26.png" alt="Logo" class="h-14">
+      </span>
+    </h1>
+    <p class="text-gray-600 text-xl xl:text-2xl mb-8 max-w-2xl mx-auto">
+      Practice real business scenarios, browse our written event gallery, and collaborate with GlassEDGE’s personalized AI coach.
+    </p>
+    <a href="#">
+      <button class="bg-gradient-to-r from-purple-600 to-pink-400 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-md hover:opacity-90">
+        Explore Platforms →
+      </button>
+    </a>
+    <div class="flex gap-8 justify-center mt-10 text-lg text-gray-500">
+      <div class="flex items-center gap-2">⚙️ <span>AI-Powered</span></div>
+      <div class="flex items-center gap-2">🏆 <span>Proven Results</span></div>
+      <div class="flex items-center gap-2">💬 <span>Expert Feedback</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="bg-white pt-32 pb-24">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-[480px]">
+
+    <!-- AI Roleplays -->
+    <a href="/roleplay.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover relative">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex justify-between items-center rounded-t-2xl">
+        <h3 class="text-2xl font-bold text-white flex items-center gap-2">🤖 AI Roleplays</h3>
+        <span class="text-sm bg-white bg-opacity-30 px-3 py-1 rounded-full text-white font-medium">Interactive</span>
+      </div>
+      <div class="flex flex-col divide-y divide-gray-200 flex-grow">
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-purple-100 p-3 rounded-lg text-lg">🤖</span>
+            <p class="text-gray-900 font-semibold text-lg">AI Generation</p>
+          </div>
+          <span class="text-base text-blue-600 font-medium">Powered by GPT-4</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-pink-100 p-3 rounded-lg text-lg">🎤</span>
+            <p class="text-gray-900 font-semibold text-lg">Voice Recording</p>
+          </div>
+          <span class="text-base text-green-600 font-medium">● Ready to record</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-blue-100 p-3 rounded-lg text-lg">📊</span>
+            <p class="text-gray-900 font-semibold text-lg">DECA-tuned</p>
+          </div>
+          <span class="text-base text-purple-600 font-medium">Based on real DECA Roleplays</span>
+        </div>
+      </div>
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2
+ text-purple-600 font-semibold flex items-center gap-1 text-sm">
+        Try Now <span class="text-lg">→</span>
+      </div>
+    </a>
+
+    <!-- Written Events -->
+    <a href="/written.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover relative">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex items-center rounded-t-2xl">
+        <h3 class="text-2xl font-bold text-white flex items-center gap-2">📄 Written Events</h3>
+      </div>
+      <div class="flex flex-col divide-y divide-gray-200 flex-grow">
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-purple-100 p-3 rounded-lg text-lg">📑</span>
+            <p class="text-gray-900 font-semibold text-lg">Top-Scoring PDFs</p>
+          </div>
+          <span class="text-base text-blue-600 font-medium">Real examples</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-pink-100 p-3 rounded-lg text-lg">✏️</span>
+            <p class="text-gray-900 font-semibold text-lg">Editable Templates</p>
+          </div>
+          <span class="text-base text-green-600 font-medium">Practice mode</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-blue-100 p-3 rounded-lg text-lg">📘</span>
+            <p class="text-gray-900 font-semibold text-lg">DECA Formatting</p>
+          </div>
+          <span class="text-base text-purple-600 font-medium">Rubric-aligned</span>
+        </div>
+      </div>
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2
+ text-purple-600 font-semibold flex items-center gap-1 text-sm">
+        Try Now <span class="text-lg">→</span>
+      </div>
+    </a>
+
+    <!-- Video Feedback -->
+    <a href="/roleplay.html" class="block bg-white rounded-2xl shadow-lg flex flex-col card-hover relative">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-400 px-6 py-5 flex items-center rounded-t-2xl">
+        <h3 class="text-2xl font-bold text-white flex items-center gap-2">📹 Video Feedback</h3>
+      </div>
+      <div class="flex flex-col divide-y divide-gray-200 flex-grow">
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-purple-100 p-3 rounded-lg text-lg">📤</span>
+            <p class="text-gray-900 font-semibold text-lg">Upload Videos</p>
+          </div>
+          <span class="text-base text-blue-600 font-medium">Instant analysis</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-pink-100 p-3 rounded-lg text-lg">📈</span>
+            <p class="text-gray-900 font-semibold text-lg">AI Scoring</p>
+          </div>
+          <span class="text-base text-green-600 font-medium">Performance metrics</span>
+        </div>
+        <div class="flex items-center justify-between px-6 py-6 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <span class="bg-blue-100 p-3 rounded-lg text-lg">💡</span>
+            <p class="text-gray-900 font-semibold text-lg">Personalized Feedback</p>
+          </div>
+          <span class="text-base text-purple-600 font-medium">Judge-style review</span>
+        </div>
+      </div>
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2
+ text-purple-600 font-semibold flex items-center gap-1 text-sm">
+        Try Now <span class="text-lg">→</span>
+      </div>
+    </a>
+
+  </div>
+  <p class="text-center text-gray-400 text-sm mt-12">
+    Built by competitors. <span class="text-purple-600 font-semibold">Trusted by schools.</span> Powered by GlassEDGE.
+  </p>
+</section>
+
+<!-- DECA EVENTS -->
+<section class="bg-gradient-to-b from-white to-purple-50 py-28">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">
+      Built Around <span class="text-purple-600">Every DECA Event</span>
+    </h2>
+    <p class="text-lg text-gray-600">
+      From Principles to Team Decision Making, GlassEDGE covers realistic scenarios for every cluster and event type.
+    </p>
+  </div>
+
+  <div class="event-container">
+    <div class="event-scroll">
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">PBM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">PFN</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">PHT</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">PMK</div>
+      <div class="bg-gray-100 text-gray-900 rounded-xl px-10 py-6 text-2xl font-bold">PEN</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">FTDM</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">HTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">MTDM</div>
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">BLTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">RMS</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">TTDM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">BFS</div>
+
+      <!-- Duplicate for seamless loop -->
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">PBM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">PFN</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">PHT</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">PMK</div>
+      <div class="bg-gray-100 text-gray-900 rounded-xl px-10 py-6 text-2xl font-bold">PEN</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">FTDM</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">HTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">MTDM</div>
+      <div class="bg-yellow-100 text-yellow-900 rounded-xl px-10 py-6 text-2xl font-bold">BLTDM</div>
+      <div class="bg-red-100 text-red-900 rounded-xl px-10 py-6 text-2xl font-bold">RMS</div>
+      <div class="bg-blue-100 text-blue-900 rounded-xl px-10 py-6 text-2xl font-bold">TTDM</div>
+      <div class="bg-green-100 text-green-900 rounded-xl px-10 py-6 text-2xl font-bold">BFS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT US -->
+<section class="bg-gradient-to-r from-purple-600 to-purple-800 py-24 text-center text-white">
+  <h2 class="text-5xl font-extrabold mb-6">About Us</h2>
+  <p class="max-w-3xl mx-auto text-lg leading-relaxed px-4">
+    GlassEDGE is a free, student-run platform designed to help DECA competitors prepare smarter and win more. 
+    Created by passionate competitors, it provides AI-powered roleplays, written event tools, and personalized feedback 
+    to make practice efficient and realistic. With a focus on usability, performance, and authenticity, 
+    GlassEDGE empowers students and schools to reach their peak potential — no paywalls, no logins, just preparation built for you.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#f8f4fc] py-12 border-t border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center md:text-left">
+    <div class="flex flex-col items-center md:items-start">
+      <div class="flex items-center gap-2 mb-3">
+        <img src="/glassedgenewlogo.44e8dc26.png" alt="GlassEDGE Logo" class="h-8">
+        <span class="font-extrabold text-lg text-gray-900">GlassEDGE</span>
+      </div>
+      <p class="text-gray-600 text-sm max-w-xs">
+        Making DECA competition prep smarter, faster, and accessible for every high school business student.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-gray-900 mb-3">Quick Links</h4>
+      <ul class="space-y-2 text-sm text-gray-600">
+        <li><a href="/roleplay.html" class="hover:underline">AI Roleplays</a></li>
+        <li><a href="/written.html" class="hover:underline">Written Events</a></li>
+        <li><a href="/roleplay.html" class="hover:underline">Video Feedback</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-gray-900 mb-3">Connect</h4>
+      <div class="flex gap-4 justify-center md:justify-start">
+        <a href="#" class="text-gray-500 hover:text-purple-600">🐙</a>
+        <a href="#" class="text-gray-500 hover:text-purple-600">🎮</a>
+      </div>
+    </div>
+  </div>
+  <div class="mt-8 text-center text-xs text-gray-500">
+    © 2025 GlassEDGE. Built by DECA competitors, for DECA competitors.
+  </div>
+</footer>
+
+
+
+<script src="/glassedge.3464ddca.js"></script></body></html>
