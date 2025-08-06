@@ -1,9 +1,15 @@
 {
   "name": "glassedge",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "parcel tdm.html --port 3000",
+    "dev": "parcel tdm.html --port 3000",
+    "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
+  },
   "dependencies": {
-    "jsonwebtoken": "^9.0.2"
+    "@100mslive/hms-video-store": "^1.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "parcel": "^2.9.3"
   }
 }
