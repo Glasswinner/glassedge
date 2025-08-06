@@ -2,14 +2,18 @@
   "name": "glassedge",
   "version": "1.0.0",
   "private": true,
+  "alias": {
+    "process": "process/browser"
+  },
   "scripts": {
     "start": "parcel tdm.html --port $PORT",
-    "dev":   "parcel tdm.html --port $PORT",
+    "dev": "parcel tdm.html --port $PORT",
     "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
   },
   "dependencies": {
     "@100mslive/hms-video-store": "^0.12.35",
     "jsonwebtoken": "^9.0.2",
-    "parcel": "^2.9.3"
+    "parcel": "^2.9.3",
+    "process": "^0.11.10"
   }
 }
