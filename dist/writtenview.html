@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>Written Example Viewer | GlassEDGE</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap" rel=stylesheet><script src=https://cdn.tailwindcss.com></script><style>body{background-color:#f9f8ff;font-family:Inter,sans-serif}</style><body class="flex flex-col min-h-screen overflow-y-auto text-gray-900">
+
+  
+  <header class="bg-gradient-to-r from-purple-600 p-4 shadow-md text-white to-pink-500">
+    <div class="flex items-center justify-between max-w-7xl mx-auto">
+      <h1 class="font-bold text-xl tracking-tight">GlassEDGE</h1>
+      <nav class="hidden md:flex space-x-6">
+        <a href=roleplay.html class=hover:underline>Roleplays</a>
+        <a href=walkthrough.html class=hover:underline>Walkthrough Videos</a>
+        <a href=written.html class=hover:underline>Written Event Gallery</a>
+        <a href=index.html class=hover:underline>About Us</a>
+      </nav>
+      <a href=# class="bg-white font-semibold hover:bg-gray-100 px-4 py-2 rounded shadow text-purple-600">Get Started →</a>
+    </div>
+  </header>
+
+  
+  <main class="flex flex-col items-center max-w-7xl mx-auto px-6 py-20 w-full">
+    <h1 class="font-extrabold mb-6 text-5xl text-center text-purple-700" id=page-title>Written Event Example</h1>
+
+    
+    <div class=mb-10>
+      <label class="block font-semibold mb-2 text-center text-gray-800 text-lg">Choose which example to view:</label>
+      <div class="flex gap-4 justify-center">
+        <button class="bg-purple-600 font-semibold hover:bg-purple-700 px-6 py-3 rounded text-white version-btn" data-index=1>1st Place</button>
+        <button class="bg-blue-600 font-semibold hover:bg-blue-700 px-6 py-3 rounded text-white version-btn" data-index=2>2nd Place</button>
+        <button class="bg-pink-600 font-semibold hover:bg-pink-700 px-6 py-3 rounded text-white version-btn" data-index=3>3rd Place</button>
+      </div>
+    </div>
+
+    
+    <div class="border border-purple-200 max-w-6xl overflow-hidden rounded-lg shadow-lg w-full">
+      <iframe id=pdf-frame class="bg-white h-[90vh] w-full" frameborder=0>
+      </iframe>
+    </div>
+
+    <a href=written.html class="hover:underline mt-8 text-base text-blue-600">← Return to Event Selection</a>
+  </main>
+
+  
+  <script>let params=new URLSearchParams(window.location.search),eventCode=params.get("event"),iframe=document.getElementById("pdf-frame"),pageTitle=document.getElementById("page-title");function loadPDF(e){if(!eventCode)return;let t=`/data/${eventCode} ${e}.pdf`;fetch(t,{method:"HEAD"}).then(e=>{e.ok?iframe.src=t:showError()}).catch(showError)}function showError(){let e=document.createElement("div");e.className="text-red-500 mt-6 text-center text-lg font-semibold",e.textContent="⚠️ No example found for this version of the event.",document.querySelector("main").appendChild(e)}eventCode?(pageTitle.textContent=`${eventCode} Written Event Examples`,loadPDF(1)):showError(),document.querySelectorAll(".version-btn").forEach(e=>{e.addEventListener("click",()=>{loadPDF(e.getAttribute("data-index"))})});</script>
+
+
