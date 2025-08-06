@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-npx parcel build *.html --dist-dir dist --public-url ./
+# Build all HTML files, polyfilling `process`
+npx parcel build *.html \
+  --dist-dir dist \
+  --public-url ./ \
+  --alias process=process/browser
