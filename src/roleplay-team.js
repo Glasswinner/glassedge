@@ -22,11 +22,11 @@ async function initVideoSession() {
   const actions = hms.getActions();
   const store   = hms.getStore();
 
-  // Subscribe now—closure brings actions & store into scope
+  // Subscribe inside so store/actions are in scope
   store.subscribe(() => {
     const raw = store.getState().peers;
 
-    // Inline normalization of peersRaw into an Array
+    // INLINE normalization into an Array
     let peers = [];
     if (Array.isArray(raw)) {
       peers = raw;
@@ -50,13 +50,11 @@ async function initVideoSession() {
     }
     container.innerHTML = "";
 
-    // Placeholder if no peers yet
     if (peers.length === 0) {
       container.textContent = "⏳ Waiting for video streams…";
       return;
     }
 
-    // Render each peer’s video
     peers.forEach((peer) => {
       const videoEl = document.createElement("video");
       videoEl.autoplay    = true;
@@ -64,18 +62,18 @@ async function initVideoSession() {
       videoEl.muted       = peer.isLocal;
 
       // Try SDK attach
-      let didAttach = false;
+      let attached = false;
       if (peer.videoTrack?.track) {
         try {
           actions.attachVideo(peer.videoTrack, videoEl);
-          didAttach = true;
+          attached = true;
         } catch (err) {
           console.warn("attachVideo failed:", err);
         }
       }
 
       // Manual fallback
-      if (!didAttach && peer.videoTrack?.track) {
+      if (!attached && peer.videoTrack?.track) {
         videoEl.srcObject = new MediaStream([peer.videoTrack.track]);
       }
 
@@ -88,10 +86,10 @@ async function initVideoSession() {
     });
   });
 
-  // Immediately emit current state so we render local peer
+  // Trigger initial render so you see your own tile immediately
   hms.triggerOnSubscribe();
 
-  // Join room and publish audio/video
+  // Then join & publish
   const token = await getAuthToken();
   await actions.join({ userName: mode, authToken: token });
   await actions.setAudioSettings({ enabled: true });
