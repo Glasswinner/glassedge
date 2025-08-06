@@ -6,9 +6,9 @@
     "process": "process/browser"
   },
   "scripts": {
-    "start": "parcel tdm.html --port $PORT",
-    "dev": "parcel tdm.html --port $PORT",
-    "build": "parcel build index.html tdm.html roleplayscenarioteam.html --public-url ./"
+    "start": "parcel *.html --port $PORT",
+    "dev":   "parcel *.html --port $PORT",
+    "build": "parcel build *.html --public-url ./"
   },
   "dependencies": {
     "@100mslive/hms-video-store": "^0.12.35",
