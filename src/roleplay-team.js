@@ -35,14 +35,12 @@ async function initVideoSession() {
   await actions.setLocalVideoEnabled(true);
   console.log("✅ Joined & published as", mode);
 
-  // 3️⃣ Subscribe & render whenever peers change
+  // 3️⃣ Render on every peer update
   store.subscribe(() => {
     console.log("🔄 Store update (post-publish)");
     const raw = store.getState().peers;
-    console.log("🔍 Raw peersState:", raw);
-
-    // normalize Map/Set/object/array ➔ Array
-    let peers = Array.isArray(raw)
+    // normalize Map/Set/object/array → Array<peer>
+    const peers = Array.isArray(raw)
       ? raw
       : raw instanceof Map
       ? Array.from(raw.values())
@@ -55,7 +53,6 @@ async function initVideoSession() {
       : [];
 
     console.log("✅ Normalized peers:", peers);
-
     const container = document.getElementById("video-section");
     if (!container) return;
     container.innerHTML = "";
@@ -70,7 +67,6 @@ async function initVideoSession() {
         `👤 peer[${idx}] id=${peer.id} isLocal=${peer.isLocal}`,
         peer.videoTrack
       );
-
       const videoEl = document.createElement("video");
       videoEl.autoplay = true;
       videoEl.playsInline = true;
@@ -78,8 +74,10 @@ async function initVideoSession() {
 
       if (peer.videoTrack) {
         console.log("🔗 Attaching track…");
-        actions.attachVideo(peer.videoTrack, videoEl);
-        videoEl.play().catch(e => console.warn("⏯ play() failed:", e));
+        actions
+          .attachVideo(peer.videoTrack, videoEl)
+          .then(() => videoEl.play().catch(()=>{}))
+          .catch(err => console.warn("⚠️ attach/play failed:", err));
       } else {
         console.warn("❌ No videoTrack for peer", peer.id);
       }
