@@ -5,6 +5,12 @@ const params = new URLSearchParams(window.location.search);
 const roomId = params.get("room_id");
 const mode   = params.get("mode") === "host" ? "host" : "guest";
 
+// Keep track of previously rendered video track IDs to avoid unnecessary DOM redraws
+let prevTrackIDs = [];
+
+/**
+ * Fetches a join token for the given room and role
+ */
 async function getAuthToken() {
   console.log("🔑 Fetching auth token…");
   const res = await fetch("/api/create-token", {
@@ -17,6 +23,9 @@ async function getAuthToken() {
   return token;
 }
 
+/**
+ * Initializes the HMS session: join, publish, and render peers
+ */
 async function initVideoSession() {
   console.log("🚀 initVideoSession starting…");
   const hms     = new HMSReactiveStore();
@@ -28,18 +37,19 @@ async function initVideoSession() {
   console.log("🚪 Joining room…");
   await actions.join({ userName: mode, authToken: token });
 
-  // 2️⃣ Publish your mic & camera
+  // 2️⃣ Publish local audio & video
   console.log("🎙 Audio on…");
   await actions.setLocalAudioEnabled(true);
   console.log("📹 Video on…");
   await actions.setLocalVideoEnabled(true);
   console.log("✅ Joined & published as", mode);
 
-  // 3️⃣ Render on every peer update
+  // 3️⃣ Subscribe to peer-state changes and render only when track set changes
   store.subscribe(() => {
-    console.log("🔄 Store update (post-publish)");
+    console.log("🔄 Store update");
     const raw = store.getState().peers;
-    // normalize Map/Set/object/array → Array<peer>
+
+    // Normalize various data structures into an array of peer objects
     const peers = Array.isArray(raw)
       ? raw
       : raw instanceof Map
@@ -52,12 +62,24 @@ async function initVideoSession() {
       ? Object.values(raw)
       : [];
 
-    console.log("✅ Normalized peers:", peers);
+    // Extract only peers with a published videoTrack
+    const trackIDs = peers.map(p => p.videoTrack).filter(Boolean);
+
+    // If the set of track IDs hasn't changed, skip DOM update
+    if (
+      trackIDs.length === prevTrackIDs.length &&
+      trackIDs.every((id, i) => id === prevTrackIDs[i])
+    ) {
+      return;
+    }
+    prevTrackIDs = trackIDs;
+
     const container = document.getElementById("video-section");
     if (!container) return;
-    container.innerHTML = "";
 
-    if (peers.length === 0) {
+    // Clear and rebuild video elements
+    container.innerHTML = "";
+    if (trackIDs.length === 0) {
       container.textContent = "⏳ Waiting for video streams…";
       return;
     }
@@ -70,13 +92,12 @@ async function initVideoSession() {
       const videoEl = document.createElement("video");
       videoEl.autoplay = true;
       videoEl.playsInline = true;
-      videoEl.muted = peer.isLocal;
+      videoEl.muted     = peer.isLocal;
 
       if (peer.videoTrack) {
         console.log("🔗 Attaching track…");
-        actions
-          .attachVideo(peer.videoTrack, videoEl)
-          .then(() => videoEl.play().catch(()=>{}))
+        actions.attachVideo(peer.videoTrack, videoEl)
+          .then(() => videoEl.play().catch(() => {}))
           .catch(err => console.warn("⚠️ attach/play failed:", err));
       } else {
         console.warn("❌ No videoTrack for peer", peer.id);
@@ -86,7 +107,7 @@ async function initVideoSession() {
     });
   });
 
-  // 4️⃣ Kick off an initial render pass
+  // 4️⃣ Trigger an initial render pass
   console.log("⚡ Triggering initial render");
   hms.triggerOnSubscribe();
 }
