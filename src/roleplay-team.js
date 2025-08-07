@@ -1,5 +1,4 @@
 // src/roleplay-team.js
-
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
 
 const params = new URLSearchParams(window.location.search);
@@ -24,57 +23,62 @@ async function initVideoSession() {
   const actions = hms.getActions();
   const store   = hms.getStore();
 
-  // 1️⃣ Join & publish *first*
+  // 1️⃣ Join the room
   const token = await getAuthToken();
   console.log("🚪 Joining room…");
   await actions.join({ userName: mode, authToken: token });
+
+  // 2️⃣ Publish your mic & camera
   console.log("🎙 Audio on…");
-  await actions.setAudioSettings({ enabled: true });
+  await actions.setLocalAudioEnabled(true);
   console.log("📹 Video on…");
-  await actions.setVideoSettings({ enabled: true });
+  await actions.setLocalVideoEnabled(true);
   console.log("✅ Joined & published as", mode);
 
-  // 2️⃣ Now subscribe & render
+  // 3️⃣ Subscribe & render whenever peers change
   store.subscribe(() => {
     console.log("🔄 Store update (post-publish)");
     const raw = store.getState().peers;
     console.log("🔍 Raw peersState:", raw);
 
-    // Inline normalize…
-    let peers = [];
-    if (Array.isArray(raw)) peers = raw;
-    else if (raw instanceof Map) peers = Array.from(raw.values());
-    else if (raw instanceof Set) peers = Array.from(raw);
-    else if (raw && typeof raw[Symbol.iterator] === "function") peers = Array.from(raw);
-    else if (raw && typeof raw === "object") peers = Object.values(raw);
+    // normalize Map/Set/object/array ➔ Array
+    let peers = Array.isArray(raw)
+      ? raw
+      : raw instanceof Map
+      ? Array.from(raw.values())
+      : raw instanceof Set
+      ? Array.from(raw)
+      : raw && typeof raw[Symbol.iterator] === "function"
+      ? Array.from(raw)
+      : raw && typeof raw === "object"
+      ? Object.values(raw)
+      : [];
+
     console.log("✅ Normalized peers:", peers);
 
     const container = document.getElementById("video-section");
     if (!container) return;
     container.innerHTML = "";
+
     if (peers.length === 0) {
       container.textContent = "⏳ Waiting for video streams…";
       return;
     }
 
     peers.forEach((peer, idx) => {
-      console.log(`👤 peer[${idx}] id=${peer.id} isLocal=${peer.isLocal}`, peer.videoTrack);
+      console.log(
+        `👤 peer[${idx}] id=${peer.id} isLocal=${peer.isLocal}`,
+        peer.videoTrack
+      );
+
       const videoEl = document.createElement("video");
       videoEl.autoplay = true;
       videoEl.playsInline = true;
       videoEl.muted = peer.isLocal;
 
-      // Attach logic
-      if (peer.videoTrack?.track) {
+      if (peer.videoTrack) {
         console.log("🔗 Attaching track…");
-        try {
-          actions.attachVideo(peer.videoTrack, videoEl);
-          console.log("✅ SDK attach OK");
-        } catch (err) {
-          console.warn("⚠️ SDK attach failed:", err);
-          videoEl.srcObject = new MediaStream([peer.videoTrack.track]);
-          console.log("✅ Manual attach OK");
-        }
+        actions.attachVideo(peer.videoTrack, videoEl);
         videoEl.play().catch(e => console.warn("⏯ play() failed:", e));
       } else {
         console.warn("❌ No videoTrack for peer", peer.id);
@@ -84,7 +88,7 @@ async function initVideoSession() {
     });
   });
 
-  // 3️⃣ Immediate initial render
+  // 4️⃣ Kick off an initial render pass
   console.log("⚡ Triggering initial render");
   hms.triggerOnSubscribe();
 }
