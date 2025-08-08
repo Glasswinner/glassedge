@@ -4,14 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roleplay Scenario | GlassEDGE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- capture URL params immediately -->
   <script>
     window.urlParams = new URLSearchParams(window.location.search);
     window.eventCode = urlParams.get("event") || "PFN";
-    window.isTDM = urlParams.get("tdm") === "true"; // ✅ detect TDM mode
+    window.isTDM = urlParams.get("tdm") === "true";
   </script>
-  <script type="module">
+
+  <!-- MAIN MODULE: now deferred until after the <body> is parsed -->
+  <script type="module" defer>
     // --- Markdown Table to HTML Conversion Function ---
     function markdownTableToHTML(text) {
       const tableRegex = /((?:\|.+\|[\r\n]+)+)/g;
@@ -30,11 +37,12 @@
       });
     }
 
-    import PFNBank from '/roleplaybanks/PFNroleplaybank.js';
-    import PBMBank from '/roleplaybanks/PBMroleplaybank.js';
-    import BFSBank from '/roleplaybanks/BFSroleplaybank.js';
+    // relative imports from your published /roleplaybanks folder
+    import PFNBank from './roleplaybanks/PFNroleplaybank.js';
+    import PBMBank from './roleplaybanks/PBMroleplaybank.js';
+    import BFSBank from './roleplaybanks/BFSroleplaybank.js';
 
-    const roleplayBanks = { PFN: PFNBank, PBM: PBMBank, BFS: BFSBank };
+    // populate the Event code in the UI
     document.getElementById("event-code").textContent = window.eventCode;
 
     async function fetchWithTimeout(url, options = {}, timeout = 120000) {
@@ -63,7 +71,9 @@
         localStorage.setItem("glassedge_prompt", prompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
+          <ul class="mb-4 list-disc list-inside text-gray-700">
+            ${skills.map(s => `<li>${s}</li>`).join('')}
+          </ul>
         `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
@@ -78,12 +88,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ eventCode: window.eventCode })
         });
-
         const data = await res.json();
         if (res.ok && data.prompt) return handlePrompt(data);
       } catch {}
 
-      const fallback = roleplayBanks[window.eventCode];
+      // fallback bank
+      const fallback = { PFN: PFNBank, PBM: PBMBank, BFS: BFSBank }[window.eventCode];
       if (fallback?.length) {
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
         promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
@@ -91,7 +101,9 @@
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
-          <ul class="mb-4 list-disc list-inside text-gray-700">${skills.map(s => `<li>${s}</li>`).join('')}</ul>
+          <ul class="mb-4 list-disc list-inside text-gray-700">
+            ${skills.map(s => `<li>${s}</li>`).join('')}
+          </ul>
         `;
         noticeElement.classList.add("hidden");
         startPrepTimer();
@@ -103,16 +115,19 @@
       }
     }
 
+    // start things off
     fetchPromptWithFallback();
   </script>
+
   <style>
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to   { opacity: 1; transform: none;}
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
     }
     .animate-fadeIn { animation: fadeIn 0.6s cubic-bezier(.4,0,.2,1) 1; }
   </style>
 </head>
+
 <body class="bg-white text-gray-800 font-inter">
   <!-- Header -->
   <header class="bg-gradient-to-r from-purple-600 to-pink-400 text-white sticky top-0 z-50 shadow-md">
@@ -142,11 +157,17 @@
   <div class="flex h-[calc(100vh-64px)] overflow-hidden">
     <!-- Left Column -->
     <div class="w-2/3 p-8 overflow-y-auto bg-white">
-      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">Event: <span id="event-code">--</span></h2>
+      <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
+        Event: <span id="event-code">--</span>
+      </h2>
       <div id="prelude-block" class="mb-4"></div>
-      <p id="loading-notice" class="text-sm text-gray-500 italic mb-2">⚠️ Response may take up to 2 minutes to generate, please be patient.</p>
+      <p id="loading-notice" class="text-sm text-gray-500 italic mb-2">
+        ⚠️ Response may take up to 2 minutes to generate, please be patient.
+      </p>
       <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
-        <p class="whitespace-pre-wrap leading-relaxed text-lg" id="generated-prompt">🧠 Generating your DECA prompt...</p>
+        <p id="generated-prompt" class="whitespace-pre-wrap leading-relaxed text-lg">
+          🧠 Generating your DECA prompt...
+        </p>
       </div>
 
       <!-- PERFORMANCE INDICATOR REVEAL BUTTON + BOX -->
@@ -158,13 +179,14 @@
         </button>
         <div id="indicators-list" class="hidden mt-6 bg-[#f2f2f2] p-6 rounded-xl shadow-xl text-left max-w-xl mx-auto text-gray-900"></div>
       </div>
+
       <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", () => {
           const showBtn = document.getElementById("show-indicators-btn");
           const listDiv = document.getElementById("indicators-list");
-          showBtn.onclick = function() {
-            let indicators = window.currentIndicators || [];
-            if (Array.isArray(indicators) && indicators.length > 0 && indicators[0] !== "No AI indicators found.") {
+          showBtn.onclick = () => {
+            const indicators = window.currentIndicators || [];
+            if (indicators.length && indicators[0] !== "No AI indicators found.") {
               listDiv.innerHTML = `
                 <strong class="block mb-2 text-lg">Performance Indicators for this scenario:</strong>
                 <ul class="list-disc pl-5 mt-2">
@@ -211,10 +233,8 @@
     const status = document.getElementById("status");
     const camera = document.getElementById("camera");
 
-    // ✅ Use TDM-specific durations if in TDM mode
     let prepDuration = window.isTDM ? 1800 : 600;
     let roleplayDuration = window.isTDM ? 900 : 600;
-
     let seconds = prepDuration;
     let timerInterval;
     let prepPhase = true;
@@ -225,10 +245,8 @@
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
       const sec = String(seconds % 60).padStart(2, '0');
       timerDisplay.textContent = `${min}:${sec}`;
-
       if (seconds <= 60) timerDisplay.classList.add("text-red-500");
       if (seconds > 0) return seconds--;
-
       clearInterval(timerInterval);
       if (prepPhase) {
         startBtn.click();
@@ -294,7 +312,6 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ url: cloudUrl })
           });
-
           const { transcript = "No transcript available." } = await transcriptRes.json();
           status.textContent = "🧠 Grading...";
           const prompt = localStorage.getItem("glassedge_prompt");
@@ -303,9 +320,10 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ transcript, eventCode: window.eventCode, prompt })
           });
-
           const grade = await gradeRes.json();
-          window.location.href = `/feedback.html?event=${eventCode}&feedback=${encodeURIComponent(grade.full)}&transcript=${encodeURIComponent(transcript)}`;
+          window.location.href = `/feedback.html?event=${eventCode}`
+            + `&feedback=${encodeURIComponent(grade.full)}`
+            + `&transcript=${encodeURIComponent(transcript)}`;
         } catch {
           status.textContent = "❌ Transcription or grading failed.";
         }
