@@ -88,25 +88,70 @@
           <strong>Notice:</strong> GlassEDGE currently supports <em>Principles</em> and <em>Finance/Marketing series</em> events. More coming soon!
         </div>
         <a href="index.html" class="block text-sm text-blue-600 hover:underline">← Return to Home</a>
+        <!-- New link to open the modal -->
+        <a id="show-events" class="block text-sm text-purple-600 hover:underline cursor-pointer mt-2">View All Events</a>
       </div>
 
     </div>
   </main>
 
-  <!-- ✅ SCRIPT FOR DROPDOWN -->
+  <!-- Modal dialog -->
+  <div id="event-list-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg w-11/12 max-w-xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold">All GlassEDGE Events</h3>
+        <button class="close-modal text-gray-500 hover:text-gray-700 text-2xl leading-none">✕</button>
+      </div>
+      <div class="grid grid-cols-2 gap-4 text-gray-800">
+        <!-- Principles events -->
+        <div><span class="font-semibold">PBM</span>: Principles of Business Administration</div>
+        <div><span class="font-semibold">PEN</span>: Principles of Entrepreneurship</div>
+        <div><span class="font-semibold">PFN</span>: Principles of Finance</div>
+        <div><span class="font-semibold">PHT</span>: Principles of Hospitality and Tourism</div>
+        <div><span class="font-semibold">PMK</span>: Principles of Marketing</div>
+        <!-- Team events -->
+        <div><span class="font-semibold">BLTDM</span>: Business Law Team Decision Making</div>
+        <div><span class="font-semibold">BTDM</span>: Business Services Marketing Team Decision Making</div>
+        <div><span class="font-semibold">ETDM</span>: Entrepreneurship Team Decision Making</div>
+        <div><span class="font-semibold">FTDM</span>: Finance Team Decision Making</div>
+        <div><span class="font-semibold">HTDM</span>: Hospitality & Tourism Team Decision Making</div>
+        <div><span class="font-semibold">MTDM</span>: Marketing Team Decision Making</div>
+        <div><span class="font-semibold">STDM</span>: Sports & Entertainment Team Decision Making</div>
+        <div><span class="font-semibold">TTDM</span>: Travel & Tourism Team Decision Making</div>
+        <!-- Individual series -->
+        <div><span class="font-semibold">ACT</span>: Accounting Applications</div>
+        <div><span class="font-semibold">AAM</span>: Apparel & Accessories Marketing</div>
+        <div><span class="font-semibold">ASM</span>: Automotive Services Marketing</div>
+        <div><span class="font-semibold">BFS</span>: Business Finance Series</div>
+        <div><span class="font-semibold">BSM</span>: Business Services Marketing</div>
+        <div><span class="font-semibold">ENT</span>: Entrepreneurship</div>
+        <div><span class="font-semibold">FMS</span>: Food Marketing Series</div>
+        <div><span class="font-semibold">HLM</span>: Hospitality & Lodging Management</div>
+        <div><span class="font-semibold">HRM</span>: Human Resources Management</div>
+        <div><span class="font-semibold">MCS</span>: Marketing Communications</div>
+        <div><span class="font-semibold">QSRM</span>: Quick Serve Restaurant Management</div>
+        <div><span class="font-semibold">RFSM</span>: Restaurant & Food Service Management</div>
+        <div><span class="font-semibold">RMS</span>: Retail Merchandising Series</div>
+        <div><span class="font-semibold">SEM</span>: Sports & Entertainment Marketing</div>
+      </div>
+      <div class="mt-6 text-right">
+        <button class="close-modal px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ SCRIPT FOR DROPDOWN & MODAL -->
   <script>
     const eventTypeSelect = document.getElementById('event-type');
     const eventSelect = document.getElementById('event');
     const generateBtn = document.getElementById('generate-btn');
 
-    // ✅ Event codes ONLY (initials)
     const events = {
       principles: ['PBM', 'PEN', 'PFN', 'PHT', 'PMK'],
       team: ['BLTDM', 'BTDM', 'ETDM', 'FTDM', 'HTDM', 'MTDM', 'STDM', 'TTDM'],
       individual: ['ACT', 'AAM', 'ASM', 'BFS', 'BSM', 'ENT', 'FMS', 'HLM', 'HRM', 'MCS', 'QSRM', 'RFSM', 'RMS', 'SEM']
     };
 
-    // Populate event dropdown when type is selected
     eventTypeSelect.addEventListener('change', function () {
       const selectedType = this.value;
       const options = events[selectedType] || [];
@@ -122,25 +167,33 @@
       generateBtn.disabled = true;
     });
 
-    // Enable Start button when event is selected
     eventSelect.addEventListener('change', function () {
       generateBtn.disabled = false;
     });
 
-    // Redirect based on event selection
     generateBtn.addEventListener('click', function () {
       const eventCode = eventSelect.value;
       if (!eventCode) return;
-
-      // Save event code to localStorage
       localStorage.setItem('selectedEvent', eventCode);
-
-      // TDM events redirect to TDM.html
       if (eventCode.includes('TDM')) {
         window.location.href = `tdm.html?event=${encodeURIComponent(eventCode)}`;
       } else {
         window.location.href = `roleplayscenario.html?event=${encodeURIComponent(eventCode)}`;
       }
+    });
+
+    // Modal logic
+    const showEventsLink = document.getElementById('show-events');
+    const modal = document.getElementById('event-list-modal');
+    const closeBtns = document.querySelectorAll('.close-modal');
+
+    showEventsLink.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+    closeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
     });
   </script>
 </body>
