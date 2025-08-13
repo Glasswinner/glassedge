@@ -66,9 +66,15 @@
       const indicatorsDiv = document.getElementById("indicators-list");
 
       const handlePrompt = ({ prompt, indicators }) => {
-        promptElement.innerHTML = markdownTableToHTML(prompt);
+        const html = markdownTableToHTML(prompt);
+        promptElement.innerHTML = html;
         window.currentIndicators = indicators;
         localStorage.setItem("glassedge_prompt", prompt);
+
+        // keep fullscreen content in sync if user opens immediately
+        const fsContent = document.getElementById("prompt-fs-content");
+        if (fsContent) fsContent.innerHTML = html;
+
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-gray-700">
@@ -96,9 +102,14 @@
       const fallback = { PFN: PFNBank, PBM: PBMBank, BFS: BFSBank }[window.eventCode];
       if (fallback?.length) {
         const fallbackPrompt = fallback[Math.floor(Math.random() * fallback.length)];
-        promptElement.innerHTML = markdownTableToHTML(fallbackPrompt);
+        const html = markdownTableToHTML(fallbackPrompt);
+        promptElement.innerHTML = html;
         window.currentIndicators = ["No AI indicators found."];
         localStorage.setItem("glassedge_prompt", fallbackPrompt);
+
+        const fsContent = document.getElementById("prompt-fs-content");
+        if (fsContent) fsContent.innerHTML = html;
+
         preludeElement.innerHTML = `
           <div class="font-semibold text-purple-600 mb-1">21st CENTURY SKILLS</div>
           <ul class="mb-4 list-disc list-inside text-gray-700">
@@ -242,7 +253,7 @@
     </div>
   </div>
 
-  <!-- MINIMAL FULLSCREEN OVERLAY (prompt only) -->
+  <!-- FULLSCREEN OVERLAY (prompt only) -->
   <div
     id="prompt-fullscreen"
     class="hidden fixed inset-0 z-[100] bg-white"
@@ -263,12 +274,18 @@
         </button>
       </div>
       <div class="flex-1 overflow-y-auto p-4 sm:p-6">
-        <div id="prompt-fs-content" class="prose max-w-none text-base sm:text-lg leading-relaxed"></div>
+        <!-- Replicate the same card look so formatting is identical, just bigger -->
+        <div class="max-w-screen-md mx-auto">
+          <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner">
+            <!-- IMPORTANT: same whitespace handling as original + slightly larger text -->
+            <div id="prompt-fs-content" class="whitespace-pre-wrap leading-relaxed text-xl md:text-2xl"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Timer & Recording Logic + Minimal FS wiring -->
+  <!-- Timer & Recording Logic + Fullscreen wiring -->
   <script>
     const timerDisplay = document.getElementById("timer");
     const timerLabel = document.getElementById("timer-label");
@@ -386,7 +403,7 @@
       alert("Camera access denied or not available: " + err.message);
     });
 
-    // -------- Minimal Fullscreen prompt logic (keeps base layout intact) --------
+    // -------- Fullscreen prompt logic (preserve exact formatting, just larger) --------
     const expandBtn = document.getElementById("expand-prompt");
     const fsOverlay = document.getElementById("prompt-fullscreen");
     const fsContent = document.getElementById("prompt-fs-content");
@@ -394,7 +411,8 @@
     const generatedPrompt = document.getElementById("generated-prompt");
 
     function openFullscreenPrompt() {
-      fsContent.innerHTML = generatedPrompt.innerHTML; // copy current prompt HTML
+      // Copy current prompt HTML so tables/formatting are identical
+      fsContent.innerHTML = generatedPrompt.innerHTML;
       fsOverlay.classList.remove("hidden");
       document.documentElement.classList.add("no-scroll");
       collapseBtn?.focus();
