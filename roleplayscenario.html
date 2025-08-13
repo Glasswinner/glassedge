@@ -80,10 +80,6 @@
         showBtn.classList.remove("hidden");
         indicatorsDiv.classList.add("hidden");
         showBtn.classList.add("animate-fadeIn");
-
-        // keep fullscreen content in sync if user opens right away
-        const fsContent = document.getElementById("fullscreen-content");
-        if (fsContent) fsContent.innerHTML = promptElement.innerHTML;
       };
 
       try {
@@ -114,9 +110,6 @@
         showBtn.classList.remove("hidden");
         indicatorsDiv.classList.add("hidden");
         showBtn.classList.add("animate-fadeIn");
-
-        const fsContent = document.getElementById("fullscreen-content");
-        if (fsContent) fsContent.innerHTML = promptElement.innerHTML;
       } else {
         promptElement.textContent = "❌ Failed to generate a prompt and no fallback available.";
       }
@@ -166,7 +159,7 @@
 
   <div class="flex h-[calc(100vh-64px)] overflow-hidden">
     <!-- Left Column -->
-    <div class="w-full md:w-2/3 p-4 md:p-8 overflow-y-auto bg-white">
+    <div class="w-2/3 p-8 overflow-y-auto bg-white relative">
       <h2 class="text-2xl font-bold text-purple-600 mb-4 uppercase tracking-wider">
         Event: <span id="event-code">--</span>
       </h2>
@@ -175,20 +168,20 @@
         ⚠️ Response may take up to 2 minutes to generate, please be patient.
       </p>
 
-      <!-- Prompt Card (with expand control) -->
+      <!-- Prompt Card + Expand -->
       <div class="relative">
-        <!-- Expand button (top-right) -->
+        <!-- Minimal expand button (keeps desktop/mobile layout intact) -->
         <button
           id="expand-prompt"
           aria-label="Expand prompt to full screen"
-          class="absolute right-2 top-2 z-10 rounded-md px-2 py-1 text-xs md:text-sm bg-white/90 border border-gray-300 shadow hover:bg-white"
+          class="absolute right-2 top-2 z-[60] rounded-md px-2 py-1 text-xs bg-white/90 border border-gray-300 shadow hover:bg-white"
           title="Expand to full screen"
         >
           ⤢
         </button>
 
-        <div class="bg-[#f2f2f2] p-4 md:p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
-          <p id="generated-prompt" class="whitespace-pre-wrap leading-relaxed text-base md:text-lg">
+        <div class="bg-[#f2f2f2] p-6 rounded-xl border border-gray-200 shadow-inner max-h-[80vh] overflow-y-auto">
+          <p id="generated-prompt" class="whitespace-pre-wrap leading-relaxed text-lg">
             🧠 Generating your DECA prompt...
           </p>
         </div>
@@ -227,15 +220,16 @@
       </script>
     </div>
 
-    <!-- Right Column -->
-    <div class="hidden md:flex md:w-1/3 flex-col justify-between p-6 border-l border-gray-200 bg-gray-50">
+    <!-- Right Column (kept visible on all sizes; smaller video on phones) -->
+    <div class="w-1/3 flex flex-col justify-between p-6 border-l border-gray-200 bg-gray-50">
       <div class="mb-4 text-right">
         <h3 id="timer-label" class="text-xl font-semibold text-purple-600 mb-2">⏱️ Prep Timer</h3>
         <div id="timer" class="text-3xl font-bold text-gray-900">10:00</div>
       </div>
       <div class="flex-grow flex flex-col">
         <h3 class="text-xl font-semibold text-purple-600 mb-2">🗣️ Your Response</h3>
-        <video id="camera" autoplay playsinline muted class="w-full rounded-lg mb-2 border border-gray-300"></video>
+        <!-- Keep preview modest on mobile, normal on md+ -->
+        <video id="camera" autoplay playsinline muted class="w-full rounded-lg mb-2 border border-gray-300 max-h-40 md:max-h-none"></video>
         <div class="flex gap-3 mt-2">
           <button id="start" class="bg-green-600 text-white px-4 py-2 rounded-md">Start</button>
           <button id="stop" class="bg-red-600 text-white px-4 py-2 rounded-md" disabled>Stop</button>
@@ -248,83 +242,40 @@
     </div>
   </div>
 
-  <!-- Mobile Timer/Recorder (shows on small screens only) -->
-  <div class="md:hidden sticky bottom-0 w-full bg-gray-50 border-t border-gray-200 px-4 py-3 z-40">
-    <div class="flex items-center justify-between">
-      <div>
-        <div id="timer-label" class="text-sm font-semibold text-purple-600">⏱️ Prep Timer</div>
-        <div id="timer" class="text-xl font-bold text-gray-900">10:00</div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button id="start-mobile" class="bg-green-600 text-white px-3 py-2 rounded-md text-sm">Start</button>
-        <button id="stop-mobile" class="bg-red-600 text-white px-3 py-2 rounded-md text-sm" disabled>Stop</button>
-      </div>
-    </div>
-    <video id="camera-mobile" autoplay playsinline muted class="w-full mt-2 rounded-md border border-gray-300"></video>
-    <p id="status-mobile" class="text-xs text-green-600 mt-1 hidden">Processing...</p>
-  </div>
-
-  <!-- FULLSCREEN PROMPT OVERLAY -->
+  <!-- MINIMAL FULLSCREEN OVERLAY (prompt only) -->
   <div
-    id="fullscreen-overlay"
-    class="fixed inset-0 hidden bg-white z-[100]"
+    id="prompt-fullscreen"
+    class="hidden fixed inset-0 z-[100] bg-white"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="fs-title"
+    aria-labelledby="prompt-fs-title"
   >
     <div class="flex flex-col h-full">
-      <!-- Top bar with collapse button -->
       <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-purple-600 to-pink-400">
-        <h2 id="fs-title" class="text-white font-semibold text-base sm:text-lg">Prompt (Full Screen)</h2>
-        <div class="flex items-center gap-2">
-          <button
-            id="increase-text"
-            class="rounded-md bg-white/90 text-gray-800 text-xs sm:text-sm px-2 py-1 border border-white/50 hover:bg-white"
-            title="Increase text size"
-            aria-label="Increase text size"
-          >A+</button>
-          <button
-            id="decrease-text"
-            class="rounded-md bg-white/90 text-gray-800 text-xs sm:text-sm px-2 py-1 border border-white/50 hover:bg-white"
-            title="Decrease text size"
-            aria-label="Decrease text size"
-          >A-</button>
-          <button
-            id="collapse-prompt"
-            class="rounded-md bg-white/90 text-gray-800 text-xs sm:text-sm px-2 py-1 border border-white/50 hover:bg-white"
-            aria-label="Return prompt to page"
-            title="Return to page"
-          >
-            ⤡
-          </button>
-        </div>
+        <h2 id="prompt-fs-title" class="text-white font-semibold text-base sm:text-lg">Prompt</h2>
+        <button
+          id="collapse-prompt"
+          class="rounded-md bg-white/90 text-gray-800 text-xs sm:text-sm px-2 py-1 border border-white/50 hover:bg-white"
+          aria-label="Return prompt to page"
+          title="Return to page"
+        >
+          ⤡
+        </button>
       </div>
-
-      <!-- Scrollable content -->
-      <div id="fullscreen-scroll" class="flex-1 overflow-y-auto p-4 sm:p-6">
-        <div
-          id="fullscreen-content"
-          class="prose max-w-none text-base sm:text-lg leading-relaxed"
-        ></div>
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+        <div id="prompt-fs-content" class="prose max-w-none text-base sm:text-lg leading-relaxed"></div>
       </div>
     </div>
   </div>
 
-  <!-- Timer & Recording Logic -->
+  <!-- Timer & Recording Logic + Minimal FS wiring -->
   <script>
-    // Elements for desktop column
-    const timerDisplays = document.querySelectorAll("#timer");
-    const timerLabels = document.querySelectorAll("#timer-label");
+    const timerDisplay = document.getElementById("timer");
+    const timerLabel = document.getElementById("timer-label");
     const startBtn = document.getElementById("start");
     const stopBtn = document.getElementById("stop");
     const status = document.getElementById("status");
     const camera = document.getElementById("camera");
-
-    // Elements for mobile footer
-    const startBtnMobile = document.getElementById("start-mobile");
-    const stopBtnMobile = document.getElementById("stop-mobile");
-    const statusMobile = document.getElementById("status-mobile");
-    const cameraMobile = document.getElementById("camera-mobile");
 
     let prepDuration = window.isTDM ? 1800 : 600;
     let roleplayDuration = window.isTDM ? 900 : 600;
@@ -334,26 +285,15 @@
     let mediaRecorder;
     let chunks = [];
 
-    function renderTime(s) {
-      const min = String(Math.floor(s / 60)).padStart(2, '0');
-      const sec = String(s % 60).padStart(2, '0');
-      return `${min}:${sec}`;
-    }
-
     function updateTimer() {
-      const isDanger = seconds <= 60;
-      timerDisplays.forEach(el => {
-        el.textContent = renderTime(seconds);
-        if (isDanger) el.classList.add("text-red-500");
-      });
-      if (seconds > 0) {
-        seconds--;
-        return;
-      }
+      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
+      timerDisplay.textContent = `${min}:${sec}`;
+      if (seconds <= 60) timerDisplay.classList.add("text-red-500");
+      if (seconds > 0) return seconds--;
       clearInterval(timerInterval);
       if (prepPhase) {
-        // auto-start recording when prep ends
-        (startBtn || startBtnMobile)?.click();
+        startBtn.click();
         startRoleplayTimer();
       } else {
         if (mediaRecorder?.state === "recording") handleStopRecording();
@@ -363,42 +303,34 @@
     function startPrepTimer() {
       seconds = prepDuration;
       prepPhase = true;
-      timerLabels.forEach(el => el.textContent = "⏱️ Prep Timer");
-      timerDisplays.forEach(el => el.classList.remove("text-red-500"));
-      clearInterval(timerInterval);
+      timerLabel.textContent = "⏱️ Prep Timer";
+      timerDisplay.classList.remove("text-red-500");
       timerInterval = setInterval(updateTimer, 1000);
     }
 
     function startRoleplayTimer() {
       seconds = roleplayDuration;
       prepPhase = false;
-      timerLabels.forEach(el => el.textContent = "⏱️ Roleplay Timer");
-      timerDisplays.forEach(el => el.classList.remove("text-red-500"));
-      clearInterval(timerInterval);
+      timerLabel.textContent = "⏱️ Roleplay Timer";
+      timerDisplay.classList.remove("text-red-500");
       timerInterval = setInterval(updateTimer, 1000);
     }
 
     function handleStopRecording() {
       mediaRecorder.stop();
-      // Enable start buttons, disable stop buttons
-      [startBtn, startBtnMobile].forEach(b => {
-        if (!b) return;
-        b.disabled = false;
-        b.classList.remove("opacity-50", "cursor-not-allowed");
-      });
-      [stopBtn, stopBtnMobile].forEach(b => { if (b) b.disabled = true; });
+      startBtn.disabled = false;
+      startBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      stopBtn.disabled = true;
     }
 
-    // Camera init for both desktop and mobile video elements
     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-      if (camera) camera.srcObject = stream;
-      if (cameraMobile) cameraMobile.srcObject = stream;
-
+      camera.srcObject = stream;
       mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.ondataavailable = e => chunks.push(e.data);
       mediaRecorder.onstop = async () => {
         const blob = new Blob(chunks, { type: 'video/mp4' });
-        [status, statusMobile].forEach(s => { if (s) { s.textContent = "☁️ Uploading to Cloudinary..."; s.classList.remove("hidden"); } });
+        status.textContent = "☁️ Uploading to Cloudinary...";
+        status.classList.remove("hidden");
 
         const formData = new FormData();
         formData.append("file", blob);
@@ -413,11 +345,11 @@
           const data = await res.json();
           cloudUrl = data.secure_url;
         } catch {
-          [status, statusMobile].forEach(s => { if (s) s.textContent = "❌ Cloud upload failed."; });
+          status.textContent = "❌ Cloud upload failed.";
           return;
         }
 
-        [status, statusMobile].forEach(s => { if (s) s.textContent = "🔊 Transcribing with Deepgram..."; });
+        status.textContent = "🔊 Transcribing with Deepgram...";
         try {
           const transcriptRes = await fetch('/api/transcriptbackend', {
             method: "POST",
@@ -425,7 +357,7 @@
             body: JSON.stringify({ url: cloudUrl })
           });
           const { transcript = "No transcript available." } = await transcriptRes.json();
-          [status, statusMobile].forEach(s => { if (s) s.textContent = "🧠 Grading..."; });
+          status.textContent = "🧠 Grading...";
           const prompt = localStorage.getItem("glassedge_prompt");
           const gradeRes = await fetch('/api/grade', {
             method: "POST",
@@ -437,88 +369,51 @@
             + `&feedback=${encodeURIComponent(grade.full)}`
             + `&transcript=${encodeURIComponent(transcript)}`;
         } catch {
-          [status, statusMobile].forEach(s => { if (s) s.textContent = "❌ Transcription or grading failed."; });
+          status.textContent = "❌ Transcription or grading failed.";
         }
       };
 
-      function startRecording() {
+      startBtn.onclick = () => {
         chunks = [];
         mediaRecorder.start();
-        [startBtn, startBtnMobile].forEach(b => {
-          if (!b) return;
-          b.disabled = true;
-          b.classList.add("opacity-50", "cursor-not-allowed");
-        });
-        [stopBtn, stopBtnMobile].forEach(b => { if (b) b.disabled = false; });
-      }
+        startBtn.disabled = true;
+        startBtn.classList.add("opacity-50", "cursor-not-allowed");
+        stopBtn.disabled = false;
+      };
 
-      if (startBtn) startBtn.onclick = startRecording;
-      if (stopBtn) stopBtn.onclick = handleStopRecording;
-      if (startBtnMobile) startBtnMobile.onclick = startRecording;
-      if (stopBtnMobile) stopBtnMobile.onclick = handleStopRecording;
+      stopBtn.onclick = handleStopRecording;
     }).catch(err => {
       alert("Camera access denied or not available: " + err.message);
     });
 
-    // -------- Fullscreen prompt logic --------
+    // -------- Minimal Fullscreen prompt logic (keeps base layout intact) --------
     const expandBtn = document.getElementById("expand-prompt");
-    const fsOverlay = document.getElementById("fullscreen-overlay");
-    const fsContent = document.getElementById("fullscreen-content");
+    const fsOverlay = document.getElementById("prompt-fullscreen");
+    const fsContent = document.getElementById("prompt-fs-content");
     const collapseBtn = document.getElementById("collapse-prompt");
     const generatedPrompt = document.getElementById("generated-prompt");
-    const increaseText = document.getElementById("increase-text");
-    const decreaseText = document.getElementById("decrease-text");
 
-    let fsBaseSize = 18; // base text size in px for fullscreen content
-    function applyFsFontSize() {
-      fsContent.style.fontSize = fsBaseSize + "px";
-      fsContent.style.lineHeight = "1.6";
-    }
-    applyFsFontSize();
-
-    function openFullscreen() {
-      // Copy current prompt HTML so tables/formatting match
-      fsContent.innerHTML = generatedPrompt.innerHTML;
+    function openFullscreenPrompt() {
+      fsContent.innerHTML = generatedPrompt.innerHTML; // copy current prompt HTML
       fsOverlay.classList.remove("hidden");
       document.documentElement.classList.add("no-scroll");
-      // Focus collapse for accessibility
       collapseBtn?.focus();
     }
 
-    function closeFullscreen() {
+    function closeFullscreenPrompt() {
       fsOverlay.classList.add("hidden");
       document.documentElement.classList.remove("no-scroll");
-      // Return focus to expand button
       expandBtn?.focus();
     }
 
-    if (expandBtn) expandBtn.addEventListener("click", openFullscreen);
-    if (collapseBtn) collapseBtn.addEventListener("click", closeFullscreen);
+    expandBtn?.addEventListener("click", openFullscreenPrompt);
+    collapseBtn?.addEventListener("click", closeFullscreenPrompt);
 
-    // Keyboard: ESC to close
+    // ESC to close
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !fsOverlay.classList.contains("hidden")) {
-        closeFullscreen();
+        closeFullscreenPrompt();
       }
-    });
-
-    // Tap outside to close (optional quality-of-life)
-    fsOverlay.addEventListener("click", (e) => {
-      // Only if user clicks the backdrop (not the inner content area)
-      const scrollArea = document.getElementById("fullscreen-scroll");
-      if (!scrollArea.contains(e.target) && e.target !== collapseBtn && e.target !== increaseText && e.target !== decreaseText) {
-        closeFullscreen();
-      }
-    });
-
-    // Text size controls (for readability on small screens)
-    if (increaseText) increaseText.addEventListener("click", () => {
-      fsBaseSize = Math.min(fsBaseSize + 2, 28);
-      applyFsFontSize();
-    });
-    if (decreaseText) decreaseText.addEventListener("click", () => {
-      fsBaseSize = Math.max(fsBaseSize - 2, 14);
-      applyFsFontSize();
     });
   </script>
 </body>
